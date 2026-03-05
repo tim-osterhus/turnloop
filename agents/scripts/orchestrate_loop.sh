@@ -14,11 +14,13 @@ HISTORY="agents/historylog.md"
 PROMPTS_DIR="agents/work/prompts"
 FINISHED_DIR="agents/work/finished"
 TMP_DIR="agents/.tmp"
+LOG_DIR="agents/logs"
 AUTONOMY_COMPLETE_MARKER="agents/AUTONOMY_COMPLETE"
 
 ENTRY_START="agents/entrypoints/_start.md"
 ENTRY_CHECK="agents/entrypoints/_check.md"
 ENTRY_TROUBLE="agents/entrypoints/_troubleshoot.md"
+ENTRY_UPDATE="agents/entrypoints/_update.md"
 
 RUNNER="${TURNLOOP_RUNNER:-codex}"
 RUNNER_MODEL="${TURNLOOP_MODEL:-gpt-5.2-codex}"
@@ -29,12 +31,20 @@ PROMOTE_DELAY_SECS="180"
 START_EFFORT="high"
 CHECK_EFFORT="high"
 TROUBLE_EFFORT="xhigh"
+UPDATE_EFFORT="high"
 
 TROUBLE_COUNT_FILE="${TMP_DIR}/troubleshoot_count.txt"
 QUICKFIX_COUNT_FILE="${TMP_DIR}/quickfix_count.txt"
 CURRENT_TASK_ID_FILE="${TMP_DIR}/current_task_id.txt"
+UPDATE_BLOCKED_COUNT_FILE="${TMP_DIR}/update_blocked_count.txt"
 
-mkdir -p "$TMP_DIR" "$PROMPTS_DIR" "$FINISHED_DIR"
+mkdir -p "$TMP_DIR" "$PROMPTS_DIR" "$FINISHED_DIR" "$LOG_DIR"
+
+log() {
+  local ts
+  ts="$(date '+%F %T')"
+  printf '[%s] %s\n' "$ts" "$1"
+}
 
 write_status() {
   local marker="$1"
@@ -56,6 +66,7 @@ get_task_id() {
 reset_troubleshoot_count() {
   printf '0\n' > "$TROUBLE_COUNT_FILE"
   printf '0\n' > "$QUICKFIX_COUNT_FILE"
+  printf '0\n' > "$UPDATE_BLOCKED_COUNT_FILE"
   get_task_id > "$CURRENT_TASK_ID_FILE" || true
 }
 
@@ -85,6 +96,36 @@ get_quickfix_count() {
   else
     echo 0
   fi
+}
+
+inc_update_blocked_count() {
+  local count=0
+  if [ -f "$UPDATE_BLOCKED_COUNT_FILE" ]; then
+    count="$(tr -d '\r' < "$UPDATE_BLOCKED_COUNT_FILE" || echo 0)"
+  fi
+  count=$((count + 1))
+  printf '%s\n' "$count" > "$UPDATE_BLOCKED_COUNT_FILE"
+  printf '%s\n' "$count"
+}
+
+run_update_cycle() {
+  local attempt=0
+  while [ "$attempt" -lt 2 ]; do
+    attempt=$((attempt + 1))
+    log "Starting entrypoint: _update.md (attempt ${attempt})"
+    run_entrypoint "$ENTRY_UPDATE" "$UPDATE_EFFORT" || true
+    log "Finished entrypoint: _update.md (status=$(get_status))"
+    if [ "$(get_status)" = "### UPDATE_COMPLETE" ]; then
+      return 0
+    fi
+    inc_update_blocked_count >/dev/null
+    if [ "$attempt" -lt 2 ]; then
+      log "Updater blocked; retrying _update.md"
+      continue
+    fi
+  done
+  log "Updater blocked twice; skipping _update.md for this cycle"
+  return 1
 }
 
 same_task_as_last() {
@@ -163,6 +204,9 @@ move_prompt_to_finished() {
 run_entrypoint() {
   local entry="$1"
   local effort="$2"
+  local entry_name codex_log
+  entry_name="$(basename "$entry" .md)"
+  codex_log="${LOG_DIR}/orchestrate_${entry_name}.log"
   if ! command -v "$RUNNER" >/dev/null 2>&1; then
     echo "Missing runner: $RUNNER" >&2
     write_status "### BLOCKED"
@@ -170,7 +214,10 @@ run_entrypoint() {
   fi
 
   if [ "$RUNNER" = "codex" ]; then
-    "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
+    env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
+      "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
+      -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
+      >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
     "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
@@ -180,7 +227,9 @@ run_entrypoint() {
 
 handle_blocked() {
   local count
+  log "Starting entrypoint: _troubleshoot.md"
   run_entrypoint "$ENTRY_TROUBLE" "$TROUBLE_EFFORT" || true
+  log "Finished entrypoint: _troubleshoot.md (status=$(get_status))"
   if [ "$(get_status)" = "### TROUBLESHOOT_COMPLETE" ]; then
     reset_troubleshoot_count
     write_status "### IDLE"
@@ -204,6 +253,7 @@ while true; do
 
   if [ ! -s "$TASK" ]; then
     if rg -q '^## ' "$BACKLOG" 2>/dev/null; then
+      log "Backlog has tasks; waiting ${PROMOTE_DELAY_SECS}s before promote"
       sleep "$PROMOTE_DELAY_SECS"
     fi
     if ! promote_next_task; then
@@ -216,10 +266,14 @@ while true; do
     fi
   fi
 
+  log "Starting entrypoint: _start.md"
   run_entrypoint "$ENTRY_START" "$START_EFFORT" || true
+  log "Finished entrypoint: _start.md (status=$(get_status))"
   case "$(get_status)" in
     "### BUILDER_COMPLETE")
+      log "Starting entrypoint: _check.md"
       run_entrypoint "$ENTRY_CHECK" "$CHECK_EFFORT" || true
+      log "Finished entrypoint: _check.md (status=$(get_status))"
       ;;
     "### BLOCKED")
       handle_blocked
@@ -233,6 +287,7 @@ while true; do
 
   case "$(get_status)" in
     "### QA_COMPLETE")
+      run_update_cycle || true
       append_archive
       move_prompt_to_finished
       : > "$TASK"
@@ -242,8 +297,12 @@ while true; do
     "### QUICKFIX_NEEDED")
       while [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -lt 2 ]; do
         inc_quickfix_count >/dev/null
+        log "Starting entrypoint: _start.md (quickfix attempt $(get_quickfix_count))"
         run_entrypoint "$ENTRY_START" "$START_EFFORT" || true
+        log "Finished entrypoint: _start.md (status=$(get_status))"
+        log "Starting entrypoint: _check.md (quickfix attempt $(get_quickfix_count))"
         run_entrypoint "$ENTRY_CHECK" "$CHECK_EFFORT" || true
+        log "Finished entrypoint: _check.md (status=$(get_status))"
       done
       if [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -ge 2 ]; then
         append_backburner
@@ -253,6 +312,7 @@ while true; do
         continue
       fi
       if [ "$(get_status)" = "### QA_COMPLETE" ]; then
+        run_update_cycle || true
         append_archive
         move_prompt_to_finished
         : > "$TASK"

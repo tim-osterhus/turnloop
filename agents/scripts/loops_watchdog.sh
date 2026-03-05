@@ -15,7 +15,11 @@ mkdir -p "${LOG_DIR}"
 
 is_running() {
   local script_path="$1"
-  pgrep -f "[b]ash ${script_path}" >/dev/null 2>&1
+  local name first rest
+  name="$(basename "$script_path")"
+  first="${name:0:1}"
+  rest="${name:1}"
+  pgrep -f "[${first}]${rest}" >/dev/null 2>&1
 }
 
 start_loop() {

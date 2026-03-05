@@ -13,6 +13,7 @@ NONVIABLE_DIR="agents/ideas/nonviable"
 STATUS="agents/research_status.md"
 HISTORY="agents/historylog.md"
 TMP_DIR="agents/.tmp"
+LOG_DIR="agents/logs"
 AUTONOMY_COMPLETE_MARKER="agents/AUTONOMY_COMPLETE"
 
 ENTRY_RESEARCH="agents/entrypoints/_research.md"
@@ -29,10 +30,16 @@ RESEARCH_EFFORT="high"
 MANAGE_EFFORT="xhigh"
 MECHANIC_EFFORT="xhigh"
 
-mkdir -p "$TMP_DIR" "$INBOX_DIR" "$PROCESSED_DIR" "$STAGING_DIR" "$SPECS_DIR"
+mkdir -p "$TMP_DIR" "$INBOX_DIR" "$PROCESSED_DIR" "$STAGING_DIR" "$SPECS_DIR" "$LOG_DIR"
 mkdir -p "$NONVIABLE_DIR"
 
 MECHANIC_COUNT_FILE="${TMP_DIR}/mechanic_count.txt"
+
+log() {
+  local ts
+  ts="$(date '+%F %T')"
+  printf '[%s] %s\n' "$ts" "$1"
+}
 
 write_status() {
   local marker="$1"
@@ -50,6 +57,9 @@ get_status() {
 run_entrypoint() {
   local entry="$1"
   local effort="$2"
+  local entry_name codex_log
+  entry_name="$(basename "$entry" .md)"
+  codex_log="${LOG_DIR}/research_${entry_name}.log"
   if ! command -v "$RUNNER" >/dev/null 2>&1; then
     echo "Missing runner: $RUNNER" >&2
     write_status "### BLOCKED"
@@ -57,7 +67,10 @@ run_entrypoint() {
   fi
 
   if [ "$RUNNER" = "codex" ]; then
-    "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
+    env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
+      "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
+      -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
+      >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
     "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
@@ -106,7 +119,9 @@ move_offending_to_nonviable() {
 
 handle_mechanic() {
   local stage="$1"
+  log "Starting entrypoint: _mechanic.md (stage=${stage})"
   run_entrypoint "$ENTRY_MECHANIC" "$MECHANIC_EFFORT" || true
+  log "Finished entrypoint: _mechanic.md (status=$(get_status))"
   if [ "$(get_status)" = "### BLOCKED" ]; then
     local count
     count="$(inc_mechanic_count)"
@@ -134,8 +149,11 @@ while true; do
   fi
 
   if has_inbox_work; then
+    log "Inbox has work; waiting ${PROMOTE_DELAY_SECS}s before research"
     sleep "$PROMOTE_DELAY_SECS"
+    log "Starting entrypoint: _research.md"
     run_entrypoint "$ENTRY_RESEARCH" "$RESEARCH_EFFORT" || true
+    log "Finished entrypoint: _research.md (status=$(get_status))"
     case "$(get_status)" in
       "### IDLE")
         ;;
@@ -149,8 +167,11 @@ while true; do
   fi
 
   if has_staging_work; then
+    log "Staging has work; waiting ${PROMOTE_DELAY_SECS}s before manage"
     sleep "$PROMOTE_DELAY_SECS"
+    log "Starting entrypoint: _manage.md"
     run_entrypoint "$ENTRY_MANAGE" "$MANAGE_EFFORT" || true
+    log "Finished entrypoint: _manage.md (status=$(get_status))"
     case "$(get_status)" in
       "### IDLE")
         ;;

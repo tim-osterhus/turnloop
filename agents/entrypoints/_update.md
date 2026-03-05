@@ -12,15 +12,21 @@ You are the Updater. Your job is to reconcile key docs after the backlog is empt
 ## Scope
 - Update only stale sections in `agents/outline.md` and `README.md`.
 - Do NOT edit task cards or queues in this cycle.
+- Run this update even when `agents/work/tasksbacklog.md` is non-empty. Do not block due to backlog state.
+
+## Site Build (Before Git Ops)
+Regenerate the public journal site from `agents/historylog.md` by running:
+- `python3 scripts/build_site.py`
+This writes to `site/` at the repo root.
 
 ## Git Operations (Project-Agnostic, Last Step)
-If commit/push is configured for this run, perform it as the final action before the history log entry and status update.
+Always commit and push when there are changes, as the final action before the history log entry and status update.
 
 Rules:
 - Identify which repo(s) changed and commit/push there only.
 - If multiple repos changed, commit/push each repo separately.
 - Do not commit if there are no changes.
-- Add new files to the repo before committing.
+- Stage all changes (including new/untracked files) in each repo with changes before committing.
 - See `agents/outline.md` for repo locations and references.
 
 ## History Log (Required, After Git Ops)

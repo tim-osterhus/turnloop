@@ -11,6 +11,7 @@ INBOX_DIR="${REPO_ROOT}/agents/ideas/inbox"
 STATE_DIR="${REPO_ROOT}/agents/.tmp"
 TOGGLE_FILE="${STATE_DIR}/seed_prompt_toggle.txt"
 USAGE_FILE_DEFAULT="${STATE_DIR}/usage_remaining_pct.txt"
+USAGE_SOURCE="${TURNLOOP_USAGE_SOURCE:-codex}"
 
 MIN_REMAINING_PCT=10
 
@@ -51,6 +52,8 @@ Make a concrete improvement today that makes the game noticeably better than its
 
 The game should remain playable and coherent throughout. If a change breaks the experience or can’t be stabilized quickly, revert to the last stable behavior and leave the project cleaner than you found it. If you run into dependency or tooling issues, resolve them in a way that preserves a lightweight, self‑contained game; if that isn’t possible, choose a simpler approach that avoids that dependency entirely.
 
+If the repository is empty or lacks a playable baseline, create a minimal, fully runnable baseline first. That baseline should include the core loop scaffolding (start, descend, mine, return), a simple UI, and basic state updates so the game is playable at a basic level. Once a baseline exists, proceed with a concrete improvement. Do not block just because the repo is empty.
+
 Think in terms of player experience and longevity:
 - The controls should feel predictable and responsive.
 - The feedback loop should be immediate and understandable.
@@ -77,6 +80,12 @@ PROMPT_B
 
 mkdir -p "$INBOX_DIR" "$STATE_DIR"
 
+log() {
+  local ts
+  ts="$(date '+%F %T')"
+  printf '[%s] %s\n' "$ts" "$1"
+}
+
 normalize_pct() {
   local raw="$1"
   raw="${raw//%/}"
@@ -91,12 +100,14 @@ normalize_pct() {
   return 1
 }
 
-codex_weekly_remaining_pct() {
-  if ! command -v codex >/dev/null 2>&1; then
-    return 1
-  fi
-  codex /status 2>/dev/null | awk '
-    /Weekly limit:/ && !seen {
+strip_ansi() {
+  sed -r 's/\x1b\[[0-9;]*[A-Za-z]//g'
+}
+
+parse_weekly_pct() {
+  awk '
+    BEGIN { IGNORECASE=1 }
+    /Weekly limit/ && !seen {
       for (i=1; i<=NF; i++) {
         if ($i ~ /%/) { gsub(/%/,"",$i); print $i; seen=1; exit }
       }
@@ -104,10 +115,114 @@ codex_weekly_remaining_pct() {
   '
 }
 
+expect_weekly_remaining_pct() {
+  if ! command -v expect >/dev/null 2>&1; then
+    return 1
+  fi
+  local out raw
+  out="$(expect <<'EXPECT' 2>/dev/null || true
+    log_user 1
+    set timeout 20
+    set env(TERM) "xterm-256color"
+    set env(COLUMNS) "140"
+    set env(LINES) "50"
+    spawn -noecho env -u CODEX_THREAD_ID -u CODEX_SESSION_ID -u CODEX_CI codex
+    stty rows 50 columns 140
+    expect {
+      -re {Do you trust the contents of this directory} { send "1\r"; exp_continue }
+      -re {Press enter to continue} { send "\r"; exp_continue }
+      -re {Refusing to start the interactive TUI} { send "\003"; expect eof; exit 1 }
+      -re {OpenAI Codex} { }
+      timeout { }
+    }
+    send "/status\r"
+    expect {
+      -re {Weekly limit} { }
+      timeout { }
+    }
+    after 500
+    send "/exit\r"
+    after 200
+    send "\003"
+    expect eof
+EXPECT
+)"
+  if [ "${TURNLOOP_USAGE_DEBUG:-off}" = "on" ]; then
+    local debug_file="${STATE_DIR}/last_codex_status_raw_expect.txt"
+    printf '%s\n' "$out" > "$debug_file"
+    echo "DEBUG: raw expect /status output saved to ${debug_file}" >&2
+  fi
+  raw="$(printf '%s' "$out" | strip_ansi | parse_weekly_pct)"
+  if [ -n "$raw" ]; then
+    printf '%s' "$raw"
+    return 0
+  fi
+  return 1
+}
+
+tmux_weekly_remaining_pct() {
+  if ! command -v tmux >/dev/null 2>&1; then
+    return 1
+  fi
+  local session="turnloop_usage_tmp_$RANDOM"
+  local capture="" status_capture=""
+
+  if ! tmux new-session -d -s "$session" -c "$REPO_ROOT" "bash" >/dev/null 2>&1; then
+    return 1
+  fi
+
+  tmux send-keys -t "${session}:0.0" \
+    "env -u CODEX_THREAD_ID -u CODEX_SESSION_ID -u CODEX_CI codex" C-m >/dev/null 2>&1
+
+  # Fixed waits to allow the TUI to fully initialize.
+  sleep 20
+  if ! tmux has-session -t "$session" >/dev/null 2>&1; then
+    return 1
+  fi
+  capture="$(tmux capture-pane -t "${session}:0.0" -p -S -200 2>/dev/null || true)"
+  if printf '%s' "$capture" | grep -qi "Do you trust the contents of this directory"; then
+    tmux send-keys -t "${session}:0.0" "1" C-m >/dev/null 2>&1
+    sleep 20
+  fi
+
+  tmux send-keys -t "${session}:0.0" "/status" C-m >/dev/null 2>&1
+
+  sleep 20
+  if ! tmux has-session -t "$session" >/dev/null 2>&1; then
+    return 1
+  fi
+  status_capture="$(tmux capture-pane -t "${session}:0.0" -p -S -600 2>/dev/null || true)"
+
+  tmux send-keys -t "${session}:0.0" "/exit" C-m >/dev/null 2>&1 || true
+  sleep 20
+  sleep 0.5
+  tmux kill-session -t "$session" >/dev/null 2>&1 || true
+
+  if [ "${TURNLOOP_USAGE_DEBUG:-off}" = "on" ]; then
+    local debug_file="${STATE_DIR}/last_codex_status_raw_tmux.txt"
+    printf '%s\n' "$status_capture" > "$debug_file"
+    echo "DEBUG: tmux /status output saved to ${debug_file}" >&2
+  fi
+
+  printf '%s' "$status_capture" | strip_ansi | parse_weekly_pct
+}
+
+codex_weekly_remaining_pct() {
+  if ! command -v codex >/dev/null 2>&1; then
+    return 1
+  fi
+  if expect_weekly_remaining_pct; then
+    return 0
+  fi
+  tmux_weekly_remaining_pct
+}
+
 get_remaining_pct() {
   local raw=""
 
-  raw="$(codex_weekly_remaining_pct || true)"
+  if [ "$USAGE_SOURCE" = "codex" ]; then
+    raw="$(codex_weekly_remaining_pct || true)"
+  fi
   if [ -z "$raw" ]; then
     if [ -n "${TURNLOOP_USAGE_REMAINING_PCT:-}" ]; then
       raw="$TURNLOOP_USAGE_REMAINING_PCT"
@@ -125,12 +240,12 @@ get_remaining_pct() {
 
 remaining_pct="$(get_remaining_pct || true)"
 if [ -z "$remaining_pct" ]; then
-  echo "WARN: usage remaining unknown; skipping seed prompt" >&2
+  log "WARN: usage remaining unknown; set TURNLOOP_USAGE_REMAINING_PCT or ${USAGE_FILE_DEFAULT} (or TURNLOOP_USAGE_SOURCE=codex to attempt /status). Skipping seed prompt."
   exit 0
 fi
 
 if [ "$remaining_pct" -lt "$MIN_REMAINING_PCT" ]; then
-  echo "Usage remaining ${remaining_pct}% < ${MIN_REMAINING_PCT}% — skipping seed prompt" >&2
+  log "Usage remaining ${remaining_pct}% < ${MIN_REMAINING_PCT}% — skipping seed prompt"
   exit 0
 fi
 
@@ -154,3 +269,4 @@ else
 fi
 
 printf '%s\n' "$next" > "$TOGGLE_FILE"
+log "Seeded prompt: $(basename "$file_path") (usage remaining ${remaining_pct}%)"

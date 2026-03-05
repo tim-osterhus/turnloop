@@ -1,2 +1,8 @@
 .DS_Store
 corebound/
+agents/.tmp/
+agents/ideas/*
+!agents/ideas/specs/
+!agents/ideas/specs/.gitkeep
+agents/logs/
+start_turnloop.sh

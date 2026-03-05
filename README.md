@@ -53,6 +53,8 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - `agents/work/`: active task, backlog, archive, expectations, quickfix, and prompt artifacts.
 - `agents/ideas/`: research intake and spec staging.
 - `agents/historylog.md`: prepend‑only run log.
+- `corebound/`: separate git repo for the Corebound prototype game.
+- `site/`: generated public journal site built from `agents/historylog.md`.
 
 ## Running The Loops
 These scripts are designed to be long‑running foreground processes:
