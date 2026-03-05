@@ -1,3 +1,40 @@
+[2026-03-05] QA • Docs: Spec Validation Note
+- Summary: Verified the README note states validation runs before Manager, blocks the Manager run for that cycle on failure, and reports live under `agents/ideas/validation_reports/`. The verification command matched.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: rg "validation" README.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-docs-spec-validation-note.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Docs: Spec Validation Note
+- Summary: Updated the README Research Loop note to clarify the validation gate blocks the Manager run for that cycle and reports live in `agents/ideas/validation_reports/`. Created the prompt artifact and linked it in the task card.
+- Files touched: README.md, agents/work/task.md, agents/work/prompts/001-docs-spec-validation-note.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat <<'EOF' > agents/work/prompts/001-docs-spec-validation-note.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/001-docs-spec-validation-note.md, rg -n "Research Loop|How It Works" README.md, sed -n '1,120p' README.md, apply_patch (README.md), rg "validation" README.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md, head -n 40 agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-docs-spec-validation-note.md
+- Report artifacts: none
+
+[2026-03-05] Manager • Spec Validation Decomposition
+- Summary: Reviewed the staging spec for validation gating; backlog already includes matching task cards so no new cards were added; moved the spec to `agents/ideas/specs/`.
+- Files touched: agents/research_status.md, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_manage.md, ls agents/ideas/staging, cat README.md, cat agents/outline.md, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls agents/ideas, head -n 40 agents/historylog.md, cat agents/research_status.md, printf '%s
+' '### MANAGE_RUNNING' > agents/research_status.md, mv agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, python3 - <<'PY' (prepend historylog)
+- Decisions: Skipped new task cards because agents/work/tasksbacklog.md already contains the spec-derived decomposition; avoided duplicates.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
+[2026-03-05] Update • Validation Gate Note
+- Summary: Added a Research Loop note about spec validation blocking Manager runs, rebuilt the public journal site, and committed the pending validator report workflow updates already present in the repo.
+- Files touched: README.md, agents/scripts/validate_spec.sh, agents/work/expectations.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/task.md, agents/work/finished/001-validator-requirement-keyword-count.md, agents/work/prompts/002-validator-reports.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, head -n 80 agents/historylog.md, cat agents/outline.md, cat README.md, apply_patch (README.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff README.md, git diff agents/work/tasksarchive.md, git diff agents/work/tasksbacklog.md, git diff agents/scripts/validate_spec.sh, git diff agents/work/expectations.md, git add -A, git commit -m "Sync validator report workflow", git push, git status --short
+- Decisions: Left agents/outline.md unchanged because it already reflected the current Corebound status.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Validator Reports
 - Summary: Ran the validator report verification commands; failure reports include the spec path and the passing spec removes its report as expected.
 - Files touched: agents/work/expectations.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-double-shall.validation.md, agents/historylog.md, agents/orchestrate_status.md
