@@ -1,3 +1,21 @@
+[2026-03-05] Builder • Update Finished Prompt: Validator Reports
+- Summary: Created the prompt artifact, linked it in the task card, and updated the finished validator reports prompt to reference the specs-path validation spec; rg checks confirmed the update.
+- Files touched: agents/work/prompts/006-update-finished-validator-reports.md, agents/work/task.md, agents/work/finished/002-validator-reports.md, agents/historylog.md
+- Commands: ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, ls agents/work/prompts, ls -la agents/work/prompts, sed -n '1,200p' agents/roles/prompt-architect.md, cat <<'EOF' > agents/work/prompts/006-update-finished-validator-reports.md, apply_patch (agents/work/task.md), sed -n '1,200p' agents/roles/developer.md, sed -n '1,220p' agents/work/finished/002-validator-reports.md, rg -n "staging" agents/work/finished/002-validator-reports.md, apply_patch (agents/work/finished/002-validator-reports.md), rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md, sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: none
+- Prompt: agents/work/prompts/006-update-finished-validator-reports.md
+- Report artifacts: none
+
+[2026-03-05] Update • Requirements Rules Sync + Docs Refresh
+- Summary: Committed pending requirements-rule prompt updates (finished prompt edits + new prompt artifact), archived the scaffold+headings prompt into finished, refreshed the README to mention processed specs, and rebuilt the public journal site data.
+- Files touched: README.md, agents/work/finished/001-requirements-lines-present.md, agents/work/finished/002-validator-requirements-line-rules.md, agents/work/prompts/003-update-finished-prompts-requirements-rules.md, agents/work/finished/005-update-finished-validator-prompts-scaffold-headings.md, agents/work/task.md, agents/work/tasksbacklog.md, agents/work/tasksarchive.md, agents/work/expectations.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls -la, sed -n '1,200p' agents/entrypoints/_update.md, sed -n '1,200p' agents/work/tasksarchive.md, sed -n '200,400p' agents/work/tasksarchive.md, sed -n '400,800p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,200p' agents/outline.md, sed -n '1,220p' README.md, rg -n "staging|specs|validate_spec|ideas/" agents/scripts/research_loop.sh, sed -n '130,220p' agents/scripts/research_loop.sh, sed -n '1,200p' agents/entrypoints/_manage.md, apply_patch (README.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff -- README.md, git diff -- agents/historylog.md | head -n 120, git diff -- agents/orchestrate_status.md, git diff -- agents/work/expectations.md, git diff -- agents/work/finished/001-requirements-lines-present.md, git diff -- agents/work/finished/002-validator-requirements-line-rules.md, git diff -- agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md, git diff -- agents/work/task.md, git diff -- agents/work/tasksarchive.md | head -n 160, git diff -- agents/work/tasksbacklog.md, sed -n '1,200p' agents/work/prompts/003-update-finished-prompts-requirements-rules.md, sed -n '1,220p' agents/work/finished/005-update-finished-validator-prompts-scaffold-headings.md, git add -A, git diff --cached --stat, git diff --cached --name-status, git commit -m "Sync requirements-rule prompt updates", git push, git status --short
+- Decisions: Left agents/outline.md unchanged because it already reflects the current Corebound status.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Update Finished Prompts: Requirements Rules
 - Summary: Verified the two finished requirements-rule prompt artifacts now reference the specs-path validation spec and removed staging wording; rg checks passed.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
@@ -514,3 +532,11 @@
 - Report artifacts: none
 
 $(cat agents/historylog.md)
+[2026-03-05] QA • Update Finished Prompt: Validator Reports
+- Summary: Verified the finished validator reports prompt references the specs-path validation spec and contains no staging spec path; rg checks passed.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat <<'EOF' > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff -- agents/work/finished/002-validator-reports.md, rg -n "staging" agents/work/finished/002-validator-reports.md, sed -n '1,200p' agents/work/finished/002-validator-reports.md, cat agents/roles/tester.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/006-update-finished-validator-reports.md
+- Report artifacts: none
