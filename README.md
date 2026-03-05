@@ -10,6 +10,17 @@ Turnloop separates work into two always‑on loops:
 
 The loops communicate only through files on disk, keeping state simple and auditable.
 
+## How To Use Turnloop
+1. Add research work by dropping a prompt file into `agents/ideas/inbox/`.
+2. Add execution work by writing task cards into `agents/work/tasksbacklog.md`.
+3. Start the loops (see Running The Loops below).
+4. Monitor progress using:
+   - `agents/orchestrate_status.md`
+   - `agents/research_status.md`
+   - `agents/historylog.md`
+5. If a task is auto‑demoted, review it in `agents/work/tasksbackburner.md`.
+6. To stop the loops, create `agents/AUTONOMY_COMPLETE`.
+
 ## Execution Loop (High Level)
 1. Promote the top task card from `agents/work/tasksbacklog.md` into `agents/work/task.md`.
 2. Run Builder (`agents/entrypoints/_start.md`) to implement the prompt artifact.
@@ -42,17 +53,6 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - `agents/work/`: active task, backlog, archive, expectations, quickfix, and prompt artifacts.
 - `agents/ideas/`: research intake and spec staging.
 - `agents/historylog.md`: prepend‑only run log.
-
-## How To Use Turnloop
-1. Add execution work by writing task cards into `agents/work/tasksbacklog.md`.
-2. Add research work by dropping a prompt file into `agents/ideas/inbox/`.
-3. Start the loops (see Running The Loops below).
-4. Monitor progress using:
-   - `agents/orchestrate_status.md`
-   - `agents/research_status.md`
-   - `agents/historylog.md`
-5. If a task is auto‑demoted, review it in `agents/work/tasksbackburner.md`.
-6. To stop the loops, create `agents/AUTONOMY_COMPLETE`.
 
 ## Running The Loops
 These scripts are designed to be long‑running foreground processes:
