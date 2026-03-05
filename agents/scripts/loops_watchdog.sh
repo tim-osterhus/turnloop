@@ -14,8 +14,8 @@ RESTART_DELAY_SECS=300
 mkdir -p "${LOG_DIR}"
 
 is_running() {
-  local name="$1"
-  pgrep -f "${name}" >/dev/null 2>&1
+  local script_path="$1"
+  pgrep -f "[b]ash ${script_path}" >/dev/null 2>&1
 }
 
 start_loop() {

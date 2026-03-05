@@ -57,11 +57,11 @@ run_entrypoint() {
   fi
 
   if [ "$RUNNER" = "codex" ]; then
-    "$RUNNER" exec --model "$RUNNER_MODEL" --full-auto --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions."
+    "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions
+    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
-    "$RUNNER" "Open ${entry} and follow instructions."
+    "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   fi
 }
 
@@ -121,11 +121,11 @@ handle_mechanic() {
 }
 
 has_inbox_work() {
-  ls -1 "$INBOX_DIR" 2>/dev/null | head -n 1 | grep -q .
+  find "$INBOX_DIR" -maxdepth 1 -type f ! -name .gitkeep -print -quit 2>/dev/null | grep -q .
 }
 
 has_staging_work() {
-  ls -1 "$STAGING_DIR" 2>/dev/null | head -n 1 | grep -q .
+  find "$STAGING_DIR" -maxdepth 1 -type f ! -name .gitkeep -print -quit 2>/dev/null | grep -q .
 }
 
 while true; do

@@ -170,17 +170,24 @@ run_entrypoint() {
   fi
 
   if [ "$RUNNER" = "codex" ]; then
-    "$RUNNER" exec --model "$RUNNER_MODEL" --full-auto --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions."
+    "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions
+    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
-    "$RUNNER" "Open ${entry} and follow instructions."
+    "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   fi
 }
 
 handle_blocked() {
   local count
   run_entrypoint "$ENTRY_TROUBLE" "$TROUBLE_EFFORT" || true
+  if [ "$(get_status)" = "### TROUBLESHOOT_COMPLETE" ]; then
+    reset_troubleshoot_count
+    write_status "### IDLE"
+    return 0
+  fi
+
+  write_status "### BLOCKED"
   count="$(inc_troubleshoot_count)"
   if [ "$count" -ge 2 ]; then
     append_backburner
