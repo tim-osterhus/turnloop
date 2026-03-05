@@ -45,13 +45,29 @@ normalize_heading() {
   printf '%s' "$value" | tr '[:upper:]' '[:lower:]'
 }
 
-count_occurrences() {
-  local haystack="$1"
-  local needle="$2"
+count_requirement_keywords() {
+  local line="$1"
+  local upper_line word_line
+  local -a words=()
   local count=0
-  while [[ "$haystack" == *"$needle"* ]]; do
-    haystack="${haystack#*"$needle"}"
-    count=$((count + 1))
+  upper_line="$(printf '%s' "$line" | tr '[:lower:]' '[:upper:]')"
+  word_line="$(printf '%s' "$upper_line" | tr -c 'A-Z' ' ')"
+  read -ra words <<< "$word_line"
+  local idx=0
+  while (( idx < ${#words[@]} )); do
+    local word="${words[$idx]}"
+    if [[ "$word" == "SHALL" ]]; then
+      local next_idx=$((idx + 1))
+      if (( next_idx < ${#words[@]} )) && [[ "${words[$next_idx]}" == "NOT" ]]; then
+        count=$((count + 1))
+        idx=$((idx + 2))
+        continue
+      fi
+      count=$((count + 1))
+    elif [[ "$word" == "SHOULD" || "$word" == "MUST" || "$word" == "MAY" ]]; then
+      count=$((count + 1))
+    fi
+    idx=$((idx + 1))
   done
   printf '%s' "$count"
 }
@@ -65,26 +81,33 @@ in_scope=false
 scope_seen=false
 in_requirements=false
 requirements_seen=false
+scope_level=0
+requirements_level=0
 requirements_line_count=0
 scope_label_prefix='^[[:space:]]*([-*+]|[0-9]+[.)])?[[:space:]]*'
-requirements_line_pattern='^[[:space:]]*([-*]|[0-9]+\.)[[:space:]]+'
+requirements_line_pattern='^[[:space:]]*([-*+]|[0-9]+\.)[[:space:]]+'
 
 while IFS= read -r line || [[ -n "$line" ]]; do
-  if [[ $line =~ ^[[:space:]]*#{1,6}[[:space:]]+(.+)$ ]]; then
-    heading_raw="${BASH_REMATCH[1]}"
+  if [[ $line =~ ^[[:space:]]*(#{1,6})[[:space:]]+(.+)$ ]]; then
+    heading_level=${#BASH_REMATCH[1]}
+    heading_raw="${BASH_REMATCH[2]}"
     heading_norm="$(normalize_heading "$heading_raw")"
     found_headings["$heading_norm"]=1
+    if $in_scope && (( heading_level <= scope_level )); then
+      in_scope=false
+    fi
+    if $in_requirements && (( heading_level <= requirements_level )); then
+      in_requirements=false
+    fi
     if [[ "$heading_norm" == "$scope_heading_norm" ]]; then
       in_scope=true
       scope_seen=true
-    else
-      in_scope=false
+      scope_level=$heading_level
     fi
     if [[ "$heading_norm" == "$requirements_heading_norm" ]]; then
       in_requirements=true
       requirements_seen=true
-    else
-      in_requirements=false
+      requirements_level=$heading_level
     fi
     continue
   fi
@@ -101,12 +124,9 @@ while IFS= read -r line || [[ -n "$line" ]]; do
   if $in_requirements; then
     if [[ $line =~ $requirements_line_pattern ]]; then
       requirements_line_count=$((requirements_line_count + 1))
-      shall_not_count="$(count_occurrences "$line" "SHALL NOT")"
-      line_without_shall_not="${line//SHALL NOT/}"
-      shall_count="$(count_occurrences "$line_without_shall_not" "SHALL")"
-      total_shall_count=$((shall_not_count + shall_count))
-      if (( total_shall_count != 1 )); then
-        violations+=("Requirement line must contain exactly one SHALL or SHALL NOT: $line")
+      keyword_count="$(count_requirement_keywords "$line")"
+      if (( keyword_count != 1 )); then
+        violations+=("Requirement line must contain exactly one requirement keyword (SHALL/SHOULD/MUST/MAY): $line")
       fi
     fi
   fi
@@ -129,7 +149,7 @@ if $scope_seen; then
 fi
 
 if $requirements_seen && (( requirements_line_count == 0 )); then
-  violations+=("Requirements section must include at least one bullet or numbered line.")
+  violations+=("missing-requirement-lines: Requirements section must include at least one bullet or numbered line.")
 fi
 
 if (( ${#violations[@]} > 0 )); then

@@ -1,3 +1,84 @@
+[2026-03-05] QA • Validator: Requirement Keyword Count
+- Summary: Ran the two keyword-count negative tests; both failed as expected with per-line violations.
+- Files touched: agents/work/expectations.md, agents/.tmp/spec-double-keyword.md, agents/.tmp/spec-no-keyword.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/ideas/validation_reports/spec-no-keyword.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' agents/scripts/validate_spec.sh, cat agents/roles/tester.md, cat > agents/.tmp/spec-double-keyword.md <<'SPEC' ... SPEC; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; echo "exit=$?", cat > agents/.tmp/spec-no-keyword.md <<'SPEC' ... SPEC; bash agents/scripts/validate_spec.sh agents/.tmp/spec-no-keyword.md; echo "exit=$?"
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-validator-requirement-keyword-count.md
+- Report artifacts: agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/ideas/validation_reports/spec-no-keyword.validation.md
+
+[2026-03-05] Builder • Validator: Requirement Keyword Count
+- Summary: Added keyword counting for Requirements lines to enforce exactly one of SHALL/SHOULD/MUST/MAY (case-insensitive) with SHALL NOT treated as a single keyword. Ran the required negative-case validations; refactor scan found no evidence-backed changes.
+- Files touched: agents/work/prompts/001-validator-requirement-keyword-count.md, agents/work/task.md, agents/scripts/validate_spec.sh, agents/.tmp/spec-double-keyword.md, agents/.tmp/spec-no-keyword.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/ideas/validation_reports/spec-no-keyword.validation.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat > agents/work/prompts/001-validator-requirement-keyword-count.md <<'PROMPT' ... PROMPT, apply_patch, cat agents/roles/developer.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md, sed -n '1,240p' agents/scripts/validate_spec.sh, apply_patch, cat > agents/.tmp/spec-double-keyword.md <<'SPEC' ... SPEC, bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; echo "exit=$?", cat > agents/.tmp/spec-no-keyword.md <<'SPEC' ... SPEC, bash agents/scripts/validate_spec.sh agents/.tmp/spec-no-keyword.md; echo "exit=$?", cat agents/historylog.md
+- Decisions: Count requirement keywords by tokenizing uppercase words to ensure whole-word matches and handle SHALL NOT as a single occurrence.
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-validator-requirement-keyword-count.md
+- Report artifacts: agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/ideas/validation_reports/spec-no-keyword.validation.md
+
+[2026-03-05] Manager • Spec Validation Decomposition
+- Summary: Reviewed the staging spec; existing backlog cards already cover the validator, reports, docs, and gating work, so no new cards were added. Moved the spec to specs after confirming coverage.
+- Files touched: agents/research_status.md, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, agents/historylog.md
+- Commands: ls, cat README.md, cat agents/outline.md, ls agents/ideas/staging, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, cat agents/research_status.md, printf '%s\n' '### MANAGE_RUNNING' > agents/research_status.md, mv agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, head -n 40 agents/historylog.md
+- Decisions: Skipped adding new cards to avoid duplicates; relied on existing backlog tasks for this spec.
+- Follow-ups: Consider reconciling requirement keyword assumptions across the validator-related backlog cards.
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
+[2026-03-05] QA • Validator: Requirements Lines Present
+- Summary: Ran verification commands; missing requirement lines were flagged and the staging spec validated successfully.
+- Files touched: agents/work/expectations.md, agents/.tmp/spec-missing-req-lines.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' agents/scripts/validate_spec.sh, cat agents/roles/tester.md, cat > agents/.tmp/spec-missing-req-lines.md <<'SPEC' ... SPEC; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "exit=$?"
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-requirements-lines-present.md
+- Report artifacts: agents/ideas/validation_reports/spec-missing-req-lines.validation.md
+
+[2026-03-05] Builder • Validator: Requirements Lines Present
+- Summary: Updated Requirements section parsing to keep subheadings inside the section so bullet/numbered lines are detected reliably. Verification passed for missing requirement lines and the staging spec; refactor scan found no evidence-backed changes.
+- Files touched: agents/scripts/validate_spec.sh, agents/.tmp/spec-missing-req-lines.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/001-requirements-lines-present.md, cat agents/roles/developer.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md, sed -n '1,240p' agents/scripts/validate_spec.sh, apply_patch, rg --files agents/scripts, sed -n '1,200p' agents/scripts/validate_spec.sh, cat > agents/.tmp/spec-missing-req-lines.md <<'SPEC' ... SPEC, bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/historylog.md
+- Decisions: Kept SHALL/SHALL NOT checks unchanged while tightening section boundary handling.
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-requirements-lines-present.md
+- Report artifacts: agents/ideas/validation_reports/spec-missing-req-lines.validation.md
+
+[2026-03-05] Troubleshoot • Restore staging spec
+- Summary: Restored the missing staging spec from specs to unblock staging validation; no validator code changes.
+- Files touched: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/historylog.md, ls -la agents/ideas/staging, ls -la agents/ideas/specs | rg 'turnloop-spec-validation-2026-03-05.md', cp agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Minimal fix by restoring the staging file from specs.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Builder • Validator: Requirements Lines Present
+- Summary: Added support for `+` bullet requirement lines and tagged the missing requirement line violation. Verification blocked because the staging spec file is missing.
+- Files touched: agents/scripts/validate_spec.sh, agents/work/prompts/001-requirements-lines-present.md, agents/work/task.md, agents/.tmp/spec-missing-req-lines.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, rg -n "agents/work/prompts" agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat > agents/work/prompts/001-requirements-lines-present.md <<'EOF' ... EOF, apply_patch, cat agents/roles/developer.md, cat agents/work/prompts/001-requirements-lines-present.md, rg --files agents/scripts, sed -n '1,200p' agents/scripts/validate_spec.sh, apply_patch, mkdir -p agents/.tmp; cat > agents/.tmp/spec-missing-req-lines.md <<'SPEC' ... SPEC, bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, ls agents/ideas, ls agents/ideas/staging
+- Decisions: Added an explicit missing-requirement-lines tag to the violation message to satisfy acceptance wording.
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md to re-run the staging validation command.
+- Prompt: agents/work/prompts/001-requirements-lines-present.md
+- Report artifacts: agents/ideas/validation_reports/spec-missing-req-lines.validation.md
+
+[2026-03-05] Update • Site Refresh + Repo Sync
+- Summary: Regenerated the public site data and committed/pushed the pending validator workflow updates already present in the repo.
+- Files touched: site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git add -A, git commit -m "Sync validator workflow updates", git push
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Manager • Spec Validation Gate Decomposition
+- Summary: Decomposed the spec validation gate into backlog cards, adding requirement-line checks and keyword enforcement, and moved the spec from staging to specs.
+- Files touched: agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_manage.md, ls agents/ideas/staging, cat README.md, cat agents/outline.md, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls agents/ideas, printf '%s\n' '### MANAGE_RUNNING' > agents/research_status.md, cat > agents/work/tasksbacklog.md <<'EOF' ... EOF, mv -f agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, head -n 40 agents/historylog.md
+- Decisions: Added an explicit requirement keyword list assumption to resolve the spec ambiguity.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
 [2026-03-05] QA • Validator: Requirements Keywords
 - Summary: Ran QA verification commands; missing requirement lines and double-keyword cases failed as expected, and the staging spec validates cleanly.
 - Files touched: agents/work/expectations.md, agents/.tmp/spec-missing-req-lines.md, agents/.tmp/spec-double-keyword.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/historylog.md, agents/orchestrate_status.md

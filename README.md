@@ -45,6 +45,7 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - Every run prepends a history log entry in `agents/historylog.md`.
 - Prompt artifacts live in `agents/work/prompts/` and are moved to `agents/work/finished/` after QA.
 - Task cards use `##` headings and live in `agents/work/tasksbacklog.md`.
+- Spec validation can be run with `agents/scripts/validate_spec.sh`; failures write reports under `agents/ideas/validation_reports/`.
 
 ## Repository Layout
 - `agents/entrypoints/`: entry prompts for each stage.
