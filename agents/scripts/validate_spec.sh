@@ -18,7 +18,6 @@ if [[ ! -f "$spec_path" ]]; then
 fi
 
 reports_dir="agents/ideas/validation_reports"
-mkdir -p "$reports_dir"
 
 spec_base="$(basename "$spec_path")"
 spec_stem="${spec_base%.*}"
@@ -153,11 +152,13 @@ if $requirements_seen && (( requirements_line_count == 0 )); then
 fi
 
 if (( ${#violations[@]} > 0 )); then
+  mkdir -p "$reports_dir"
   {
-    echo "Validation failed with ${#violations[@]} issue(s)."
+    echo "Spec path: $spec_path"
     printf '%s\n' "${violations[@]}"
   } | tee "$report_path" >&2
   exit 1
 fi
 
+rm -f "$report_path"
 echo "OK: no validation violations."

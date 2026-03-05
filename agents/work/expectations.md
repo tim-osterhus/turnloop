@@ -1,51 +1,24 @@
 # Expectations
 
 ## Goal
-Enforce exactly one requirement keyword per Requirements line in the spec validator.
+Produce clear validation reports on failure, remove stale reports on success, and ensure the report directory exists.
 
 ## Expected behavior
-- The validator counts requirement keywords on each bullet/numbered line under the Requirements section.
-- A line with zero keywords is reported as a violation and causes a non-zero exit.
-- A line with more than one keyword is reported as a violation and causes a non-zero exit.
-- A line with exactly one keyword is not reported as a violation.
-- Keywords are `SHALL`, `SHOULD`, `MUST`, `MAY` (case-insensitive) matched as whole words; `SHALL NOT` counts as a single keyword.
+- The validator creates `agents/ideas/validation_reports/` when needed.
+- On validation failure, the validator writes `agents/ideas/validation_reports/<spec_basename>.validation.md`.
+- The report includes the full spec path and lists each violation on its own line.
+- On successful validation, any existing report file for that spec basename is deleted.
 
 ## Expected file changes
-- `agents/scripts/validate_spec.sh` updated to include keyword list, whole-word matching, and per-line counting logic.
+- `agents/scripts/validate_spec.sh` updated to create/remove validation report files and ensure the report directory exists.
 
 ## Verification commands
-- `cat > agents/.tmp/spec-double-keyword.md <<'SPEC'
-# Summary
-# Problem statement
-# Scope (In / Out)
-In: test
-Out: test
-# Constraints
-# Requirements
-- The system SHALL and SHOULD fail.
-# Verification plan
-# Assumptions
-# Open questions
-SPEC
-bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; echo "exit=$?"`
-- `cat > agents/.tmp/spec-no-keyword.md <<'SPEC'
-# Summary
-# Problem statement
-# Scope (In / Out)
-In: test
-Out: test
-# Constraints
-# Requirements
-- The system will fail without a keyword.
-# Verification plan
-# Assumptions
-# Open questions
-SPEC
-bash agents/scripts/validate_spec.sh agents/.tmp/spec-no-keyword.md; echo "exit=$?"`
+- `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL and SHALL NOT both appear." "# Verification plan" "# Assumptions" "# Open questions" > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; rg "Spec path" agents/ideas/validation_reports/spec-double-shall.validation.md`
+- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; test ! -f agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md && echo "report removed"`
 
 ## Non-functional requirements
-- Avoid counting partial matches (must be whole words only).
-- Do not expand the keyword list beyond the agreed set.
+- Report format is plain text markdown.
+- Validation reports are created/removed deterministically based on validation results.
 
 ## Notes / assumptions
-- Applies only to bullet/numbered lines within the Requirements section.
+- Spec basename uses the input file name without extension.

@@ -1,3 +1,48 @@
+[2026-03-05] QA • Validator Reports
+- Summary: Ran the validator report verification commands; failure reports include the spec path and the passing spec removes its report as expected.
+- Files touched: agents/work/expectations.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-double-shall.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' agents/scripts/validate_spec.sh, cat agents/roles/tester.md, printf '%s\n' ... > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; rg "Spec path" agents/ideas/validation_reports/spec-double-shall.validation.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; test ! -f agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md && echo "report removed"
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/002-validator-reports.md
+- Report artifacts: agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Builder • Validator Reports
+- Summary: Verified the validator already creates/removes per-spec validation reports as required and ran the required commands; no code changes were needed.
+- Files touched: agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/002-validator-reports.md, cat agents/scripts/validate_spec.sh, mkdir -p agents/.tmp, printf '%s\n' ... > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; rg "Spec path" agents/ideas/validation_reports/spec-double-shall.validation.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; test ! -f agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md && echo "report removed", NOT RUN: rm -f agents/.tmp/spec-double-shall.md agents/ideas/validation_reports/spec-double-shall.validation.md (rejected by policy)
+- Decisions: No validator changes required; existing report behavior satisfies the task. Refactor scan found no evidence-backed improvements.
+- Follow-ups: none
+- Prompt: agents/work/prompts/002-validator-reports.md
+- Report artifacts: agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Troubleshoot • Restore Staging Spec
+- Summary: Restored the missing staging spec file so validation commands can run without the missing-path blocker.
+- Files touched: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Commands: mkdir -p agents/ideas/staging; cp agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: none
+- Follow-ups: Rerun the required validation command if needed.
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Builder • Validator Reports
+- Summary: Added validation report creation/removal logic to the spec validator and generated a failure report, but verification blocked because the staging spec path in the required command was missing.
+- Files touched: agents/work/prompts/002-validator-reports.md, agents/work/task.md, agents/scripts/validate_spec.sh, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat > agents/work/prompts/002-validator-reports.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/002-validator-reports.md, sed -n '1,260p' agents/scripts/validate_spec.sh, apply_patch (agents/scripts/validate_spec.sh), printf '%s\\n' ... > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; rg "Spec path" agents/ideas/validation_reports/spec-double-shall.validation.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Treated the missing staging spec as a blocker because the required verification command could not run.
+- Follow-ups: Provide the correct spec path (or restore the staging file) and rerun the required verification command.
+- Prompt: agents/work/prompts/002-validator-reports.md
+- Report artifacts: agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Update • Validation Workflow Sync
+- Summary: Regenerated the public journal site data and committed the pending validator workflow updates already in the repo. No outline changes were needed.
+- Files touched: README.md, agents/historylog.md, agents/research_status.md, agents/scripts/validate_spec.sh, agents/work/expectations.md, agents/work/finished/001-requirements-lines-present.md, agents/work/finished/002-validator-requirements-line-rules.md, agents/work/prompts/001-validator-requirement-keyword-count.md, agents/work/task.md, agents/work/tasksarchive.md, site/data.json, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, sed -n '1,160p' agents/work/tasksarchive.md, sed -n '160,360p' agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' agents/outline.md, sed -n '1,240p' README.md, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff README.md, git diff agents/scripts/validate_spec.sh, git add -A, git commit -m "Sync validation workflow updates", git push
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Validator: Requirement Keyword Count
 - Summary: Ran the two keyword-count negative tests; both failed as expected with per-line violations.
 - Files touched: agents/work/expectations.md, agents/.tmp/spec-double-keyword.md, agents/.tmp/spec-no-keyword.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/ideas/validation_reports/spec-no-keyword.validation.md, agents/historylog.md, agents/orchestrate_status.md
