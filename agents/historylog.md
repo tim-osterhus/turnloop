@@ -1,3 +1,40 @@
+[2026-03-05] QA • Update Archived Validator Task Cards
+- Summary: Verified archived validator cards no longer reference the staging spec path and now point to the specs path in verification commands. Confirmed no staging copy commands remain.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff -- agents/work/tasksarchive.md, cat agents/roles/tester.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, rg -n "cp .*turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, rg -n "staging" agents/work/tasksarchive.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/003-update-archived-validator-task-cards.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Update Archived Validator Task Cards
+- Summary: Created the prompt artifact, updated archived validator task cards to reference the specs-path validation spec, and removed remaining staging-spec wording in those cards.
+- Files touched: agents/work/prompts/003-update-archived-validator-task-cards.md, agents/work/task.md, agents/work/tasksarchive.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, head -n 40 agents/historylog.md, ls agents/work/finished, cat agents/roles/developer.md, cat agents/work/prompts/003-update-archived-validator-task-cards.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, sed -n '140,220p' agents/work/tasksarchive.md, sed -n '220,320p' agents/work/tasksarchive.md, sed -n '320,380p' agents/work/tasksarchive.md, apply_patch (agents/work/task.md), apply_patch (agents/work/tasksarchive.md), rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, rg -n "cp .*turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: none
+- Prompt: agents/work/prompts/003-update-archived-validator-task-cards.md
+- Report artifacts: none
+
+[2026-03-05] Manager • Manage Loop Fix Decomposition
+- Summary: Decomposed the manage-loop fix spec into backlog cards that update validator task cards/prompt artifacts to use the specs path and avoid staging copybacks; moved the staging spec into ideas/specs.
+- Files touched: agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md, agents/ideas/specs/turnloop-manage-loop-fix-2026-03-05.md, agents/historylog.md
+- Commands: ls, sed -n '1,200p' agents/entrypoints/_manage.md, ls agents/ideas/staging, sed -n '1,200p' README.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/work/tasksarchive.md, rg -n "Validator|validate_spec|spec validation|validation" agents/work/tasksarchive.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/prompts agents/work/finished agents/work/tasksbackburner.md agents/work/quickfix.md, sed -n '1,120p' agents/work/tasksbackburner.md, sed -n '140,360p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/finished/002-validator-reports.md, ls agents/work/prompts, sed -n '1,200p' agents/work/prompts/001-gate-research-loop-spec-validation.md, ls agents/work/finished, sed -n '1,80p' agents/historylog.md, printf '%s
+' '### MANAGE_RUNNING' > agents/research_status.md, cat > agents/work/tasksbacklog.md <<'EOF' ... EOF, mv agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md agents/ideas/specs/
+- Decisions: Scoped edits to task cards and prompt artifacts per constraints; noted that repo-wide rg may still find staging references in history/spec files.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md
+- Report artifacts: none
+
+[2026-03-05] Update • Validation Gate Sync
+- Summary: Updated the README to reflect mandatory research-loop spec validation, rebuilt the public journal site, and committed/pushed the outstanding validation-gate changes already in the repo.
+- Files touched: README.md, agents/historylog.md, agents/orchestrate_status.md, agents/research_status.md, agents/scripts/research_loop.sh, agents/work/expectations.md, agents/work/finished/001-docs-spec-validation-note.md, agents/work/prompts/001-gate-research-loop-spec-validation.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git add -A, git commit -m "Sync research loop validation gate", git push
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Hardening: Gate Research Loop on Spec Validation
 - Summary: Verified the research loop validates the oldest staging spec before Manager and blocks with the mechanic on validation failure; verification commands matched.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

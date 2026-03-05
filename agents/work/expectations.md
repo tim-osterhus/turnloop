@@ -1,23 +1,22 @@
 # QA Expectations
 
-## Goal
-Gate the research loop so it validates the oldest staging spec before running Manager, blocking and invoking the mechanic on validation failure.
+- Goal: Update archived validator task cards to reference the specs-path spec file and remove any staging-path mentions.
 
-## Expected behavior
-- `agents/scripts/research_loop.sh` runs `agents/scripts/validate_spec.sh` against the oldest staging spec before any Manager entrypoint invocation.
-- If validation fails, the research status is set to `### BLOCKED`, the failure is logged, `handle_mechanic "manage"` is called, and Manager is not invoked.
-- If validation succeeds, the existing Manager invocation flow continues unchanged after the validation block.
+- Expected behavior:
+- Validator-related cards in `agents/work/tasksarchive.md` reference `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` where they point to the validation spec.
+- Validator-related cards do not mention `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` or instruct recreating a staging spec.
 
-## Expected file changes
-- `agents/scripts/research_loop.sh` updated to add the validation gating logic.
+- Expected file changes:
+- `agents/work/tasksarchive.md`
 
-## Verification commands
-- `rg -n "validate_spec.sh" agents/scripts/research_loop.sh`
-- `rg -n "_manage.md" agents/scripts/research_loop.sh`
+- Verification commands:
+- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect no matches)
+- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect matches in validator card verification commands)
+- `rg -n "cp .*turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect no matches)
 
-## Non-functional requirements
-- No changes to Manager entrypoint or execution loop beyond gating in `agents/scripts/research_loop.sh`.
-- Changes are limited to the scope described in `agents/work/task.md`.
+- Non-functional requirements:
+- Scope limited to task cards; do not edit history, spec files, or validator scripts.
+- Use objective, verifiable wording in validator cards.
 
-## Notes / assumptions
-- The "oldest staging spec" is determinable within the research loop script using existing conventions.
+- Notes / assumptions:
+- Validator-related cards are the only cards that should reference the spec path in this archive.

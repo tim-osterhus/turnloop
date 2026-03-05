@@ -169,10 +169,10 @@ Steps:
 3. Have the script exit non-zero when violations exist and print a short OK message when none exist.
 Acceptance:
 - Running the script with no arguments exits non-zero and prints a usage message.
-- Running the script against the staging spec exits 0 and prints a brief OK message.
+- Running the script against the spec validation spec exits 0 and prints a brief OK message.
 Verification commands:
 - `bash agents/scripts/validate_spec.sh` — Expected: usage message and non-zero exit.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0 and OK output.
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0 and OK output.
 
 
 ## 2026-03-05 — 2026-03-05 — Validator: Required Headings + Scope Labels
@@ -191,10 +191,10 @@ Steps:
 3. Record a distinct violation message for each missing heading or missing label.
 Acceptance:
 - A spec missing `Open questions` fails validation with a report that lists the missing heading.
-- The current staging spec validates successfully.
+- The current spec validation spec validates successfully.
 Verification commands:
 - `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL be present." "# Verification plan" "# Assumptions" > agents/.tmp/spec-missing-heading.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-heading.md; echo "exit=$?"` — Expected: non-zero exit and a report in `agents/ideas/validation_reports/spec-missing-heading.validation.md` mentioning `Open questions`.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
 
 
 ## 2026-03-05 — 2026-03-05 — Validator: Requirements Keywords
@@ -257,7 +257,7 @@ ok
 ok
 EOF
 bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; rg -n "keyword|SHALL" agents/ideas/validation_reports/spec-double-keyword.validation.md` — Expected: non-zero exit and a report noting the invalid keyword count.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0 with an OK message.
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0 with an OK message.
 
 
 ## 2026-03-05 — 2026-03-05 — Validator: Requirements Lines Present
@@ -275,10 +275,10 @@ Steps:
 3. Record a violation when no requirement lines are found.
 Acceptance:
 - A spec with an empty Requirements section fails validation with a missing-requirement-lines violation.
-- The staging spec validates successfully.
+- The spec validation spec validates successfully.
 Verification commands:
 - `cat > agents/.tmp/spec-missing-req-lines.md <<'SPEC'\n# Summary\n# Problem statement\n# Scope (In / Out)\nIn: test\nOut: test\n# Constraints\n# Requirements\n# Verification plan\n# Assumptions\n# Open questions\nSPEC\nbash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?"` — Expected: non-zero exit and report includes the missing-requirement-lines violation.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
 
 Prompt: agents/work/prompts/001-requirements-lines-present.md
 
@@ -325,7 +325,7 @@ Acceptance:
 - A passing spec leaves no validation report for that spec basename.
 Verification commands:
 - `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL and SHALL NOT both appear." "# Verification plan" "# Assumptions" "# Open questions" > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; rg "Spec path" agents/ideas/validation_reports/spec-double-shall.validation.md` — Expected: report exists and includes the spec path line.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; test ! -f agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md && echo "report removed"` — Expected: prints `report removed`.
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md; test ! -f agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md && echo "report removed"` — Expected: prints `report removed`.
 
 
 ## 2026-03-05 — 2026-03-05 — Docs: Spec Validation Note
@@ -347,3 +347,23 @@ Verification commands:
 - `rg "validation" README.md` — Expected: a line describing validation before Manager and report location.
 
 
+## 2026-03-05 — 2026-03-05 — Hardening: Gate Research Loop on Spec Validation
+
+## 2026-03-05 — Hardening: Gate Research Loop on Spec Validation
+Goal: Block Manager runs when the spec validation spec fails validation and invoke the mechanic.
+Prompt: agents/work/prompts/001-gate-research-loop-spec-validation.md
+Scope:
+In: Update `agents/scripts/research_loop.sh` to validate the oldest spec validation spec before running Manager, set status to `### BLOCKED` on failure, skip Manager, and call `handle_mechanic "manage"`.
+Out: Changes to Manager entrypoint or execution loop.
+Files to touch:
+- agents/scripts/research_loop.sh
+Steps:
+1. Add a validation step that runs `agents/scripts/validate_spec.sh` against the oldest spec validation spec before the Manager entrypoint.
+2. On validation failure, set research status to `### BLOCKED`, log the failure, and call `handle_mechanic "manage"` without invoking Manager.
+3. On validation success, proceed with the current Manager invocation flow.
+Acceptance:
+- The research loop script clearly shows validation happening before the `_manage.md` entrypoint.
+- Validation failure path sets `### BLOCKED` and skips Manager.
+Verification commands:
+- `rg -n "validate_spec.sh" agents/scripts/research_loop.sh` — Expected: validation call present before Manager invocation.
+- `rg -n "_manage.md" agents/scripts/research_loop.sh` — Expected: Manager invocation remains after validation block.

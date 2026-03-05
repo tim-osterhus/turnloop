@@ -99,12 +99,24 @@
     if (values.includes(current)) select.value = current;
   }
 
+  function buildDayMap(entries) {
+    const dates = Array.from(new Set(entries.map(e => e.date)));
+    dates.sort();
+    if (state.dayDirection === 'latest') {
+      dates.reverse();
+    }
+    const map = new Map();
+    dates.forEach((d, idx) => map.set(d, idx + 1));
+    return map;
+  }
+
   function render(entries) {
     const total = entries.length;
+    const dayMap = buildDayMap(entries);
     entriesEl.innerHTML = '';
 
-    entries.forEach((entry, idx) => {
-      const dayNum = state.dayDirection === 'latest' ? idx + 1 : total - idx;
+    entries.forEach((entry) => {
+      const dayNum = dayMap.get(entry.date) || 1;
       const wrapper = document.createElement('div');
       wrapper.className = 'entry';
       wrapper.innerHTML = `
