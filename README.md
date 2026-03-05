@@ -35,7 +35,7 @@ If the loop is blocked, it invokes the troubleshooter. Two consecutive troublesh
 1. Read the oldest prompt in `agents/ideas/inbox/`.
 2. Run Researcher to write a spec into `agents/ideas/staging/`.
 3. Validate the oldest staging spec with `agents/scripts/validate_spec.sh`; failures write reports to `agents/ideas/validation_reports/` and block the Manager run for that cycle.
-4. Run Manager to decompose specs into task cards in `agents/work/tasksbacklog.md` when validation passes.
+4. Run Manager to decompose specs into task cards in `agents/work/tasksbacklog.md` and move processed specs to `agents/ideas/specs/` when validation passes.
 
 If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic blocks move the offending file to `agents/ideas/nonviable/`.
 
@@ -53,7 +53,7 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - `agents/roles/`: reusable role instructions.
 - `agents/scripts/`: long‑running loop scripts and watchdog.
 - `agents/work/`: active task, backlog, archive, expectations, quickfix, and prompt artifacts.
-- `agents/ideas/`: research intake and spec staging.
+- `agents/ideas/`: research intake plus staged and processed specs (`inbox/`, `staging/`, `specs/`, `processed/`, `nonviable/`).
 - `agents/historylog.md`: prepend‑only run log.
 - `corebound/`: separate git repo for the Corebound prototype game.
 - `site/`: generated public journal site built from `agents/historylog.md`.

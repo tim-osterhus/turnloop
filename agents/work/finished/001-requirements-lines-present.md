@@ -23,11 +23,11 @@
     - rg --files agents/scripts
     - sed -n '1,200p' agents/scripts/validate_spec.sh
     - bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md
-    - bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+    - bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md
   </commands>
   <verification>
     - Spec with empty Requirements section fails validation and reports missing-requirement-lines
-    - Staging spec validates with exit 0
+    - Specs-path spec validates with exit 0
   </verification>
   <handoff>
     - Prepend history log entry in agents/historylog.md with summary, files, commands, decisions, follow-ups, prompt path
