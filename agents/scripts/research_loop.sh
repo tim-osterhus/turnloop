@@ -169,19 +169,33 @@ while true; do
   if has_staging_work; then
     log "Staging has work; waiting ${PROMOTE_DELAY_SECS}s before manage"
     sleep "$PROMOTE_DELAY_SECS"
-    log "Starting entrypoint: _manage.md"
-    run_entrypoint "$ENTRY_MANAGE" "$MANAGE_EFFORT" || true
-    log "Finished entrypoint: _manage.md (status=$(get_status))"
-    case "$(get_status)" in
-      "### IDLE")
-        ;;
-      "### BLOCKED")
+    staging_spec="$(oldest_file "$STAGING_DIR")"
+    if [ -z "$staging_spec" ]; then
+      log "Staging validation failed: no staging spec found"
+      write_status "### BLOCKED"
+      handle_mechanic "manage"
+    else
+      log "Validating staging spec: $staging_spec"
+      if ! "${SCRIPT_DIR}/validate_spec.sh" "$staging_spec"; then
+        log "Staging validation failed for $staging_spec"
+        write_status "### BLOCKED"
         handle_mechanic "manage"
-        ;;
-      *)
-        handle_mechanic "manage"
-        ;;
-    esac
+      else
+        log "Starting entrypoint: _manage.md"
+        run_entrypoint "$ENTRY_MANAGE" "$MANAGE_EFFORT" || true
+        log "Finished entrypoint: _manage.md (status=$(get_status))"
+        case "$(get_status)" in
+          "### IDLE")
+            ;;
+          "### BLOCKED")
+            handle_mechanic "manage"
+            ;;
+          *)
+            handle_mechanic "manage"
+            ;;
+        esac
+      fi
+    fi
   fi
 
   if [ "$DAEMON_MODE" = "true" ]; then

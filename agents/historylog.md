@@ -1,3 +1,39 @@
+[2026-03-05] QA • Hardening: Gate Research Loop on Spec Validation
+- Summary: Verified the research loop validates the oldest staging spec before Manager and blocks with the mechanic on validation failure; verification commands matched.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat <<'EOF' > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff -- agents/scripts/research_loop.sh, cat agents/roles/tester.md, rg -n "validate_spec.sh" agents/scripts/research_loop.sh, rg -n "_manage.md" agents/scripts/research_loop.sh, sed -n '150,220p' agents/scripts/research_loop.sh
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-gate-research-loop-spec-validation.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Hardening: Gate Research Loop on Spec Validation
+- Summary: Added staging spec validation before Manager in the research loop; on validation failure sets status to ### BLOCKED and invokes the mechanic without running Manager. Created the prompt artifact and linked it in the task card.
+- Files touched: agents/scripts/research_loop.sh, agents/work/prompts/001-gate-research-loop-spec-validation.md, agents/work/task.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, rg -n "agents/work/prompts" agents/work/task.md, ls agents/roles, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat <<'EOF' > agents/work/prompts/001-gate-research-loop-spec-validation.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/001-gate-research-loop-spec-validation.md, cat agents/scripts/research_loop.sh, cat agents/scripts/validate_spec.sh, apply_patch (agents/scripts/research_loop.sh), rg -n "validate_spec.sh" agents/scripts/research_loop.sh, rg -n "_manage.md" agents/scripts/research_loop.sh, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: none
+- Prompt: agents/work/prompts/001-gate-research-loop-spec-validation.md
+- Report artifacts: none
+
+[2026-03-05] Update • Site Build + Repo Sync
+- Summary: Rebuilt the public journal site data and committed the pending validation artifacts/docs updates already in the repo.
+- Files touched: README.md, agents/historylog.md, agents/orchestrate_status.md, agents/research_status.md, agents/work/expectations.md, agents/work/finished/002-validator-reports.md, agents/work/prompts/001-docs-spec-validation-note.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, rg -n "validate_spec|validation" agents/scripts/research_loop.sh && sed -n '1,220p' agents/scripts/research_loop.sh, sed -n '1,240p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff README.md, git diff agents/work/tasksbacklog.md, git diff agents/work/tasksarchive.md, git add -A, git commit -m "Sync validation artifacts", git push
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Researcher • Manage Loop Triggering Repeatedly: Cause + Fix
+- Summary: Drafted a spec to stop `_manage.md` from re-triggering by switching validator references from `agents/ideas/staging/` to `agents/ideas/specs/` and removing any copy-back instructions.
+- Files touched: agents/research_status.md, agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md, agents/ideas/processed/manage-loop-problem-and-fix.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_research.md, ls agents/ideas/inbox, cat agents/roles/analyze.md, cat agents/roles/search.md, cat agents/roles/articulate.md, cat agents/ideas/inbox/manage-loop-problem-and-fix.md, printf "### RESEARCH_RUNNING" > agents/research_status.md, cat agents/outline.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksbackburner.md, cat agents/work/tasksarchive.md, ls agents/ideas/staging, ls agents/ideas/specs, cat agents/historylog.md, cat > agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md, mv agents/ideas/inbox/manage-loop-problem-and-fix.md agents/ideas/processed/
+- Decisions: Proceed with Option A (point validator references at `agents/ideas/specs/`); skipped web search since the prompt is repo-local and self-contained.
+- Follow-ups: none
+- Prompt: agents/ideas/inbox/manage-loop-problem-and-fix.md
+- Report artifacts: agents/ideas/staging/turnloop-manage-loop-fix-2026-03-05.md
+
 [2026-03-05] QA • Docs: Spec Validation Note
 - Summary: Verified the README note states validation runs before Manager, blocks the Manager run for that cycle on failure, and reports live under `agents/ideas/validation_reports/`. The verification command matched.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
