@@ -1,3 +1,30 @@
+[2026-03-05] QA • Update Finished Prompts: Scaffold + Headings
+- Summary: Verified the finished validator prompt artifacts now point to the specs-path reference and contain no staging spec references.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md, rg -n "staging" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Update Finished Prompts: Scaffold + Headings
+- Summary: Updated the finished validator prompt artifacts to reference the specs-path validation spec and adjusted staging wording.
+- Files touched: agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md, agents/work/task.md, agents/work/finished/001-spec-validator-scaffold.md, agents/work/finished/001-validator-required-headings-scope-labels.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, head -n 40 agents/historylog.md, cat agents/roles/developer.md, cat agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md, rg -n "staging|specs" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md, cat agents/work/finished/001-spec-validator-scaffold.md, cat agents/work/finished/001-validator-required-headings-scope-labels.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat <<'EOF' > agents/orchestrate_status.md
+- Decisions: Refactor scan completed with no changes.
+- Follow-ups: none
+- Prompt: agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md
+- Report artifacts: none
+
+[2026-03-05] Update • Validator Sync + Outline Refresh
+- Summary: Synced validator card/prompt updates already in the repo, refreshed the Corebound outline to note depth-weighted ore generation, and rebuilt the public journal site.
+- Files touched: agents/outline.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/tasksbackburner.md, agents/work/task.md, agents/work/expectations.md, agents/work/finished/003-update-archived-validator-task-cards.md, agents/work/prompts/004-update-backburner-validator-card.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, rg -n "validate_spec|staging|spec" agents/scripts/research_loop.sh && sed -n '1,220p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff -- agents/work/tasksbacklog.md, git diff -- agents/work/tasksarchive.md, git diff -- agents/work/tasksbackburner.md, git diff -- agents/work/task.md, git diff -- agents/work/expectations.md, git add -A, git commit -m "Sync validator updates and site build", git push, head -n 40 agents/historylog.md
+- Decisions: Updated the Corebound outline summary to include depth-weighted ore generation.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Update Backburner Validator Card
 - Summary: Verified the backburner validator card now points to the specs-path reference and contains no staging spec path in acceptance/verification.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

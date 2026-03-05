@@ -1,18 +1,19 @@
-## 2026-03-05 — Update Backburner Validator Card
-Prompt: agents/work/prompts/004-update-backburner-validator-card.md
-Goal: Align the backburner validator task card with the specs-path reference.
+## 2026-03-05 — Update Finished Prompts: Scaffold + Headings
+Goal: Update validator prompt artifacts for scaffold and headings tasks to use the specs-path reference.
+Prompt: agents/work/prompts/005-update-finished-validator-prompts-scaffold-headings.md
 Scope:
-- In: Update the validator card in `agents/work/tasksbackburner.md` to use the specs-path in acceptance/verification.
-- Out: Changes to any other backburner entries or validator logic.
+- In: Replace staging-path references in the finished prompt artifacts for validator scaffold and required headings.
+- Out: Changes to prompt content unrelated to the spec path.
 Files to touch:
-- agents/work/tasksbackburner.md
+- agents/work/finished/001-spec-validator-scaffold.md
+- agents/work/finished/001-validator-required-headings-scope-labels.md
 Steps:
-1. Find the validator task card in `agents/work/tasksbackburner.md` that references the staging spec path.
-2. Replace the staging spec reference in acceptance/verification with `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` and adjust wording from “staging spec” to “specs spec”.
+1. Replace staging-path references in command lists with `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+2. Update any “staging spec” wording to reference the specs path instead.
 Acceptance:
-- `agents/work/tasksbackburner.md` contains no references to `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md`.
-- The validator card verification command uses `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+- The two prompt artifacts contain no `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` references.
+- The command lists reference `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
 Verification commands:
-- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: no matches.
-- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: 1 match.
+- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md` — Expected: no matches.
+- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md` — Expected: matches in command lists.
 

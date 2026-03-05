@@ -20,11 +20,11 @@
   </plan>
   <commands>
     - bash agents/scripts/validate_spec.sh
-    - bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+    - bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md
   </commands>
   <verification>
     - No-arg run prints usage and exits non-zero.
-    - Running against the staging spec exits 0 and prints a brief OK message.
+    - Running against the specs-path spec exits 0 and prints a brief OK message.
   </verification>
   <handoff>
     - Prepend historylog entry with summary, files, commands, decisions, follow-ups, prompt path.

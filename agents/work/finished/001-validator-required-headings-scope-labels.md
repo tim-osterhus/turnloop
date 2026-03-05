@@ -21,12 +21,12 @@
   </plan>
   <commands>
     - rg -n "required" agents/scripts/validate_spec.sh
-    - bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+    - bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md
     - printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL be present." "# Verification plan" "# Assumptions" > agents/.tmp/spec-missing-heading.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-heading.md; echo "exit=$?"
   </commands>
   <verification>
     - Missing "Open questions" heading causes non-zero exit and validation report mentions it.
-    - Staging spec validates successfully (exit 0).
+    - Specs-path spec validates successfully (exit 0).
   </verification>
   <handoff>
     - Update agents/historylog.md with summary, files touched, commands, decisions, follow-ups, prompt path, and report artifacts.

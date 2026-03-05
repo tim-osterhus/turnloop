@@ -1,21 +1,23 @@
-# QA Expectations — 2026-03-05 Update Backburner Validator Card
+# Expectations
 
 ## Goal
-Align the backburner validator task card with the specs-path reference in acceptance/verification.
+Update validator prompt artifacts for scaffold and required headings tasks to reference the specs-path instead of the staging-path.
 
 ## Expected behavior
-- The validator task card in `agents/work/tasksbackburner.md` references the specs-path (not staging) in acceptance/verification text.
-- Wording in the validator card uses “specs spec” instead of “staging spec”.
+- The two finished prompt artifacts no longer reference `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md`.
+- Any command lists inside those artifacts reference `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+- Any wording that says “staging spec” is updated to reference the specs path instead.
 
 ## Expected file changes
-- `agents/work/tasksbackburner.md` updated in the validator task card acceptance/verification section.
+- `agents/work/finished/001-spec-validator-scaffold.md`
+- `agents/work/finished/001-validator-required-headings-scope-labels.md`
 
 ## Verification commands
-- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: no matches.
-- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: 1 match.
+- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md` (expect no matches)
+- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/001-spec-validator-scaffold.md agents/work/finished/001-validator-required-headings-scope-labels.md` (expect matches in command lists)
 
 ## Non-functional requirements
-- Only the validator task card in `agents/work/tasksbackburner.md` is modified; no other backburner entries or logic changes.
+- Changes are limited to the spec-path references; no unrelated prompt edits.
 
 ## Notes / assumptions
-- The validator card exists and includes acceptance/verification text referencing a spec path.
+- “Command lists” refer to any command examples or bullets that mention running a spec validation script.
