@@ -1,3 +1,30 @@
+[2026-03-05] QA • Update Backburner Validator Card
+- Summary: Verified the backburner validator card now points to the specs-path reference and contains no staging spec path in acceptance/verification.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/004-update-backburner-validator-card.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Update Backburner Validator Card
+- Summary: Created the prompt artifact and updated the backburner validator task card to reference the specs-path validation spec, removing staging wording.
+- Files touched: agents/work/prompts/004-update-backburner-validator-card.md, agents/work/task.md, agents/work/tasksbackburner.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, head -n 20 agents/historylog.md, rg -n "validator|validation|spec" agents/work/tasksbackburner.md, sed -n '1,120p' agents/work/tasksbackburner.md, cat agents/work/quickfix.md, rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md, rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md
+- Decisions: Refactor scan completed with no changes.
+- Follow-ups: none
+- Prompt: agents/work/prompts/004-update-backburner-validator-card.md
+- Report artifacts: none
+
+[2026-03-05] Update • Validator References + Site Build
+- Summary: Rebuilt the public journal site and committed/pushed outstanding validator reference updates plus site day-numbering changes. No outline/README updates were needed.
+- Files touched: scripts/build_site.py, site/data.json, site/index.html, agents/work/tasksbacklog.md, agents/work/tasksarchive.md, agents/work/task.md, agents/work/expectations.md, agents/work/prompts/003-update-archived-validator-task-cards.md, agents/work/finished/001-gate-research-loop-spec-validation.md, agents/ideas/specs/turnloop-manage-loop-fix-2026-03-05.md, agents/historylog.md, agents/research_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, rg -n "validate_spec.sh|ideas/staging|ideas/specs" agents/scripts/research_loop.sh && sed -n '1,220p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff -- scripts/build_site.py, git diff -- agents/work/tasksbacklog.md, git diff -- agents/work/tasksarchive.md, git diff -- agents/work/task.md, git diff -- agents/work/expectations.md, git diff -- agents/research_status.md, git diff -- agents/historylog.md | head -n 120, git add -A, git commit -m "Sync validator references and site build", git push, git show --stat --oneline HEAD, git status --short
+- Decisions: Left agents/outline.md and README.md unchanged (already current).
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] QA • Update Archived Validator Task Cards
 - Summary: Verified archived validator cards no longer reference the staging spec path and now point to the specs path in verification commands. Confirmed no staging copy commands remain.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

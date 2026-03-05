@@ -18,10 +18,9 @@ Steps:
 Acceptance:
 - A spec with a `Requirements` section but no bullet/numbered items fails validation.
 - A spec with a requirement line containing both `SHALL` and `SHALL NOT` fails validation.
-- The staging spec validates successfully.
+- The specs spec validates successfully.
 Verification commands:
 - `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "This line has no bullet and SHALL be ignored." "# Verification plan" "# Assumptions" "# Open questions" > agents/.tmp/spec-bad-requirements.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?"` — Expected: non-zero exit and a report noting missing bullet/numbered requirements.
 - `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL and SHALL NOT both appear." "# Verification plan" "# Assumptions" "# Open questions" > agents/.tmp/spec-double-shall.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?"` — Expected: non-zero exit and a report noting invalid SHALL usage.
-- `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
-
+- `bash agents/scripts/validate_spec.sh agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` — Expected: exit 0.
 

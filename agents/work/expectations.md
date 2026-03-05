@@ -1,22 +1,21 @@
-# QA Expectations
+# QA Expectations — 2026-03-05 Update Backburner Validator Card
 
-- Goal: Update archived validator task cards to reference the specs-path spec file and remove any staging-path mentions.
+## Goal
+Align the backburner validator task card with the specs-path reference in acceptance/verification.
 
-- Expected behavior:
-- Validator-related cards in `agents/work/tasksarchive.md` reference `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` where they point to the validation spec.
-- Validator-related cards do not mention `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` or instruct recreating a staging spec.
+## Expected behavior
+- The validator task card in `agents/work/tasksbackburner.md` references the specs-path (not staging) in acceptance/verification text.
+- Wording in the validator card uses “specs spec” instead of “staging spec”.
 
-- Expected file changes:
-- `agents/work/tasksarchive.md`
+## Expected file changes
+- `agents/work/tasksbackburner.md` updated in the validator task card acceptance/verification section.
 
-- Verification commands:
-- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect no matches)
-- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect matches in validator card verification commands)
-- `rg -n "cp .*turnloop-spec-validation-2026-03-05.md" agents/work/tasksarchive.md` (expect no matches)
+## Verification commands
+- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: no matches.
+- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/tasksbackburner.md` — Expected: 1 match.
 
-- Non-functional requirements:
-- Scope limited to task cards; do not edit history, spec files, or validator scripts.
-- Use objective, verifiable wording in validator cards.
+## Non-functional requirements
+- Only the validator task card in `agents/work/tasksbackburner.md` is modified; no other backburner entries or logic changes.
 
-- Notes / assumptions:
-- Validator-related cards are the only cards that should reference the spec path in this archive.
+## Notes / assumptions
+- The validator card exists and includes acceptance/verification text referencing a spec path.
