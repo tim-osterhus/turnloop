@@ -1,0 +1,413 @@
+{
+  "generated_at": "2026-03-05T14:51:19.736289Z",
+  "entries": [
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Surface Upgrade + Controls Reference",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations, ran the local server command, and reviewed shop/controls implementation; requirements appear satisfied based on code inspection. Manual in-browser purchase verification was not performed.",
+      "fields": {
+        "Summary": "Wrote QA expectations, ran the local server command, and reviewed shop/controls implementation; requirements appear satisfied based on code inspection. Manual in-browser purchase verification was not performed.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, sed -n '1,240p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat agents/roles/tester.md, python -m http.server, ps -ef | rg 'http.server', kill 585",
+        "Decisions": "Accepted code inspection for purchase/controls behavior; noted missing manual in-browser validation.",
+        "Prompt": "agents/work/prompts/002-surface-upgrade-controls.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Wrote QA expectations, ran the local server command, and reviewed shop/controls implementation; requirements appear satisfied based on code inspection. Manual in-browser purchase verification was not performed.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, sed -n '1,240p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat agents/roles/tester.md, python -m http.server, ps -ef | rg 'http.server', kill 585\n- Decisions: Accepted code inspection for purchase/controls behavior; noted missing manual in-browser validation.\n- Follow-ups: Optional manual browser check to confirm capacity increases and button disable states in play.\n- Prompt: agents/work/prompts/002-surface-upgrade-controls.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Surface Upgrade + Controls Reference",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Added a surface shop section with a single inventory-capacity upgrade, wired purchase logic gated by cash and surface depth, and replaced the single-line controls text with an on-screen controls panel. No refactor changes were needed.",
+      "fields": {
+        "Summary": "Added a surface shop section with a single inventory-capacity upgrade, wired purchase logic gated by cash and surface depth, and replaced the single-line controls text with an on-screen controls panel. No refactor changes were needed.",
+        "Files touched": "agents/work/prompts/002-surface-upgrade-controls.md, agents/work/task.md, corebound/game.js, corebound/index.html, corebound/style.css, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, head -n 40 agents/historylog.md, cat <<'EOF' > agents/work/prompts/002-surface-upgrade-controls.md, cat agents/roles/developer.md, cat agents/work/prompts/002-surface-upgrade-controls.md, rg -n \"inventory|capacity|cash|hud|depth\" corebound/game.js, rg -n \"hud|controls|shop\" corebound/index.html, rg -n \"hud|controls|shop\" corebound/style.css, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, cat corebound/index.html, cat corebound/style.css, apply_patch (x3), python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md",
+        "Decisions": "Treated the upgrade as a one-time purchase and surfaced its status by switching the Buy button label to Owned after purchase.",
+        "Prompt": "agents/work/prompts/002-surface-upgrade-controls.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Added a surface shop section with a single inventory-capacity upgrade, wired purchase logic gated by cash and surface depth, and replaced the single-line controls text with an on-screen controls panel. No refactor changes were needed.\n- Files touched: agents/work/prompts/002-surface-upgrade-controls.md, agents/work/task.md, corebound/game.js, corebound/index.html, corebound/style.css, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, head -n 40 agents/historylog.md, cat <<'EOF' > agents/work/prompts/002-surface-upgrade-controls.md, cat agents/roles/developer.md, cat agents/work/prompts/002-surface-upgrade-controls.md, rg -n \"inventory|capacity|cash|hud|depth\" corebound/game.js, rg -n \"hud|controls|shop\" corebound/index.html, rg -n \"hud|controls|shop\" corebound/style.css, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, cat corebound/index.html, cat corebound/style.css, apply_patch (x3), python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md\n- Decisions: Treated the upgrade as a one-time purchase and surfaced its status by switching the Buy button label to Owned after purchase.\n- Follow-ups: Manual in-browser click test to confirm capacity increases and button disable states.\n- Prompt: agents/work/prompts/002-surface-upgrade-controls.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Update",
+      "title": "Outline + Site Rebuild",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "Rebuilt the public site from the history log and refreshed stale documentation notes about the Corebound repo. No backlog edits were made.",
+      "fields": {
+        "Summary": "Rebuilt the public site from the history log and refreshed stale documentation notes about the Corebound repo. No backlog edits were made.",
+        "Files touched": "agents/outline.md, README.md, site/",
+        "Commands": "ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, ls -a corebound, python3 scripts/build_site.py, apply_patch",
+        "Decisions": "Kept edits minimal to only update stale repo notes; skipped git operations because none were configured.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Rebuilt the public site from the history log and refreshed stale documentation notes about the Corebound repo. No backlog edits were made.\n- Files touched: agents/outline.md, README.md, site/\n- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, ls -a corebound, python3 scripts/build_site.py, apply_patch\n- Decisions: Kept edits minimal to only update stale repo notes; skipped git operations because none were configured.\n- Follow-ups: none\n- Prompt: none\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Depth-Weighted Ore + Surface Selling",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Verified the local server command starts successfully and reviewed the depth-weighted ore selection and surface-only selling logic; requirements appear satisfied based on code inspection. Manual in-browser playtesting was not performed.",
+      "fields": {
+        "Summary": "Verified the local server command starts successfully and reviewed the depth-weighted ore selection and surface-only selling logic; requirements appear satisfied based on code inspection. Manual in-browser playtesting was not performed.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, sed -n '1,240p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -u -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid)",
+        "Decisions": "Accepted code inspection as evidence for ore depth bias and selling controls.",
+        "Prompt": "agents/work/prompts/001-depth-weighted-ore-surface-selling.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Verified the local server command starts successfully and reviewed the depth-weighted ore selection and surface-only selling logic; requirements appear satisfied based on code inspection. Manual in-browser playtesting was not performed.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, sed -n '1,240p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -u -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid)\n- Decisions: Accepted code inspection as evidence for ore depth bias and selling controls.\n- Follow-ups: Optional manual browser check for ore distribution and surface selling behavior.\n- Prompt: agents/work/prompts/001-depth-weighted-ore-surface-selling.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Troubleshoot",
+      "title": "Fix Verification Command",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Updated the verification command to use `python3` since `python` is not available, unblocking local server checks for the current task.",
+      "fields": {
+        "Summary": "Updated the verification command to use `python3` since `python` is not available, unblocking local server checks for the current task.",
+        "Files touched": "agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 50 agents/historylog.md, sed -n '1,120p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md",
+        "Decisions": "Kept the fix minimal by only changing the verification command.",
+        "Prompt": "agents/work/prompts/001-depth-weighted-ore-surface-selling.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Updated the verification command to use `python3` since `python` is not available, unblocking local server checks for the current task.\n- Files touched: agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 50 agents/historylog.md, sed -n '1,120p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md\n- Decisions: Kept the fix minimal by only changing the verification command.\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-depth-weighted-ore-surface-selling.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Depth-Weighted Ore + Surface Selling",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Added depth-weighted ore seeding, a surface-only Sell button, and cash handling with HUD updates. Verification failed because `python` is not installed, so the run is blocked.",
+      "fields": {
+        "Summary": "Added depth-weighted ore seeding, a surface-only Sell button, and cash handling with HUD updates. Verification failed because `python` is not installed, so the run is blocked.",
+        "Files touched": "agents/work/prompts/001-depth-weighted-ore-surface-selling.md, agents/work/task.md, corebound/game.js, corebound/index.html, corebound/style.css, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat README.md, cat <<'EOF' > agents/work/prompts/001-depth-weighted-ore-surface-selling.md, apply_patch, cat agents/roles/developer.md, cat agents/work/prompts/001-depth-weighted-ore-surface-selling.md, ls corebound, cat corebound/game.js, cat corebound/index.html, cat corebound/style.css, apply_patch (x2), cat agents/work/quickfix.md, cat agents/roles/refactor.md, timeout 2s python -m http.server (FAILED: python not found), cat agents/historylog.md",
+        "Decisions": "Implemented depth-based ore weighting to bias higher-value ore deeper while also increasing overall ore density with depth; Sell button hides unless at depth 0 with inventory.",
+        "Prompt": "agents/work/prompts/001-depth-weighted-ore-surface-selling.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Added depth-weighted ore seeding, a surface-only Sell button, and cash handling with HUD updates. Verification failed because `python` is not installed, so the run is blocked.\n- Files touched: agents/work/prompts/001-depth-weighted-ore-surface-selling.md, agents/work/task.md, corebound/game.js, corebound/index.html, corebound/style.css, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat README.md, cat <<'EOF' > agents/work/prompts/001-depth-weighted-ore-surface-selling.md, apply_patch, cat agents/roles/developer.md, cat agents/work/prompts/001-depth-weighted-ore-surface-selling.md, ls corebound, cat corebound/game.js, cat corebound/index.html, cat corebound/style.css, apply_patch (x2), cat agents/work/quickfix.md, cat agents/roles/refactor.md, timeout 2s python -m http.server (FAILED: python not found), cat agents/historylog.md\n- Decisions: Implemented depth-based ore weighting to bias higher-value ore deeper while also increasing overall ore density with depth; Sell button hides unless at depth 0 with inventory.\n- Follow-ups: Install `python` or update the verification command to `python3 -m http.server`, then rerun verification.\n- Prompt: agents/work/prompts/001-depth-weighted-ore-surface-selling.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Update",
+      "title": "Backlog Not Empty",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.",
+      "fields": {
+        "Summary": "The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, rg -n \"commit|push|git\" agents -g\"*.md\", ls -a corebound",
+        "Decisions": "Deferred outline/README updates and site rebuild until the backlog is empty.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, rg -n \"commit|push|git\" agents -g\"*.md\", ls -a corebound\n- Decisions: Deferred outline/README updates and site rebuild until the backlog is empty.\n- Follow-ups: Clear agents/work/tasksbacklog.md, then rerun the update cycle.\n- Prompt: none\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Update",
+      "title": "Backlog Not Empty",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.",
+      "fields": {
+        "Summary": "The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, sed -n '1,160p' agents/entrypoints/_update.md, sed -n '1,200p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' README.md",
+        "Decisions": "Deferred outline/README updates until backlog is empty.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: The update cycle is blocked because agents/work/tasksbacklog.md still contains active task cards. Skipped site rebuild and doc reconciliation.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, sed -n '1,160p' agents/entrypoints/_update.md, sed -n '1,200p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' README.md\n- Decisions: Deferred outline/README updates until backlog is empty.\n- Follow-ups: Clear agents/work/tasksbacklog.md, then rerun the update cycle.\n- Prompt: none\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Digging + Inventory + Ore Types",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations, verified the local server command, and reviewed digging/inventory/ore logic; requirements appear satisfied. Manual in-browser validation was not performed.",
+      "fields": {
+        "Summary": "Wrote QA expectations, verified the local server command, and reviewed digging/inventory/ore logic; requirements appear satisfied. Manual in-browser validation was not performed.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,520p' corebound/game.js, sed -n '1,200p' corebound/index.html, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -u -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid)",
+        "Decisions": "Accepted code inspection for gameplay behavior; noted that manual playtesting was not run.",
+        "Prompt": "agents/work/prompts/001-digging-inventory-ore.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Wrote QA expectations, verified the local server command, and reviewed digging/inventory/ore logic; requirements appear satisfied. Manual in-browser validation was not performed.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '260,520p' corebound/game.js, sed -n '1,200p' corebound/index.html, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -u -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid)\n- Decisions: Accepted code inspection for gameplay behavior; noted that manual playtesting was not run.\n- Follow-ups: Optional manual browser check for digging/inventory HUD behavior.\n- Prompt: agents/work/prompts/001-digging-inventory-ore.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Digging + Inventory + Ore Types",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Prevented ore tiles from being dug when inventory is full and verified the local server command. Refactor scan found no evidence-backed improvements.",
+      "fields": {
+        "Summary": "Prevented ore tiles from being dug when inventory is full and verified the local server command. Refactor scan found no evidence-backed improvements.",
+        "Files touched": "corebound/game.js, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/prompts/001-digging-inventory-ore.md, sed -n '1,200p' agents/roles/developer.md, ls corebound, sed -n '1,200p' corebound/game.js, sed -n '200,400p' corebound/game.js, sed -n '1,200p' corebound/index.html, apply_patch, python3 -m http.server 8000 (Ctrl-C), sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md",
+        "Decisions": "Blocked digging on ore tiles when inventory is full to avoid losing collectibles.",
+        "Prompt": "agents/work/prompts/001-digging-inventory-ore.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Prevented ore tiles from being dug when inventory is full and verified the local server command. Refactor scan found no evidence-backed improvements.\n- Files touched: corebound/game.js, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/prompts/001-digging-inventory-ore.md, sed -n '1,200p' agents/roles/developer.md, ls corebound, sed -n '1,200p' corebound/game.js, sed -n '200,400p' corebound/game.js, sed -n '1,200p' corebound/index.html, apply_patch, python3 -m http.server 8000 (Ctrl-C), sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md\n- Decisions: Blocked digging on ore tiles when inventory is full to avoid losing collectibles.\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-digging-inventory-ore.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Troubleshoot",
+      "title": "Update Verification Command",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Switched the task verification server command to `python3` to match the available interpreter and unblock local testing.",
+      "fields": {
+        "Summary": "Switched the task verification server command to `python3` to match the available interpreter and unblock local testing.",
+        "Files touched": "agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, sed -n '1,200p' agents/entrypoints/_troubleshoot.md, sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md",
+        "Decisions": "Kept the change minimal by only updating the verification command.",
+        "Prompt": "agents/work/prompts/001-digging-inventory-ore.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Switched the task verification server command to `python3` to match the available interpreter and unblock local testing.\n- Files touched: agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, sed -n '1,200p' agents/entrypoints/_troubleshoot.md, sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md\n- Decisions: Kept the change minimal by only updating the verification command.\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-digging-inventory-ore.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Digging + Inventory + Ore Types",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Added ore metadata, digging, and a capped inventory with HUD updates for the Corebound prototype. Verification command failed because `python` is not installed.",
+      "fields": {
+        "Summary": "Added ore metadata, digging, and a capped inventory with HUD updates for the Corebound prototype. Verification command failed because `python` is not installed.",
+        "Files touched": "agents/work/prompts/001-digging-inventory-ore.md, agents/work/task.md, corebound/game.js, corebound/index.html, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat <<'EOF' > agents/work/prompts/001-digging-inventory-ore.md, apply_patch (x10), cat agents/roles/developer.md, cat agents/work/prompts/001-digging-inventory-ore.md, sed -n '1,240p' corebound/game.js, sed -n '1,240p' corebound/index.html, rg -n \"world\\\\[\" corebound/game.js, python -m http.server (FAILED: python not found), cat agents/historylog.md",
+        "Decisions": "Ore tiles are always removed on dig; collection only occurs if inventory has capacity. Seeded ore randomly with a guarantee that each type appears at least once.",
+        "Prompt": "agents/work/prompts/001-digging-inventory-ore.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Added ore metadata, digging, and a capped inventory with HUD updates for the Corebound prototype. Verification command failed because `python` is not installed.\n- Files touched: agents/work/prompts/001-digging-inventory-ore.md, agents/work/task.md, corebound/game.js, corebound/index.html, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat <<'EOF' > agents/work/prompts/001-digging-inventory-ore.md, apply_patch (x10), cat agents/roles/developer.md, cat agents/work/prompts/001-digging-inventory-ore.md, sed -n '1,240p' corebound/game.js, sed -n '1,240p' corebound/index.html, rg -n \"world\\\\[\" corebound/game.js, python -m http.server (FAILED: python not found), cat agents/historylog.md\n- Decisions: Ore tiles are always removed on dig; collection only occurs if inventory has capacity. Seeded ore randomly with a guarantee that each type appears at least once.\n- Follow-ups: Install `python` or update the verification command to use `python3`, then rerun verification.\n- Prompt: agents/work/prompts/001-digging-inventory-ore.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Tile Grid + World Generation",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Ran the verification server command and reviewed the world-generation, collision, and depth HUD code; requirements appear satisfied. Visual page validation was not performed in a browser.",
+      "fields": {
+        "Summary": "Ran the verification server command and reviewed the world-generation, collision, and depth HUD code; requirements appear satisfied. Visual page validation was not performed in a browser.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid), timeout 2s python3 -u -m http.server 8000",
+        "Decisions": "Accepted code inspection as evidence for visual requirements given no browser run.",
+        "Prompt": "agents/work/prompts/002-tile-grid-world-generation.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Ran the verification server command and reviewed the world-generation, collision, and depth HUD code; requirements appear satisfied. Visual page validation was not performed in a browser.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python3 -m http.server, python3 -m http.server 8000 >/tmp/http.log 2>&1 & echo $! > /tmp/http.pid; sleep 1; cat /tmp/http.log; kill $(cat /tmp/http.pid), timeout 2s python3 -u -m http.server 8000\n- Decisions: Accepted code inspection as evidence for visual requirements given no browser run.\n- Follow-ups: Optional manual visual check in a browser to confirm tile rendering/collision feel.\n- Prompt: agents/work/prompts/002-tile-grid-world-generation.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Tile Grid + World Generation",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Confirmed the existing tile grid world generation, collision checks, and depth HUD already meet the task requirements; no code changes needed. Refactor scan found no evidence-backed improvements.",
+      "fields": {
+        "Summary": "Confirmed the existing tile grid world generation, collision checks, and depth HUD already meet the task requirements; no code changes needed. Refactor scan found no evidence-backed improvements.",
+        "Files touched": "none",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/work/prompts/002-tile-grid-world-generation.md, cat agents/roles/developer.md, cat corebound/game.js, cat corebound/index.html, cat corebound/style.css, timeout 2 python3 -m http.server, cat agents/roles/refactor.md, cat agents/roles/remediator.md, cat agents/work/quickfix.md, cat agents/historylog.md",
+        "Decisions": "none",
+        "Prompt": "agents/work/prompts/002-tile-grid-world-generation.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Confirmed the existing tile grid world generation, collision checks, and depth HUD already meet the task requirements; no code changes needed. Refactor scan found no evidence-backed improvements.\n- Files touched: none\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/work/prompts/002-tile-grid-world-generation.md, cat agents/roles/developer.md, cat corebound/game.js, cat corebound/index.html, cat corebound/style.css, timeout 2 python3 -m http.server, cat agents/roles/refactor.md, cat agents/roles/remediator.md, cat agents/work/quickfix.md, cat agents/historylog.md\n- Decisions: none\n- Follow-ups: none\n- Prompt: agents/work/prompts/002-tile-grid-world-generation.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Troubleshoot",
+      "title": "Fix Verification Command",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Updated the current task verification command to use `python3` since `python` is unavailable, unblocking local server checks.",
+      "fields": {
+        "Summary": "Updated the current task verification command to use `python3` since `python` is unavailable, unblocking local server checks.",
+        "Files touched": "agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md",
+        "Decisions": "Kept the fix minimal by only updating the verification command.",
+        "Prompt": "agents/work/prompts/002-tile-grid-world-generation.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Updated the current task verification command to use `python3` since `python` is unavailable, unblocking local server checks.\n- Files touched: agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md\n- Decisions: Kept the fix minimal by only updating the verification command.\n- Follow-ups: none\n- Prompt: agents/work/prompts/002-tile-grid-world-generation.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Tile Grid + World Generation",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations and attempted the verification command, but it failed because `python` is not installed, so runtime validation could not be completed.",
+      "fields": {
+        "Summary": "Wrote QA expectations and attempted the verification command, but it failed because `python` is not installed, so runtime validation could not be completed.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, ls corebound, sed -n '1,260p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python -m http.server (FAILED: python not found)",
+        "Decisions": "Marked the QA run as blocked due to the missing `python` interpreter required by the verification command.",
+        "Prompt": "agents/work/prompts/002-tile-grid-world-generation.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Wrote QA expectations and attempted the verification command, but it failed because `python` is not installed, so runtime validation could not be completed.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git diff --stat, ls corebound, sed -n '1,260p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/tester.md, timeout 2s python -m http.server (FAILED: python not found)\n- Decisions: Marked the QA run as blocked due to the missing `python` interpreter required by the verification command.\n- Follow-ups: Install `python` or update the verification command to use `python3`, then rerun QA.\n- Prompt: agents/work/prompts/002-tile-grid-world-generation.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Tile Grid + World Generation",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Added tile-grid world generation with a surface row, starter shaft, solid blocks, collision checks, and depth HUD updates. Refactor scan found no evidence-backed improvements.",
+      "fields": {
+        "Summary": "Added tile-grid world generation with a surface row, starter shaft, solid blocks, collision checks, and depth HUD updates. Refactor scan found no evidence-backed improvements.",
+        "Files touched": "agents/work/prompts/002-tile-grid-world-generation.md, agents/work/task.md, corebound/game.js",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat agents/historylog.md, cat agents/roles/developer.md, cat agents/work/prompts/002-tile-grid-world-generation.md, sed -n '1,240p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat <<'EOF' > agents/work/prompts/002-tile-grid-world-generation.md, apply_patch, cat <<'EOF' > corebound/game.js, python3 -m http.server (Ctrl-C), cat agents/roles/refactor.md, cat agents/work/quickfix.md",
+        "Decisions": "Used axis-separated collision checks and carved a two-tile-wide shaft at the spawn column (including the surface tile) to allow initial descent.",
+        "Prompt": "agents/work/prompts/002-tile-grid-world-generation.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Added tile-grid world generation with a surface row, starter shaft, solid blocks, collision checks, and depth HUD updates. Refactor scan found no evidence-backed improvements.\n- Files touched: agents/work/prompts/002-tile-grid-world-generation.md, agents/work/task.md, corebound/game.js\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat agents/historylog.md, cat agents/roles/developer.md, cat agents/work/prompts/002-tile-grid-world-generation.md, sed -n '1,240p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,240p' corebound/style.css, cat <<'EOF' > agents/work/prompts/002-tile-grid-world-generation.md, apply_patch, cat <<'EOF' > corebound/game.js, python3 -m http.server (Ctrl-C), cat agents/roles/refactor.md, cat agents/work/quickfix.md\n- Decisions: Used axis-separated collision checks and carved a two-tile-wide shaft at the spawn column (including the surface tile) to allow initial descent.\n- Follow-ups: none\n- Prompt: agents/work/prompts/002-tile-grid-world-generation.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "QA",
+      "title": "Corebound Canvas Scaffold",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations, ran the verification server command, and reviewed the scaffold files; no gaps found against the task requirements.",
+      "fields": {
+        "Summary": "Wrote QA expectations, ran the verification server command, and reviewed the scaffold files; no gaps found against the task requirements.",
+        "Files touched": "agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, ls corebound, sed -n '1,200p' corebound/index.html, sed -n '1,240p' corebound/style.css, sed -n '1,320p' corebound/game.js, git diff --stat, cat agents/roles/tester.md, timeout 1s python3 -m http.server, timeout 2s python3 -m http.server 8000, python3 -m http.server 8000 (Ctrl-C)",
+        "Decisions": "none",
+        "Prompt": "agents/work/prompts/001-corebound-canvas-scaffold.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Wrote QA expectations, ran the verification server command, and reviewed the scaffold files; no gaps found against the task requirements.\n- Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, ls corebound, sed -n '1,200p' corebound/index.html, sed -n '1,240p' corebound/style.css, sed -n '1,320p' corebound/game.js, git diff --stat, cat agents/roles/tester.md, timeout 1s python3 -m http.server, timeout 2s python3 -m http.server 8000, python3 -m http.server 8000 (Ctrl-C)\n- Decisions: none\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-corebound-canvas-scaffold.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Corebound Canvas Scaffold",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Confirmed the existing Corebound canvas scaffold meets the task requirements; no changes needed after developer and refactor scans.",
+      "fields": {
+        "Summary": "Confirmed the existing Corebound canvas scaffold meets the task requirements; no changes needed after developer and refactor scans.",
+        "Files touched": "none",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/001-corebound-canvas-scaffold.md, ls corebound, sed -n '1,160p' corebound/index.html, sed -n '1,200p' corebound/style.css, sed -n '1,240p' corebound/game.js, cat agents/work/quickfix.md, timeout 1s python3 -m http.server, sed -n '1,200p' agents/historylog.md, apply_patch",
+        "Decisions": "none",
+        "Prompt": "agents/work/prompts/001-corebound-canvas-scaffold.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Confirmed the existing Corebound canvas scaffold meets the task requirements; no changes needed after developer and refactor scans.\n- Files touched: none\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/001-corebound-canvas-scaffold.md, ls corebound, sed -n '1,160p' corebound/index.html, sed -n '1,200p' corebound/style.css, sed -n '1,240p' corebound/game.js, cat agents/work/quickfix.md, timeout 1s python3 -m http.server, sed -n '1,200p' agents/historylog.md, apply_patch\n- Decisions: none\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-corebound-canvas-scaffold.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Troubleshoot",
+      "title": "Update Verification Command",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Updated the verification command to use `python3` since `python` is not available, removing the blocker for local server checks.",
+      "fields": {
+        "Summary": "Updated the verification command to use `python3` since `python` is not available, removing the blocker for local server checks.",
+        "Files touched": "agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md",
+        "Decisions": "Switched to `python3 -m http.server` to match the available interpreter.",
+        "Prompt": "agents/work/prompts/001-corebound-canvas-scaffold.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Updated the verification command to use `python3` since `python` is not available, removing the blocker for local server checks.\n- Files touched: agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, apply_patch, printf '### TROUBLESHOOT_COMPLETE\\n' > agents/orchestrate_status.md\n- Decisions: Switched to `python3 -m http.server` to match the available interpreter.\n- Follow-ups: none\n- Prompt: agents/work/prompts/001-corebound-canvas-scaffold.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Corebound Canvas Scaffold",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Created static Corebound canvas page with HUD overlay, controls placeholder, and JS render loop with grid and player movement. Verification command failed because `python` is unavailable.",
+      "fields": {
+        "Summary": "Created static Corebound canvas page with HUD overlay, controls placeholder, and JS render loop with grid and player movement. Verification command failed because `python` is unavailable.",
+        "Files touched": "corebound/index.html, corebound/style.css, corebound/game.js, agents/work/prompts/001-corebound-canvas-scaffold.md, agents/work/task.md, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat agents/work/prompts/001-corebound-canvas-scaffold.md, cat agents/roles/developer.md, timeout 1 python -m http.server (FAILED: python not found)",
+        "Decisions": "Centered camera on player to show grid motion; kept HUD placeholder values static except depth derived from Y position.",
+        "Prompt": "agents/work/prompts/001-corebound-canvas-scaffold.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Created static Corebound canvas page with HUD overlay, controls placeholder, and JS render loop with grid and player movement. Verification command failed because `python` is unavailable.\n- Files touched: corebound/index.html, corebound/style.css, corebound/game.js, agents/work/prompts/001-corebound-canvas-scaffold.md, agents/work/task.md, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat agents/work/prompts/001-corebound-canvas-scaffold.md, cat agents/roles/developer.md, timeout 1 python -m http.server (FAILED: python not found)\n- Decisions: Centered camera on player to show grid motion; kept HUD placeholder values static except depth derived from Y position.\n- Follow-ups: Install/enable `python` or provide alternate local server command to verify.\n- Prompt: agents/work/prompts/001-corebound-canvas-scaffold.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Manager",
+      "title": "Corebound Vertical Slice Backlog",
+      "entrypoint": "_manage",
+      "loop": "Research",
+      "summary": "Decomposed the Corebound vertical-slice spec into six ordered task cards spanning scaffold, world gen, digging/inventory, selling, upgrade, and hardening. Moved the spec from staging to specs and queued tasks in the backlog.",
+      "fields": {
+        "Summary": "Decomposed the Corebound vertical-slice spec into six ordered task cards spanning scaffold, world gen, digging/inventory, selling, upgrade, and hardening. Moved the spec from staging to specs and queued tasks in the backlog.",
+        "Files touched": "agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, agents/ideas/specs/corebound-prompt-03-05-26-03-spec.md, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_manage.md, cat README.md, cat agents/outline.md, ls agents/ideas/staging, cat agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls agents/ideas, cat agents/historylog.md, printf '### MANAGE_RUNNING\\n' > agents/research_status.md, cat <<'EOF' > agents/work/tasksbacklog.md, mv agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md agents/ideas/specs/, python - <<'PY' (FAILED: command not found), python3 - <<'PY' (x3)",
+        "Decisions": "Assumed Space for digging, a surface Sell button, and a single inventory-capacity upgrade to keep the slice minimal.",
+        "Prompt": "agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md",
+        "Report artifacts": "agents/work/tasksbacklog.md"
+      },
+      "details": "- Summary: Decomposed the Corebound vertical-slice spec into six ordered task cards spanning scaffold, world gen, digging/inventory, selling, upgrade, and hardening. Moved the spec from staging to specs and queued tasks in the backlog.\n- Files touched: agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, agents/ideas/specs/corebound-prompt-03-05-26-03-spec.md, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_manage.md, cat README.md, cat agents/outline.md, ls agents/ideas/staging, cat agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls agents/ideas, cat agents/historylog.md, printf '### MANAGE_RUNNING\\n' > agents/research_status.md, cat <<'EOF' > agents/work/tasksbacklog.md, mv agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md agents/ideas/specs/, python - <<'PY' (FAILED: command not found), python3 - <<'PY' (x3)\n- Decisions: Assumed Space for digging, a surface Sell button, and a single inventory-capacity upgrade to keep the slice minimal.\n- Follow-ups: Confirm control scheme beyond WASD/arrows and whether the preferred upgrade should be dig speed instead.\n- Prompt: agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md\n- Report artifacts: agents/work/tasksbacklog.md"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Researcher",
+      "title": "Corebound Goal",
+      "entrypoint": "_research",
+      "loop": "Research",
+      "summary": "Converted the Corebound prompt into a concrete, testable spec for a minimal playable mining loop. Recorded repo constraints (empty game repo) and scoped requirements to a lightweight, self-contained browser implementation.",
+      "fields": {
+        "Summary": "Converted the Corebound prompt into a concrete, testable spec for a minimal playable mining loop. Recorded repo constraints (empty game repo) and scoped requirements to a lightweight, self-contained browser implementation.",
+        "Files touched": "agents/research_status.md, agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_research.md, ls -lt agents/ideas/inbox, cat agents/ideas/inbox/corebound-prompt-03-05-26-03.md, cat agents/roles/analyze.md, cat agents/roles/search.md, cat agents/roles/articulate.md, cat agents/outline.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksbackburner.md, cat agents/work/tasksarchive.md, ls -la corebound, ls agents/ideas, cat agents/historylog.md",
+        "Decisions": "Skipped external search because the prompt did not require external data.",
+        "Prompt": "agents/ideas/inbox/corebound-prompt-03-05-26-03.md",
+        "Report artifacts": "agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md"
+      },
+      "details": "- Summary: Converted the Corebound prompt into a concrete, testable spec for a minimal playable mining loop. Recorded repo constraints (empty game repo) and scoped requirements to a lightweight, self-contained browser implementation.\n- Files touched: agents/research_status.md, agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_research.md, ls -lt agents/ideas/inbox, cat agents/ideas/inbox/corebound-prompt-03-05-26-03.md, cat agents/roles/analyze.md, cat agents/roles/search.md, cat agents/roles/articulate.md, cat agents/outline.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksbackburner.md, cat agents/work/tasksarchive.md, ls -la corebound, ls agents/ideas, cat agents/historylog.md\n- Decisions: Skipped external search because the prompt did not require external data.\n- Follow-ups: Confirm preferred controls and upgrade choice before implementation.\n- Prompt: agents/ideas/inbox/corebound-prompt-03-05-26-03.md\n- Report artifacts: agents/ideas/staging/corebound-prompt-03-05-26-03-spec.md"
+    },
+    {
+      "date": "2026-03-05",
+      "role": "Builder",
+      "title": "Depth-Weighted Ore + Surface Selling",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Confirmed depth-weighted ore seeding and surface-only selling are already implemented; no code changes needed. Refactor scan found no evidence-backed improvements. Ran the local server command with a timeout; manual in-browser selling check not performed.",
+      "fields": {
+        "Summary": "Confirmed depth-weighted ore seeding and surface-only selling are already implemented; no code changes needed. Refactor scan found no evidence-backed improvements. Ran the local server command with a timeout; manual in-browser selling check not performed.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/001-depth-weighted-ore-surface-selling.md, cat agents/roles/developer.md, ls corebound, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, sed -n '1,220p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/refactor.md, cat agents/roles/remediator.md, cat agents/work/quickfix.md, timeout 2s python3 -m http.server, cat agents/historylog.md",
+        "Decisions": "none",
+        "Prompt": "agents/work/prompts/001-depth-weighted-ore-surface-selling.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Confirmed depth-weighted ore seeding and surface-only selling are already implemented; no code changes needed. Refactor scan found no evidence-backed improvements. Ran the local server command with a timeout; manual in-browser selling check not performed.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/001-depth-weighted-ore-surface-selling.md, cat agents/roles/developer.md, ls corebound, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, sed -n '1,220p' corebound/index.html, sed -n '1,220p' corebound/style.css, cat agents/roles/refactor.md, cat agents/roles/remediator.md, cat agents/work/quickfix.md, timeout 2s python3 -m http.server, cat agents/historylog.md\n- Decisions: none\n- Follow-ups: Optional manual browser check to confirm surface selling behavior.\n- Prompt: agents/work/prompts/001-depth-weighted-ore-surface-selling.md\n- Report artifacts: none"
+    }
+  ]
+}

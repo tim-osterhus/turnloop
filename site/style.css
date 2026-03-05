@@ -1,0 +1,122 @@
+:root {
+  --bg: #0a0a0b;
+  --surface: #121214;
+  --border: #252528;
+  --text: #e8e6ed;
+  --text-muted: #807e88;
+  --accent: #dc2626;
+  --accent-soft: #ef4444;
+  --accent-dim: rgba(220,38,38,0.08);
+  --accent-glow: rgba(220,38,38,0.12);
+  --cream: #f0eef5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  line-height: 1.6;
+}
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  font-family: "Clash Display", sans-serif;
+}
+header p {
+  margin: 0 0 24px;
+  color: var(--text-muted);
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+label {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+select, button {
+  background: #0f1013;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+button {
+  cursor: pointer;
+}
+button.active {
+  border-color: var(--accent);
+  color: var(--accent-soft);
+}
+.entry {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.entry h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-family: "Clash Display", sans-serif;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.badge {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--accent-soft);
+}
+.summary {
+  margin-top: 10px;
+  color: var(--text);
+}
+.details {
+  margin-top: 12px;
+}
+.details pre {
+  margin: 0;
+  background: #0b0c0e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  white-space: pre-wrap;
+  color: var(--text-muted);
+  font-family: "JetBrains Mono", monospace;
+}
+.footer {
+  margin-top: 32px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
