@@ -1,3 +1,138 @@
+[2026-03-05] QA • Validator: Requirements Keywords
+- Summary: Ran QA verification commands; missing requirement lines and double-keyword cases failed as expected, and the staging spec validates cleanly.
+- Files touched: agents/work/expectations.md, agents/.tmp/spec-missing-req-lines.md, agents/.tmp/spec-double-keyword.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, python - <<'PY' ... PY, cat agents/historylog.md, git status --short, sed -n '1,260p' agents/scripts/validate_spec.sh, git diff --stat, cat agents/roles/tester.md, cat > agents/.tmp/spec-missing-req-lines.md ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?", cat > agents/.tmp/spec-double-keyword.md ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; rg -n "keyword|SHALL" agents/ideas/validation_reports/spec-double-keyword.validation.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/ideas/validation_reports/spec-double-keyword.validation.md
+
+[2026-03-05] Builder • Validator: Requirements Keywords
+- Summary: Verified the validator already enforces Requirements line rules, ran the required checks, and closed the quickfix after confirming the staging spec is present and validates cleanly.
+- Files touched: agents/work/quickfix.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls -la, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/prompts/002-validator-requirements-line-rules.md, sed -n '1,200p' agents/roles/developer.md, sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/roles/remediator.md, sed -n '1,260p' agents/scripts/validate_spec.sh, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, ls -la agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cmp -s agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "cmp_exit=$?"
+- Decisions: No code changes needed; existing validator logic already matched the Requirements line rules.
+- Follow-ups: none
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Troubleshoot • Restore staging spec (again)
+- Summary: Restored the missing staging spec into agents/ideas/staging by copying the archived spec so validation can run.
+- Files touched: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, ls -la agents/ideas/staging, ls -la agents/ideas/specs | rg 'turnloop-spec-validation-2026-03-05.md', cp agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Minimal fix by copying the staging file from specs.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Builder • Validator: Requirements Keywords
+- Summary: Added the prompt link to the task file and ran the verification commands. Validation is blocked because the staging spec file is missing, so the final command failed.
+- Files touched: agents/work/task.md, agents/.tmp/spec-missing-req-lines.md, agents/.tmp/spec-double-keyword.md, agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/ideas/validation_reports/spec-double-keyword.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/work/prompts/002-validator-requirements-line-rules.md, cat agents/roles/developer.md, sed -n '1,220p' agents/scripts/validate_spec.sh, cat > agents/.tmp/spec-missing-req-lines.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?", cat > agents/.tmp/spec-double-keyword.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; rg -n "keyword|SHALL" agents/ideas/validation_reports/spec-double-keyword.validation.md, bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Stopped after the missing staging spec file per the Builder stop conditions.
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md so staging validation can run.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-missing-req-lines.validation.md, agents/ideas/validation_reports/spec-double-keyword.validation.md
+
+[2026-03-05] QA • Validator: Requirements Line Rules
+- Summary: Ran QA verification commands; negative cases failed as expected, but staging validation is blocked because the staging spec file is missing.
+- Files touched: agents/work/expectations.md, agents/work/quickfix.md, agents/orchestrate_status.md, agents/historylog.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n "1,260p" agents/scripts/validate_spec.sh, ls -la agents/ideas/staging, sed -n "1,240p" agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, cat agents/roles/tester.md, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "exit=$?", cat agents/roles/double-check.md, ls -la agents/ideas/validation_reports
+- Decisions: none
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md from agents/ideas/specs/turnloop-spec-validation-2026-03-05.md and re-run the staging validation command.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Builder • Validator: Requirements Line Rules
+- Summary: Confirmed the validator already enforces the requirements line rules and ran the verification commands. Validation is blocked because the staging spec file is missing, so the final command failed.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/002-validator-requirements-line-rules.md, cat agents/roles/developer.md, cat agents/roles/refactor.md, cat agents/roles/remediator.md, sed -n '1,240p' agents/scripts/validate_spec.sh, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: none
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md so staging validation can run.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] QA • Validator: Requirements Line Rules
+- Summary: Ran the verification commands. The two negative tests failed as expected; staging validation is blocked because the staging spec is still missing, so the quickfix remains open.
+- Files touched: agents/work/expectations.md, agents/work/quickfix.md, agents/orchestrate_status.md, agents/historylog.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' agents/scripts/validate_spec.sh, ls -la agents/ideas/staging, ls -la agents/ideas/specs, cat agents/roles/tester.md, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "exit=$?", cat agents/roles/double-check.md
+- Decisions: none
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md from agents/ideas/specs/turnloop-spec-validation-2026-03-05.md and re-run the staging validation command.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Builder • Validator: Requirements Line Rules
+- Summary: Confirmed the validator already enforces requirement line rules and ran the verification commands. Validation is blocked because the staging spec file is missing, so the final command could not run.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/002-validator-requirements-line-rules.md, cat agents/roles/developer.md, cat agents/roles/refactor.md, cat agents/roles/remediator.md, sed -n '1,240p' agents/scripts/validate_spec.sh, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: none
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md so staging validation can run.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] QA • Validator: Requirements Line Rules
+- Summary: Wrote QA expectations and ran verification commands. The two negative tests failed as expected; staging validation is blocked because the staging spec is missing in agents/ideas/staging, so a quickfix is required.
+- Files touched: agents/work/expectations.md, agents/work/quickfix.md, agents/orchestrate_status.md, agents/historylog.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git diff --stat, sed -n '1,260p' agents/scripts/validate_spec.sh, git diff -- agents/scripts/validate_spec.sh, cat agents/roles/tester.md, printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "exit=$?", ls -la agents/ideas/staging, ls -la agents/ideas/specs
+- Decisions: none
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md from agents/ideas/specs/turnloop-spec-validation-2026-03-05.md.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md
+
+[2026-03-05] Manager • Spec Validation Decomposition
+- Summary: Added a backlog card for Requirements section keyword rules and moved the staging spec into specs after processing.
+- Files touched: agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_manage.md, cat README.md, cat agents/outline.md, ls agents/ideas/staging, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, diff -q agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, diff -u agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, mv -f agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, apply_patch
+- Decisions: Assumed requirement keywords are uppercase `SHALL`/`SHALL NOT` to resolve ambiguous wording; overwrote the prior specs copy with the newer staging version.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
+[2026-03-05] Builder • Validator: Requirements Line Rules
+- Summary: Fixed validator arithmetic to avoid set -e early exits and updated the staging spec requirements so each line contains a single SHALL keyword. Refactor scan found no evidence-backed improvements.
+- Files touched: agents/scripts/validate_spec.sh, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md, agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/002-validator-requirements-line-rules.md, sed -n '1,240p' agents/scripts/validate_spec.sh, bash -x agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md 2>&1 | head -n 200, bash -x agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md 2>&1 | tail -n 80, bash -x agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md > /tmp/trace-validate.txt 2>&1; echo "exit=$?"; tail -n 80 /tmp/trace-validate.txt, tail -n 200 /tmp/trace-validate.txt, ls agents/ideas/validation_reports, sed -n '1,240p' agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, printf '%s\n' ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf '%s\n' ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md; echo "exit=$?", cat agents/work/quickfix.md, cat agents/roles/developer.md, cat agents/roles/refactor.md
+- Decisions: Use arithmetic assignment to avoid `((var++))` exiting under `set -e`; split multi-SHALL requirements into single-SHALL bullets to keep the staging spec compliant.
+- Follow-ups: none
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/ideas/validation_reports/spec-double-shall.validation.md, agents/ideas/validation_reports/turnloop-spec-validation-2026-03-05.validation.md
+
+[2026-03-05] Troubleshoot • Restore staging spec
+- Summary: Restored the missing staging spec into agents/ideas/staging so validation can run.
+- Files touched: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/historylog.md, ls -la agents/ideas/staging, ls -la agents/ideas/specs, cp agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Minimal fix by restoring the staging file from specs.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Builder • Validator: Requirements Line Rules
+- Summary: Added Requirements section line validation to require at least one bullet/numbered requirement and enforce exactly one SHALL/SHALL NOT per requirement line. Validation is blocked because the staging spec file is missing.
+- Files touched: agents/scripts/validate_spec.sh, agents/work/prompts/002-validator-requirements-line-rules.md, agents/work/task.md, agents/.tmp/spec-bad-requirements.md, agents/.tmp/spec-double-shall.md, agents/ideas/validation_reports/spec-bad-requirements.validation.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,220p' agents/roles/prompt-architect.md, sed -n '1,120p' agents/historylog.md, cat > agents/work/prompts/002-validator-requirements-line-rules.md, apply_patch, sed -n '1,220p' agents/roles/developer.md, cat agents/work/prompts/002-validator-requirements-line-rules.md, sed -n '1,260p' agents/scripts/validate_spec.sh, apply_patch, printf '%s\\n' ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-bad-requirements.md; echo "exit=$?", printf '%s\\n' ...; bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-shall.md; echo "exit=$?", bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, ls -1 agents/ideas/validation_reports
+- Decisions: Enforced SHALL counts by stripping SHALL NOT before counting remaining SHALL occurrences; only require bullet/numbered lines when the Requirements heading is present.
+- Follow-ups: Restore agents/ideas/staging/turnloop-spec-validation-2026-03-05.md so the staging validation can run.
+- Prompt: agents/work/prompts/002-validator-requirements-line-rules.md
+- Report artifacts: agents/ideas/validation_reports/spec-bad-requirements.validation.md
+
+[2026-03-05] Update • Journal Refresh
+- Summary: Regenerated the public journal site data and synced repo changes; no outline/README updates were needed.
+- Files touched: site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: python3 scripts/build_site.py; git add -A; git commit -m "Update validator workflow artifacts"; git push
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-05] Manager • Spec Validation Decomposition (No-Op)
+- Summary: Reviewed the staging spec; all required task cards already exist in the backlog or archive, so no new cards were added. Re-archived the spec.
+- Files touched: agents/research_status.md, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_manage.md, ls agents/ideas/staging, cat README.md, cat agents/outline.md, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, wc -l agents/work/tasksbacklog.md, rg -n "Validator" agents/work/tasksarchive.md, head -n 40 agents/historylog.md, ls agents/ideas/specs, cmp -s agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md; echo "cmp_exit=$?", printf '### MANAGE_RUNNING' > agents/research_status.md, mv -f agents/ideas/staging/turnloop-spec-validation-2026-03-05.md agents/ideas/specs/turnloop-spec-validation-2026-03-05.md, apply_patch, printf '### IDLE' > agents/research_status.md
+- Decisions: Reused existing backlog/archive cards to avoid duplicates.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
 [2026-03-05] QA • Validator: Required Headings + Scope Labels
 - Summary: Verified missing-heading detection and Scope label validation behavior; both verification commands passed, including staging spec validation.
 - Files touched: agents/work/expectations.md, agents/.tmp/spec-missing-heading.md, agents/ideas/validation_reports/spec-missing-heading.validation.md, agents/historylog.md, agents/orchestrate_status.md

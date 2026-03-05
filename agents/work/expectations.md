@@ -1,25 +1,61 @@
-# Expectations
+# Goal
+Enforce Requirements section keyword rules: at least one requirement line and exactly one of `SHALL` or `SHALL NOT` per requirement line.
 
-## Goal
-Enforce required section headings (case-insensitive) and required `Scope (In / Out)` labels (`In:` and `Out:`) in spec validation.
+# Expected behavior
+- Validator identifies bullet or numbered requirement lines only within the Requirements section.
+- If Requirements section has no bullet/numbered lines, validation fails with a distinct report message about missing requirement lines.
+- Each requirement line must contain exactly one keyword: `SHALL` or `SHALL NOT` (case-sensitive), treating `SHALL NOT` as a single keyword.
+- Requirement lines containing zero keywords or multiple keyword matches fail with a distinct violation.
 
-## Expected behavior
-- Validator parses Markdown headings and fails if any required section title is missing, regardless of heading case.
-- Validator checks the `Scope (In / Out)` section for lines containing `In:` and `Out:` labels; missing either causes failure.
-- A distinct violation message is recorded for each missing heading or missing label.
-- A spec missing `Open questions` fails validation and the report mentions the missing heading.
-- The staging spec `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` validates successfully.
+# Expected file changes
+- `agents/scripts/validate_spec.sh`
 
-## Expected file changes
-- `agents/scripts/validate_spec.sh` updated to implement the new checks and messaging.
-
-## Verification commands
-- `printf '%s\n' "# Summary" "# Problem statement" "# Scope (In / Out)" "In: test" "Out: test" "# Constraints" "# Requirements" "- This SHALL be present." "# Verification plan" "# Assumptions" > agents/.tmp/spec-missing-heading.md; bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-heading.md; echo "exit=$?"`
+# Verification commands
+- `cat > agents/.tmp/spec-missing-req-lines.md <<'EOF'
+# Summary
+ok
+# Problem statement
+ok
+# Scope (In / Out)
+In: ok
+Out: ok
+# Constraints
+ok
+# Requirements
+No bullets here.
+# Verification plan
+ok
+# Assumptions
+ok
+# Open questions
+ok
+EOF
+bash agents/scripts/validate_spec.sh agents/.tmp/spec-missing-req-lines.md; echo "exit=$?"`
+- `cat > agents/.tmp/spec-double-keyword.md <<'EOF'
+# Summary
+ok
+# Problem statement
+ok
+# Scope (In / Out)
+In: ok
+Out: ok
+# Constraints
+ok
+# Requirements
+- This SHALL and SHALL NOT both appear.
+# Verification plan
+ok
+# Assumptions
+ok
+# Open questions
+ok
+EOF
+bash agents/scripts/validate_spec.sh agents/.tmp/spec-double-keyword.md; rg -n "keyword|SHALL" agents/ideas/validation_reports/spec-double-keyword.validation.md`
 - `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md`
 
-## Non-functional requirements
-- Maintain existing validation report format and output location.
-- Avoid false positives from heading case differences.
+# Non-functional requirements
+- Only validate requirement lines inside the Requirements section.
+- Do not add heading presence checks, scope label checks, or report formatting changes.
 
-## Notes / assumptions
-- Required headings list is defined in `agents/scripts/validate_spec.sh` or related config and should include `Open questions`.
+# Notes / assumptions
+- Requirement keywords are uppercase `SHALL` and `SHALL NOT` only.

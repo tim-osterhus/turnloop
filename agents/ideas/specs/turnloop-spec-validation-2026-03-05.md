@@ -23,10 +23,13 @@ Out:
 - The system SHALL add a script at `agents/scripts/validate_spec.sh` that accepts a spec file path and exits 0 only when all validation rules pass, otherwise exits non-zero.
 - The validator SHALL require the following section headings (case-insensitive match) to appear as Markdown headings: `Summary`, `Problem statement`, `Scope (In / Out)`, `Constraints`, `Requirements`, `Verification plan`, `Assumptions`, `Open questions`.
 - The validator SHALL require the `Scope (In / Out)` section to include both an `In:` label and an `Out:` label.
-- The validator SHALL require the `Requirements` section to contain at least one bullet or numbered line, and each such line SHALL contain exactly one of `SHALL` or `SHALL NOT`.
+- The validator SHALL require the `Requirements` section to contain at least one bullet or numbered line.
+- The validator SHALL require each `Requirements` bullet or numbered line to contain exactly one requirement keyword.
 - On validation failure, the validator SHALL write a report file to `agents/ideas/validation_reports/<spec_basename>.validation.md` that lists each violation and the spec path.
 - The research loop SHALL run `agents/scripts/validate_spec.sh` against the oldest file in `agents/ideas/staging/` before invoking `agents/entrypoints/_manage.md`.
-- If spec validation fails, the research loop SHALL set `agents/research_status.md` to `### BLOCKED`, SHALL skip the Manager run for that cycle, and SHALL invoke `handle_mechanic "manage"`.
+- If spec validation fails, the research loop SHALL set `agents/research_status.md` to `### BLOCKED`.
+- If spec validation fails, the research loop SHALL skip the Manager run for that cycle.
+- If spec validation fails, the research loop SHALL invoke `handle_mechanic "manage"`.
 
 # Verification plan
 - Run `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` and expect exit code 0 with a brief OK message and no report file generated.
