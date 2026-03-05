@@ -43,6 +43,17 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - `agents/ideas/`: research intake and spec staging.
 - `agents/historylog.md`: prepend‑only run log.
 
+## How To Use Turnloop
+1. Add execution work by writing task cards into `agents/work/tasksbacklog.md`.
+2. Add research work by dropping a prompt file into `agents/ideas/inbox/`.
+3. Start the loops (see Running The Loops below).
+4. Monitor progress using:
+   - `agents/orchestrate_status.md`
+   - `agents/research_status.md`
+   - `agents/historylog.md`
+5. If a task is auto‑demoted, review it in `agents/work/tasksbackburner.md`.
+6. To stop the loops, create `agents/AUTONOMY_COMPLETE`.
+
 ## Running The Loops
 These scripts are designed to be long‑running foreground processes:
 
@@ -70,13 +81,8 @@ Task cards belong in `agents/work/tasksbacklog.md` and should include explicit f
 Turnloop expects a CLI runner such as Codex or Claude.
 Runners are invoked by the loop scripts, and each entrypoint is executed with its required reasoning level.
 
-## Corebound
-The `corebound/` folder is a separate git repository and is intentionally untracked by Turnloop.
-It is currently empty and reserved for the Corebound game project.
-
-Public repos (for reference):
+Public repo (for reference):
 - Turnloop: `https://github.com/tim-osterhus/turnloop`
-- Corebound: `https://github.com/tim-osterhus/corebound`
 
 ## Public Repo Notes
 - Do not commit secrets or credentials.
