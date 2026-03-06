@@ -1,3 +1,30 @@
+[2026-03-06] QA • Per-Stratum Ore Tables + New Ore
+- Summary: Verified per-stratum ore tables with deeper-only `gold`: VM harness found 0 gold in `shallows` and 167 gold in `deep-core`, and deep expected value per solid tile (3.994) exceeds shallow (0.985). Headless Chromium load showed HUD updates (Cu/Fe/Au counts) and no JS error keywords.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,200p' agents/entrypoints/_check.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,220p' agents/work/prompts/011-per-stratum-ore-tables-new-ore.md, apply_patch (agents/work/expectations.md), cd corebound && git diff --name-only, python3 -m http.server 8000 (+ curl -I), node - (VM ore-table harness), headless Chromium --dump-dom (+ rg)
+- Decisions: Used a Node VM harness and headless Chromium load to validate ore-by-stratum behavior without an interactive browser session.
+- Follow-ups: none
+- Prompt: agents/work/prompts/011-per-stratum-ore-tables-new-ore.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Per-Stratum Ore Tables + New Ore
+- Summary: Created the missing prompt artifact and linked it from the active task, then replaced depth-ratio ore generation with per-stratum ore tables in Corebound and added a deeper-only `gold` ore. Refactor remained a no-op because verification surfaced no evidence-backed follow-up change, and the remediator step was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/011-per-stratum-ore-tables-new-ore.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' agents/work/task.md, sed -n '1,220p' agents/roles/developer.md, sed -n '1,220p' agents/roles/refactor.md, sed -n '1,220p' agents/roles/remediator.md, ls -1 agents/work/prompts, sed -n '1,220p' agents/work/quickfix.md, sed -n '1,220p' agents/roles/prompt-architect.md, rg -n "Prompt:" agents/work/task.md agents/historylog.md agents/work/prompts -S, sed -n '1,240p' agents/work/prompts/010-apply-strata-metadata-world-generation.md, head -n 30 agents/historylog.md, rg -n "STRATA|getStratumForRow|ore|ORES|sell|value|generate|world" corebound/game.js -S, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, apply_patch (agents/work/prompts/011-per-stratum-ore-tables-new-ore.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md), timeout 2s python3 -m http.server 8000 (exit 124 after timeout), node - <<'NODE' (VM ore-table verification harness, pass), git status --short, git diff -- agents/work/task.md agents/work/prompts/011-per-stratum-ore-tables-new-ore.md corebound/game.js, sed -n '1,80p' agents/orchestrate_status.md
+- Decisions: Added `gold` as the deeper-only ore; modeled ore generation with per-stratum `oreChance` plus weighted ore tables keyed by stratum id; constrained fallback seeding to strata where each ore has a positive weight so shallow rows cannot receive the deeper-only ore through the guarantee path.
+- Follow-ups: none
+- Prompt: agents/work/prompts/011-per-stratum-ore-tables-new-ore.md
+- Report artifacts: none
+
+[2026-03-06] Update • Outline Strata Metadata + Site Build
+- Summary: Updated the Corebound outline to reflect strata metadata on underground solid tiles, rebuilt the public journal site, and committed/pushed pending Turnloop and Corebound changes.
+- Files touched: agents/outline.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_update.md; cat agents/work/tasksarchive.md; cat agents/work/tasksbacklog.md; cat agents/historylog.md; cat agents/outline.md; cat README.md; rg -n "stratum" corebound/game.js; python3 scripts/build_site.py; git status --short; git add -A; git commit -m "Sync update artifacts and site build"; git push; git -C corebound add -A; git -C corebound commit -m "Tag strata metadata on solid tiles"; git -C corebound push
+- Decisions: Kept README unchanged because it already reflects current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Apply Strata Metadata in World Generation
 - Summary: Verified world generation preserves a traversable surface row and carved starter shaft (air tiles), and that underground solid tiles expose `stratumId`/`stratumName` metadata matching the row’s resolved stratum (evidence via local HTTP serve + Node VM harness).
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
