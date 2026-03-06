@@ -97,9 +97,13 @@ run_entrypoint() {
   local entry="$1"
   local model="$2"
   local effort="$3"
-  local entry_name codex_log
+  local entry_name codex_log instruction
   entry_name="$(basename "$entry" .md)"
   codex_log="${LOG_DIR}/research_${entry_name}.log"
+  instruction="Open ${entry} and follow instructions."
+  if [ "$entry" = "$ENTRY_MANAGE" ] && [ -n "${TURNLOOP_STAGING_SPEC:-}" ]; then
+    instruction="${instruction} Use the already-selected staging spec at ${TURNLOOP_STAGING_SPEC} for this run."
+  fi
   if ! command -v "$RUNNER" >/dev/null 2>&1; then
     echo "Missing runner: $RUNNER" >&2
     write_status "### BLOCKED"
@@ -109,12 +113,12 @@ run_entrypoint() {
   if [ "$RUNNER" = "codex" ]; then
     env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
       "$RUNNER" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
-      -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
+      -c "model_reasoning_effort=\"${effort}\"" "$instruction" \
       >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$model" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
+    "$RUNNER" -p "$instruction" --model "$model" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
-    "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
+    "$RUNNER" "$instruction" || { write_status "### BLOCKED"; return 1; }
   fi
 }
 
@@ -218,13 +222,13 @@ while true; do
       handle_mechanic "manage"
     else
       log "Validating staging spec: $staging_spec"
-      if ! "${SCRIPT_DIR}/validate_spec.sh" "$staging_spec"; then
+      if ! "${SCRIPT_DIR}"/validate_spec.sh "$staging_spec"; then
         log "Staging validation failed for $staging_spec"
         write_status "### BLOCKED"
         handle_mechanic "manage"
       else
         log "Starting entrypoint: _manage.md"
-      run_entrypoint "$ENTRY_MANAGE" "$MANAGE_MODEL" "$MANAGE_EFFORT" || true
+        TURNLOOP_STAGING_SPEC="$staging_spec" run_entrypoint "$ENTRY_MANAGE" "$MANAGE_MODEL" "$MANAGE_EFFORT" || true
         log "Finished entrypoint: _manage.md (status=$(get_status))"
         case "$(get_status)" in
           "### IDLE")

@@ -1,33 +1,23 @@
-# Expectations - 2026-03-06 Manager Oldest-Only Staging Contract
-
 ## Goal
-Validate that `agents/entrypoints/_manage.md` now instructs the Manager to process exactly one staging spec per run, specifically the oldest eligible staging file, while preserving existing status-file and history-log rules.
+Confirm that the research loop selects one oldest staging spec per manage cycle, validates that exact path, and passes the same path into the Manager invocation deterministically.
 
 ## Expected behavior
-- The Manager instructions state that each run processes exactly one file.
-- The selected file is defined as the oldest eligible file in `agents/ideas/staging/`.
-- If a caller provides a path, the instructions still constrain the run to the oldest file being processed for that run.
-- The workflow and success criteria state that only the processed oldest staging spec moves to `agents/ideas/specs/`.
-- The instructions explicitly say newer staging files remain queued or unprocessed after a successful run.
-- Existing overwrite-only status-file rules and history-log requirements remain present.
+- `agents/scripts/research_loop.sh` assigns a single `staging_spec` from `oldest_file "$STAGING_DIR"` during the manage cycle.
+- The script reuses `"$staging_spec"` for staging-spec validation instead of recomputing another oldest-file result later in the same cycle.
+- The Manager entrypoint is invoked with the same selected path made available through repo-local process state, such as `TURNLOOP_STAGING_SPEC="$staging_spec"`.
+- The manage cycle does not switch to a newer staging spec after validation during that same cycle.
 
 ## Expected file changes
-- `agents/entrypoints/_manage.md` contains the oldest-only staging selection language in the critical rules, inputs, workflow, and success criteria sections.
-- No implementation changes are expected outside `agents/entrypoints/_manage.md`.
+- `agents/scripts/research_loop.sh` only, with changes limited to selecting, validating, and handing off the chosen staging spec path.
 
 ## Verification commands
-- `rg -n 'process exactly one file per run|oldest file in \`agents/ideas/staging/\`|leave newer unprocessed staging specs|move only the processed oldest staging spec' agents/entrypoints/_manage.md`
-  - Expected: all four phrases match.
-- `sed -n '1,260p' agents/entrypoints/_manage.md`
-  - Expected: the surrounding instructions consistently enforce oldest-only processing and retain the existing overwrite-only status-file and history-log requirements.
-- `git diff -- agents/entrypoints/_manage.md`
-  - Expected: changes are limited to the Manager entrypoint and align with the task scope.
+- `rg -n 'staging_spec="\\$\\(oldest_file "\\$STAGING_DIR"\\)"|validate_spec.sh "\\$staging_spec"|TURNLOOP_STAGING_SPEC="\\$staging_spec"|run_entrypoint "\\$ENTRY_MANAGE"' agents/scripts/research_loop.sh`
+- `bash -n agents/scripts/research_loop.sh`
 
 ## Non-functional requirements
-- The instructions are internally consistent with no batch-processing ambiguity.
-- The task scope stays limited to Manager instructions and does not introduce loop-script, validator, or execution-loop changes.
-- The file remains readable and specific enough for an agent to execute without interpretation gaps.
+- Changes stay within `turnloop/`.
+- Shell syntax remains valid.
+- The implementation remains deterministic for a single manage cycle and does not broaden scope into retry logic, validator behavior, or multi-spec processing.
 
 ## Notes / assumptions
-- "Oldest" is interpreted by the instruction text as the single eligible staging spec selected for that run.
-- QA will confirm both exact phrase presence and surrounding semantic consistency, not just isolated string matches.
+- A process-local environment variable is an acceptable handoff mechanism between the research loop and the Manager runner.

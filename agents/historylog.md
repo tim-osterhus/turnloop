@@ -1,3 +1,30 @@
+[2026-03-06] QA • Research Loop Selected-Spec Handoff
+- Summary: Verified `agents/scripts/research_loop.sh` now selects one staging spec per manage cycle, validates that exact path, and passes the same path into the Manager run through `TURNLOOP_STAGING_SPEC`. The required verification commands passed, and the implementation remains scoped to the loop script behavior described in the task.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,240p' agents/outline.md; sed -n '1,240p' agents/work/task.md; sed -n '1,240p' agents/work/quickfix.md; sed -n '1,240p' agents/roles/rubric-maker.md; apply_patch (agents/work/expectations.md); sed -n '1,220p' agents/historylog.md; git status --short; git diff -- agents/scripts/research_loop.sh agents/work/expectations.md agents/orchestrate_status.md agents/work/quickfix.md; sed -n '1,260p' agents/scripts/research_loop.sh; sed -n '1,220p' agents/roles/tester.md; rg -n 'staging_spec=\"\\$\\(oldest_file \"\\$STAGING_DIR\"\\)\"|validate_spec.sh \"\\$staging_spec\"|TURNLOOP_STAGING_SPEC=\"\\$staging_spec\"|run_entrypoint \"\\$ENTRY_MANAGE\"' agents/scripts/research_loop.sh (PASS); bash -n agents/scripts/research_loop.sh (PASS); git diff -- agents/work/task.md agents/work/prompts/017-research-loop-selected-spec-handoff.md agents/scripts/research_loop.sh
+- Decisions: Accepted the task because the implementation change itself is limited to `agents/scripts/research_loop.sh`; the concurrent task/prompt metadata updates are orchestration artifacts rather than scope creep in the loop logic.
+- Follow-ups: none
+- Prompt: agents/work/prompts/017-research-loop-selected-spec-handoff.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Research Loop Selected-Spec Handoff
+- Summary: Created the missing prompt artifact and linked it from the active task, then updated `agents/scripts/research_loop.sh` so each manage cycle selects one oldest staging spec, validates that exact path, and passes the same path into the Manager run. Verification passed; refactor was a no-op because no evidence-backed improvement surfaced, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/017-research-loop-selected-spec-handoff.md, agents/work/task.md, agents/scripts/research_loop.sh, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,240p' agents/roles/prompt-architect.md; sed -n '1,220p' agents/work/quickfix.md; ls -1 agents/work/prompts; rg -n "Research Loop Selected-Spec Handoff|selected-spec|staging_spec|manager-oldest-only" agents/work/prompts agents/work/task.md agents/historylog.md; sed -n '1,260p' agents/scripts/research_loop.sh; sed -n '1,80p' agents/historylog.md; sed -n '1,260p' agents/entrypoints/_manage.md; apply_patch (agents/work/prompts/017-research-loop-selected-spec-handoff.md, agents/work/task.md, agents/scripts/research_loop.sh, agents/historylog.md, agents/orchestrate_status.md); rg -n 'staging_spec=\"\\$\\(oldest_file \"\\$STAGING_DIR\"\\)\"|validate_spec.sh \"\\$staging_spec\"|TURNLOOP_STAGING_SPEC=\"\\$staging_spec\"|run_entrypoint \"\\$ENTRY_MANAGE\"' agents/scripts/research_loop.sh (PASS); bash -n agents/scripts/research_loop.sh (PASS); git diff -- agents/work/task.md agents/work/prompts/017-research-loop-selected-spec-handoff.md agents/scripts/research_loop.sh
+- Decisions: Kept the scope in the loop script rather than changing Manager instructions again; the handoff now uses `TURNLOOP_STAGING_SPEC` plus an explicit runner instruction so Manager receives the same validated path deterministically.
+- Follow-ups: none
+- Prompt: agents/work/prompts/017-research-loop-selected-spec-handoff.md
+- Report artifacts: none
+
+[2026-03-06] Update • README One-Spec Queue + Site Build
+- Summary: Updated the README research-loop description to spell out one-spec-at-a-time staging handling and regenerated the public journal site; committed and pushed the existing repo sync changes.
+- Files touched: README.md, agents/entrypoints/_manage.md, agents/historylog.md, agents/work/expectations.md, agents/work/finished/015-research-loop-single-cycle-test-knobs.md, agents/work/prompts/016-manager-oldest-only-staging-contract.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls; cat agents/entrypoints/_update.md; sed -n '1,200p' agents/work/tasksarchive.md; sed -n '1,200p' agents/work/tasksbacklog.md; sed -n '1,200p' agents/historylog.md; sed -n '1,240p' agents/outline.md; sed -n '1,240p' README.md; sed -n '1,260p' agents/scripts/research_loop.sh; apply_patch (README.md); python3 scripts/build_site.py; git status --short; git -C corebound status --short; git add -A; git commit -m "Sync update artifacts and site build"; git push; git show --name-only --pretty='' HEAD
+- Decisions: Left `agents/outline.md` unchanged because it already reflects the current Corebound scope; limited documentation changes to clarifying the one-spec research-loop contract.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Manager Oldest-Only Staging Contract
 - Summary: Verified `agents/entrypoints/_manage.md` now constrains each run to exactly one staging spec: the oldest eligible file. The required phrase check passed, the workflow and success text consistently keep newer staging specs queued, and the overwrite-only status/history rules remain intact.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

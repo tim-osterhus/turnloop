@@ -1,19 +1,20 @@
-## 2026-03-06 — Manager Oldest-Only Staging Contract
-Prompt: `agents/work/prompts/016-manager-oldest-only-staging-contract.md`
-Goal: Update the Manager instructions so each run targets exactly one staging spec: the oldest eligible file.
+## 2026-03-06 — Research Loop Selected-Spec Handoff
+Goal: Make the research loop select the oldest staging spec once and reuse that exact path for validation and Manager dispatch.
 Scope:
-- In: Rewrite `agents/entrypoints/_manage.md` to select one oldest staging spec, decompose only that spec, and move only that processed file to `agents/ideas/specs/`.
-- Out: Changes to loop scripts, validator rules, or execution-loop behavior.
-Assumptions: If a selected path is provided by the caller, Manager may use it as long as it still resolves to the oldest file being processed for that run.
+- In: Capture a single `staging_spec` per manage cycle, validate that path, and pass the same path into the Manager run through repo-local process state such as an environment variable.
+- Out: Mechanic retry-count changes, validator-rule changes, or multi-spec processing.
+Assumptions: A process-local environment variable is an acceptable handoff mechanism between the loop script and the Manager runner.
+Prompt: `agents/work/prompts/017-research-loop-selected-spec-handoff.md`
 Files to touch:
-- agents/entrypoints/_manage.md
+- agents/scripts/research_loop.sh
 Steps:
-1. Replace the batch-processing language with oldest-only staging selection language in the critical rules, inputs, and workflow sections.
-2. State explicitly that newer staging files remain queued after a successful run.
-3. Keep the existing overwrite-only status-file rules and history-log requirements intact.
+1. Keep a single oldest-file lookup for the manage cycle and store it in `staging_spec`.
+2. Reuse `staging_spec` for the validation command instead of recomputing a staging path later in the cycle.
+3. Export or inject the same `staging_spec` into the Manager invocation so Manager can target the validated file deterministically.
 Acceptance:
-- The instructions say to process exactly one file per run.
-- The selected file is described as the oldest staging spec.
-- Success criteria say only the processed oldest spec moves to `agents/ideas/specs/`.
+- The manage cycle performs one oldest-file selection per run.
+- The same selected path is used for validation and Manager dispatch.
+- Newer staging files are not selected during that cycle.
 Verification commands:
-- `rg -n 'process exactly one file per run|oldest file in `agents/ideas/staging/`|leave newer unprocessed staging specs|move only the processed oldest staging spec' agents/entrypoints/_manage.md` — Expected: all four phrases match.
+- `rg -n 'staging_spec=\"\\$\\(oldest_file \"\\$STAGING_DIR\"\\)\"|validate_spec.sh \"\\$staging_spec\"|TURNLOOP_STAGING_SPEC=\"\\$staging_spec\"|run_entrypoint \"\\$ENTRY_MANAGE\"' agents/scripts/research_loop.sh` — Expected: the selected staging path is assigned once, validated, and passed into Manager.
+- `bash -n agents/scripts/research_loop.sh` — Expected: exit 0.
