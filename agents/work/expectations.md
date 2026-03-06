@@ -1,24 +1,25 @@
-# QA Expectations — 2026-03-06 Surface Auto-Refuel
+# QA Expectations — Low-Fuel Warning State
 
 ## Goal
-Automatically refill fuel to max at the surface (depth 0) and keep the HUD in sync.
+Highlight low fuel in the HUD when at or below the threshold.
 
 ## Expected behavior
-- When the player reaches depth 0, fuel is immediately set to `FUEL_MAX` without user input.
-- Fuel never exceeds `FUEL_MAX` (clamped).
-- The Fuel HUD row updates to show `100 / 100` (or `FUEL_MAX / FUEL_MAX`) upon reaching depth 0 after fuel was drained.
+- Fuel HUD row gains a visible warning style when `fuel <= FUEL_LOW_THRESHOLD` (threshold is 20 per task acceptance).
+- Warning style clears when `fuel > FUEL_LOW_THRESHOLD` (e.g., after refuel).
+- Other HUD rows remain unchanged.
 
 ## Expected file changes
-- `corebound/game.js` updated to set fuel to `FUEL_MAX` when `depth === 0` in the main tick/HUD update flow.
-- No other files are required by scope.
+- `corebound/style.css`: add a warning style targeting the Fuel row when a class like `.is-low` (or equivalent) is present.
+- `corebound/game.js`: cache the Fuel row element and toggle the warning class in `updateHud` based on the fuel threshold.
 
 ## Verification commands
 - `python3 -m http.server`
+  - Expected: in the running game, Fuel row styling switches on at 20 or below and clears after refuel above 20.
 
 ## Non-functional requirements
-- No new UI elements or upgrades added.
-- Refuel logic runs automatically without input and does not create side effects beyond fuel state/HUD sync.
+- No changes to fuel drain/refuel tuning or gameplay balance.
+- Warning logic is simple and deterministic; no animation or heavy DOM work required.
 
 ## Notes / assumptions
-- `FUEL_MAX` is defined and equals 100 as in current HUD display.
-- Manual browser interaction will be used to validate the behavior after starting the server.
+- `FUEL_LOW_THRESHOLD` is defined and equals 20 in `corebound/game.js`.
+- Manual verification is acceptable for this UI-only change.

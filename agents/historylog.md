@@ -1,3 +1,21 @@
+[2026-03-06] QA • Low-Fuel Warning State
+- Summary: Ran the server command and used a VM harness to confirm the Fuel HUD row toggles the low-fuel class at the threshold and clears above it; CSS defines the warning color.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git -C corebound status --short, rg -n "hud|fuel|FUEL_LOW_THRESHOLD|low" corebound/style.css, sed -n '70,120p' corebound/style.css, rg -n "updateHud|hud|fuelRow|FUEL_LOW_THRESHOLD|fuel" corebound/game.js, sed -n '1,120p' corebound/game.js, sed -n '330,420p' corebound/game.js, rg -n "hud-fuel-row|hud-fuel" corebound/index.html, tail -n 120 corebound/game.js, timeout 2s python3 -m http.server, node - <<'NODE' (qa harness)
+- Decisions: Used a VM-based harness to validate class toggling without a browser-driven playtest.
+- Follow-ups: none
+- Prompt: agents/work/prompts/008-low-fuel-warning-state.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Low-Fuel Warning State
+- Summary: Added a low-fuel warning style for the Fuel HUD row and toggled it in the HUD update when fuel is at or below the low-fuel threshold, clearing it once fuel rises above.
+- Files touched: agents/work/prompts/008-low-fuel-warning-state.md, agents/work/task.md, corebound/style.css, corebound/game.js, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat > agents/work/prompts/008-low-fuel-warning-state.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-low-fuel-warning-state.md, rg -n "hud" corebound/style.css, sed -n '1,220p' corebound/style.css, rg -n "fuel|hud" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, rg -n "hud-fuel|Fuel" corebound, apply_patch (corebound/style.css), apply_patch (corebound/game.js), cat agents/roles/refactor.md, cat agents/work/quickfix.md, timeout 2 python3 -m http.server, cat agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: Open the game in a browser to visually confirm the Fuel row warning activates at <=20 and clears after refuel.
+- Prompt: agents/work/prompts/008-low-fuel-warning-state.md
+- Report artifacts: none
+
 [2026-03-06] Troubleshoot • Surface Auto-Refuel QA Harness
 - Summary: Validated surface auto-refuel and Fuel HUD sync with a Node VM harness, avoiding browser dependencies; no code changes required.
 - Files touched: agents/historylog.md, agents/orchestrate_status.md
@@ -809,4 +827,12 @@ $(cat agents/historylog.md)
 - Decisions: Used a VM harness to verify fuel refills and HUD sync without a browser.
 - Follow-ups: none
 - Prompt: agents/work/prompts/008-surface-auto-refuel.md
+- Report artifacts: none
+[2026-03-06] Update • Outline Sync + Site Build
+- Summary: Synced pending surface auto-refuel artifacts and task movements, updated the Corebound outline to reflect surface refuel completion, rebuilt the public journal site, and committed/pushed Turnloop and Corebound changes.
+- Files touched: agents/outline.md, site/data.json, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/expectations.md, agents/work/finished/008-dig-fuel-cost-lockout.md, agents/work/prompts/008-surface-auto-refuel.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, sed -n '1,220p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git diff --stat, git diff -- agents/work/tasksbacklog.md, git diff -- agents/work/tasksarchive.md, git diff -- agents/work/task.md, git diff -- agents/work/expectations.md, git diff -- agents/work/prompts/008-dig-fuel-cost-lockout.md, cat agents/work/finished/008-dig-fuel-cost-lockout.md, cat agents/work/prompts/008-surface-auto-refuel.md, git -C corebound diff --stat, git -C corebound diff -- game.js, git add -A, git commit -m "Sync surface refuel artifacts and site build", git push, git -C corebound add -A, git -C corebound commit -m "Add surface auto-refuel", git -C corebound push
+- Decisions: Left README unchanged because it already reflects the current loop behavior.
+- Follow-ups: none
+- Prompt: none
 - Report artifacts: none
