@@ -1,33 +1,28 @@
-# QA Expectations — HUD Stratum Label
+# Expectations — 2026-03-06 Hardening: Stratum Lookup Fallbacks
 
 ## Goal
-Display the current stratum name in the HUD and update it when crossing stratum boundaries.
+Prevent undefined stratum states and keep the Stratum HUD stable at the surface and at boundaries/out-of-range rows.
 
 ## Expected behavior
-- The HUD includes a row labeled `Stratum` with a value element that shows the current stratum name (non-empty during normal play).
-- On initial load, the label reflects the player’s starting stratum.
-- When the player crosses a stratum boundary (deeper or shallower), the HUD stratum label updates on the next HUD refresh without requiring a reload.
-- The displayed name is derived from the game’s existing stratum definitions/lookup so it matches gameplay logic.
-- If player depth does not map to a defined stratum (unexpected), the HUD shows a safe fallback (e.g., `Unknown`) rather than throwing.
+- At depth 0 / surface rows, the stratum label resolves to a safe fallback (e.g., `Surface`) and never renders blank/`undefined`.
+- For out-of-range row inputs (negative rows, rows beyond world bounds), stratum lookup clamps safely and returns a valid stratum object/name.
+- All strata references (HUD, ore generation, rendering) use the safe lookup helper; no direct indexing that can yield `undefined`.
+- Moving across stratum boundaries and at world edges produces no console errors related to stratum lookup.
 
 ## Expected file changes
-- `corebound/index.html`: Add a HUD row labeled `Stratum` with a value span `id="hud-stratum"` (optional row id/class consistent with existing HUD rows).
-- `corebound/game.js`: Cache the `hud-stratum` element and set its `textContent` in the HUD update path based on current player depth/stratum.
-- `corebound/style.css` (optional): Minor styling so the new row matches existing HUD formatting and spacing.
+- `corebound/game.js`: extend/adjust stratum lookup helper and refactor call sites to use it everywhere strata are referenced.
+- No other files are expected to change.
 
 ## Verification commands
-- `rg -n "id=\"hud-stratum\"" corebound/index.html` (expect: HUD value span present)
-- `rg -n "hud-stratum|hudStratum|Stratum" corebound/game.js` (expect: element cached + updated in HUD path)
-- `rg -n "hud-stratum|stratum" corebound/style.css` (expect: either no changes needed, or style consistent with HUD rows)
-- Manual run:
-  - `python3 -m http.server`
-  - Open `http://localhost:8000/corebound/` and move/dig across a known stratum boundary; confirm the `Stratum` value updates shortly after crossing.
+- `python3 -m http.server` (from repo root)
+  - Open the game in a browser.
+  - Expected: Stratum HUD shows `Surface` at depth 0 and a named stratum below; no blank/undefined values.
+  - Expected: no console errors while moving across strata boundaries or at world edges.
 
 ## Non-functional requirements
-- No new console errors or uncaught exceptions during play.
-- HUD update remains lightweight (reuse existing stratum lookup; no expensive per-frame work beyond current HUD updates).
-- UI remains readable and consistent with existing HUD rows (no overlap or broken layout at typical viewport sizes).
+- No new console warnings/errors introduced by the change.
+- Behavior is backward-compatible aside from making previously-undefined stratum states deterministic and safe.
 
 ## Notes / assumptions
-- The game already has named strata and a depth→stratum lookup used for ore/tiles; this change should reuse it.
-- HUD refresh already occurs periodically or is triggered by gameplay events; the stratum label should piggyback on that mechanism.
+- “Surface” label is acceptable per task acceptance criteria (exact casing may vary but must be human-readable and non-empty).
+- If ore generation depends on stratum metadata, the fallback must provide safe defaults so gameplay does not crash at boundaries.

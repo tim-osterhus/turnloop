@@ -1,3 +1,30 @@
+[2026-03-06] QA • Hardening: Stratum Lookup Fallbacks
+- Summary: Validated that surface and out-of-range rows resolve through a non-null stratum fallback and that `updateHud()` writes stable stratum labels at boundary depths (39→40, 79→80) without throwing. Local `http.server` served `/corebound/` and `/corebound/game.js` successfully (200).
+- Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
+- Commands: git status --porcelain; git diff --stat; python3 -m http.server 8000 (curl -I /corebound/, 200; curl -I /corebound/game.js, 200); node - <<'NODE' (VM stratum fallback harness, pass); node - <<'NODE' (VM updateHud stratum label harness, pass)
+- Decisions: Used Node VM harnesses for evidence-backed boundary/out-of-range validation because no headless browser tooling is available to capture console output.
+- Follow-ups: Optional manual browser pass to confirm zero console errors while moving across world edges/strata.
+- Prompt: agents/work/prompts/014-hardening-stratum-lookup-fallbacks.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Hardening: Stratum Lookup Fallbacks
+- Summary: Created the missing prompt artifact and linked it from the active task, then hardened `getStratumForRow()` so surface and out-of-range rows resolve through a safe fallback path used by HUD, ore-table, metadata, and rendering helpers. Refactor was a no-op because verification surfaced no evidence-backed follow-up change, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/014-hardening-stratum-lookup-fallbacks.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,240p' agents/outline.md; sed -n '1,260p' agents/work/task.md; rg --files agents/work/prompts agents/work | sed -n '1,200p'; sed -n '1,240p' agents/roles/prompt-architect.md; sed -n '1,240p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,220p' agents/work/finished/013-hud-stratum-label.md; sed -n '1,220p' agents/historylog.md; sed -n '1,260p' corebound/game.js; sed -n '260,620p' corebound/game.js; nl -ba corebound/game.js | sed -n '1,240p'; nl -ba corebound/game.js | sed -n '430,500p'; rg -n "getStratumForRow|stratum" corebound/game.js; rg -n "Prompt:" agents/work/task.md agents/work/prompts agents/work/finished -S; ls -1 agents/work/prompts; apply_patch (agents/work/prompts/014-hardening-stratum-lookup-fallbacks.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md); python3 -m http.server 8000 (curl -I /corebound/, 200); node - <<'NODE' (VM stratum hardening harness, pass); git diff -- corebound/game.js agents/work/task.md agents/work/prompts/014-hardening-stratum-lookup-fallbacks.md; git status --short; git -C corebound status --short; sed -n '1,40p' agents/orchestrate_status.md
+- Decisions: Added a dedicated `SURFACE_STRATUM` plus row clamping inside `getStratumForRow()` so every consumer can rely on one non-null lookup result; kept `getOreTableForRow()` returning `null` for the surface fallback so ore generation behavior stays unchanged.
+- Follow-ups: none
+- Prompt: agents/work/prompts/014-hardening-stratum-lookup-fallbacks.md
+- Report artifacts: none
+
+[2026-03-06] Update • Outline Stratum HUD Row + Site Build
+- Summary: Updated the Corebound outline to mention the Stratum HUD row, rebuilt the public journal site, and committed/pushed pending Turnloop and Corebound changes.
+- Files touched: agents/outline.md, site/data.json, corebound/index.html, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,200p' agents/work/tasksarchive.md; sed -n '1,200p' agents/work/tasksbacklog.md; sed -n '1,200p' agents/historylog.md; sed -n '1,200p' agents/outline.md; sed -n '1,200p' README.md; apply_patch (agents/outline.md); python3 scripts/build_site.py; git status --short; git diff --stat; git -C corebound diff --stat; git -C corebound diff; git add -A; git commit -m "Sync update artifacts and site build"; git push; git -C corebound add -A; git -C corebound commit -m "Add stratum HUD row"; git -C corebound push
+- Decisions: Left README unchanged because it already reflects current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • HUD Stratum Label
 - Summary: Verified the HUD includes a Stratum row and `updateHud()` sets `Surface` at depth 0 and the correct `STRATA` name underground; a Node VM harness confirmed the label changes at stratum boundaries (39→40, 79→80). Local `http.server` served `/corebound/` successfully (200).
 - Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
