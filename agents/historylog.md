@@ -1,3 +1,39 @@
+[2026-03-06] QA • Movement Fuel Drain + Empty Speed
+- Summary: Verified movement-only fuel drain, idle/blocked no-drain, empty-fuel speed multiplier, and clamp-to-zero via VM harness; server command started for manual check.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, cat agents/roles/tester.md, timeout 1s python3 -m http.server 8000, rg -n "function movePlayer|movePlayer" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '240,360p' corebound/game.js, sed -n '360,520p' corebound/game.js, node - <<'NODE' (qa harness)
+- Decisions: Used a VM-based harness to validate movement/fuel behavior without a browser.
+- Follow-ups: none
+- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Movement Fuel Drain + Empty Speed
+- Summary: Added a clampFuel helper and reused it for fuel updates while keeping movement-only fuel drain and empty-fuel speed slowdown behavior intact.
+- Files touched: corebound/game.js, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/008-movement-fuel-drain-empty-speed.md, rg -n "fuel|movePlayer|FUEL" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, apply_patch (corebound/game.js), cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: Playtest movement to confirm fuel drain and empty-speed slowdown behavior.
+- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md
+- Report artifacts: none
+
+[2026-03-06] QA • Movement Fuel Drain + Empty Speed
+- Summary: Started the local server and attempted Playwright-based verification of fuel drain and empty-speed behavior, but testing was blocked because `@playwright/test` was unavailable, preventing automated movement validation.
+- Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
+- Commands: sed -n '1,200p' agents/entrypoints/_check.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/roles/rubric-maker.md, cat > agents/work/expectations.md, sed -n '1,200p' agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, sed -n '240,360p' corebound/game.js, rg -n "setFuel|fuel" corebound/game.js, sed -n '1,120p' corebound/game.js, sed -n '140,220p' corebound/game.js, sed -n '1,200p' agents/roles/tester.md, python3 -m http.server 8000 >/tmp/turnloop_http.log 2>&1 & echo $!, node -e "try{require('playwright');console.log('ok')}catch(e){console.error(e.message);process.exit(1)}", ls -la ~/.cache/ms-playwright | head -n 20, cat > /tmp/fuel.spec.js, npx -y playwright test /tmp/fuel.spec.js --reporter=line, cat > /tmp/pw.config.js, npx -y playwright test /tmp/fuel.spec.js --config /tmp/pw.config.js --reporter=line, kill 35864
+- Decisions: Marked QA blocked because Playwright test dependencies were missing, preventing automated input simulation for fuel drain and empty-speed validation.
+- Follow-ups: Install `@playwright/test` or provide a JS-capable browser to run the movement/fuel checks, then rerun QA.
+- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md
+- Report artifacts: none
+
+[2026-03-06] Update • Fuel Loop Sync + Outline Refresh
+- Summary: Rebuilt the public journal site, updated the Corebound outline to reflect the Fuel HUD live value and pending fuel mechanics, and committed/pushed pending Turnloop and Corebound changes.
+- Files touched: agents/outline.md, site/data.json, corebound/index.html, corebound/game.js, agents/ideas/specs/corebound-fuel-loop-2026-03-05.md, agents/work/finished/007-fuel-hud-row-controls-note.md, agents/work/prompts/007-fuel-constants-hud.md, agents/work/tasksbacklog.md, agents/work/tasksarchive.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git diff --stat, git add -A, git commit -m "Sync fuel loop artifacts and site build", git push, git -C corebound status --short, git -C corebound diff --stat, git -C corebound add -A, git -C corebound commit -m "Add fuel HUD row and constants", git -C corebound push
+- Decisions: Left README unchanged because it already reflects the current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Fuel Constants + HUD Binding
 - Summary: Ran the local server and verified via headless Chromium that the Fuel HUD renders `100 / 100` on load; no JS error signatures were found in the run output.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
@@ -688,4 +724,20 @@ $(cat agents/historylog.md)
 - Decisions: none
 - Follow-ups: none
 - Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+[2026-03-06] Builder • Movement Fuel Drain + Empty Speed
+- Summary: Created the prompt artifact and linked it in the task card, then added clamped fuel updates with movement-only drain and empty-fuel speed slowdown in corebound/game.js.
+- Files touched: agents/work/prompts/008-movement-fuel-drain-empty-speed.md, agents/work/task.md, corebound/game.js, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat <<'EOF' > agents/work/prompts/008-movement-fuel-drain-empty-speed.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-movement-fuel-drain-empty-speed.md, rg -n "fuel|FUEL" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, apply_patch (corebound/game.js), python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: Playtest movement to confirm fuel drain and empty-speed slowdown behavior.
+- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md
+- Report artifacts: none
+[2026-03-06] Troubleshoot • Fuel Drain QA Harness
+- Summary: Validated fuel drain and empty-speed behavior using a Node VM harness with stubbed DOM/canvas, avoiding Playwright dependencies. All movement/fuel checks passed, so orchestration can proceed.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' corebound/game.js, rg -n "movePlayer|fuel" corebound/game.js, sed -n '240,360p' corebound/game.js, sed -n '360,520p' corebound/game.js, which chromium-browser || which chromium || which google-chrome || which google-chrome-stable || true, find ~/.cache/ms-playwright -maxdepth 3 -type f -name 'chrome' 2>/dev/null | head -n 5, node - <<'NODE' (qa harness)
+- Decisions: Used a deterministic VM-based movement/fuel check to unblock QA without installing Playwright.
+- Follow-ups: none
+- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md
 - Report artifacts: none

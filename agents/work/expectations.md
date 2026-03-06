@@ -1,21 +1,22 @@
-# Expectations
+# QA Expectations
 
 ## Goal
-Introduce fuel tuning constants, initialize fuel state, and bind Fuel HUD updates.
+Drain fuel during active movement and slow the player when fuel is empty.
 
 ## Expected behavior
-- On load, the Fuel HUD row shows `100 / 100`.
-- Fuel HUD value reflects `state.fuel / FUEL_MAX` each tick.
-- No console errors occur during HUD updates.
+- Fuel decreases by `FUEL_MOVE_RATE * deltaSeconds` only while movement input results in movement (not blocked by collisions).
+- Fuel does not decrease while idle or when movement input is fully blocked.
+- Fuel is clamped to `0..FUEL_MAX` whenever it changes.
+- When fuel is `0` (or less), movement speed is multiplied by `FUEL_EMPTY_SPEED_MULT` before applying movement deltas.
 
 ## Expected file changes
-- `corebound/game.js`: add `FUEL_*` constants near other tuning constants, initialize `state.fuel` to `FUEL_MAX`, cache `hud-fuel`, and update `updateHud` to render fuel.
+- `corebound/game.js` updated to add a fuel clamp helper and to apply movement fuel drain + empty-speed multiplier.
 
 ## Verification commands
-- `python3 -m http.server` (then load the game in a browser and confirm Fuel row renders `100 / 100` on load and updates with state.)
+- `python3 -m http.server` (manual): confirm fuel drains while moving, holds while idle, and speed slows at 0 fuel.
 
 ## Non-functional requirements
-- No new fuel drain, digging cost, refuel logic, or warning states.
+- No changes to dig fuel costs, surface refuel behavior, or low-fuel warning states.
 
 ## Notes / assumptions
-- Fuel HUD element has id `hud-fuel` and is present in the DOM on load.
+- “Actively moving” means non-zero input and at least one axis step applied (not fully blocked).
