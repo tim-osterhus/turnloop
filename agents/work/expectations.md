@@ -1,23 +1,24 @@
 ## Goal
-Confirm that the research loop selects one oldest staging spec per manage cycle, validates that exact path, and passes the same path into the Manager invocation deterministically.
+Confirm that a staging-spec validation failure blocks the manage cycle before manage-stage mechanic handling begins, while the success path still reaches Manager normally.
 
 ## Expected behavior
-- `agents/scripts/research_loop.sh` assigns a single `staging_spec` from `oldest_file "$STAGING_DIR"` during the manage cycle.
-- The script reuses `"$staging_spec"` for staging-spec validation instead of recomputing another oldest-file result later in the same cycle.
-- The Manager entrypoint is invoked with the same selected path made available through repo-local process state, such as `TURNLOOP_STAGING_SPEC="$staging_spec"`.
-- The manage cycle does not switch to a newer staging spec after validation during that same cycle.
+- `agents/scripts/research_loop.sh` validates the selected `"$staging_spec"` and has an explicit failure branch for that validation step.
+- On validation failure, the script writes `### BLOCKED` before any manage-stage mechanic handling starts.
+- On validation failure, the script does not invoke the Manager entrypoint for that cycle.
+- On validation success, the existing manage flow still reaches Manager normally.
 
 ## Expected file changes
-- `agents/scripts/research_loop.sh` only, with changes limited to selecting, validating, and handing off the chosen staging spec path.
+- `agents/scripts/research_loop.sh` only, with changes limited to the staging-validation failure branch and manage-stage control flow.
 
 ## Verification commands
-- `rg -n 'staging_spec="\\$\\(oldest_file "\\$STAGING_DIR"\\)"|validate_spec.sh "\\$staging_spec"|TURNLOOP_STAGING_SPEC="\\$staging_spec"|run_entrypoint "\\$ENTRY_MANAGE"' agents/scripts/research_loop.sh`
+- `rg -n 'Staging validation failed for \\$staging_spec|write_status "### BLOCKED"|handle_mechanic "manage"|run_entrypoint "\\$ENTRY_MANAGE"' agents/scripts/research_loop.sh`
 - `bash -n agents/scripts/research_loop.sh`
 
 ## Non-functional requirements
 - Changes stay within `turnloop/`.
 - Shell syntax remains valid.
-- The implementation remains deterministic for a single manage cycle and does not broaden scope into retry logic, validator behavior, or multi-spec processing.
+- The implementation keeps existing next-poll retry behavior for blocked cycles.
+- The change does not alter mechanic escalation counts, nonviable moves, or validation-report content.
 
 ## Notes / assumptions
-- A process-local environment variable is an acceptable handoff mechanism between the research loop and the Manager runner.
+- `agents/work/quickfix.md` is closed, so this QA run is not a doublecheck cycle.

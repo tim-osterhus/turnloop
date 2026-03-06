@@ -216,6 +216,7 @@ while true; do
     log "Staging has work; waiting ${PROMOTE_DELAY_SECS}s before manage"
     sleep "$PROMOTE_DELAY_SECS"
     staging_spec="$(oldest_file "$STAGING_DIR")"
+    manage_ready="false"
     if [ -z "$staging_spec" ]; then
       log "Staging validation failed: no staging spec found"
       write_status "### BLOCKED"
@@ -227,20 +228,23 @@ while true; do
         write_status "### BLOCKED"
         handle_mechanic "manage"
       else
-        log "Starting entrypoint: _manage.md"
-        TURNLOOP_STAGING_SPEC="$staging_spec" run_entrypoint "$ENTRY_MANAGE" "$MANAGE_MODEL" "$MANAGE_EFFORT" || true
-        log "Finished entrypoint: _manage.md (status=$(get_status))"
-        case "$(get_status)" in
-          "### IDLE")
-            ;;
-          "### BLOCKED")
-            handle_mechanic "manage"
-            ;;
-          *)
-            handle_mechanic "manage"
-            ;;
-        esac
+        manage_ready="true"
       fi
+    fi
+    if [ "$manage_ready" = "true" ]; then
+      log "Starting entrypoint: _manage.md"
+      TURNLOOP_STAGING_SPEC="$staging_spec" run_entrypoint "$ENTRY_MANAGE" "$MANAGE_MODEL" "$MANAGE_EFFORT" || true
+      log "Finished entrypoint: _manage.md (status=$(get_status))"
+      case "$(get_status)" in
+        "### IDLE")
+          ;;
+        "### BLOCKED")
+          handle_mechanic "manage"
+          ;;
+        *)
+          handle_mechanic "manage"
+          ;;
+      esac
     fi
   fi
 
