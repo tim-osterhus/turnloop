@@ -1,33 +1,33 @@
-# QA Expectations — Distinct Stratum Solid Tile Visuals
+# QA Expectations — HUD Stratum Label
 
 ## Goal
-Make solid (non-ore) underground tiles visually distinct per stratum by introducing a per-stratum visual palette used during rendering.
+Display the current stratum name in the HUD and update it when crossing stratum boundaries.
 
 ## Expected behavior
-- Solid **non-ore** tiles render using a palette that varies by stratum (driven by each tile’s stratum metadata or `getStratumForRow(row)` / `STRATA`).
-- When descending across a stratum boundary, the visual appearance (e.g., fill/stroke color) of solid non-ore tiles changes clearly between strata.
-- Ore tiles continue to render using their existing ore-specific visuals/colors (no ore color changes).
-- Surface row visuals are preserved (surface should not start using the underground stratum palette).
+- The HUD includes a row labeled `Stratum` with a value element that shows the current stratum name (non-empty during normal play).
+- On initial load, the label reflects the player’s starting stratum.
+- When the player crosses a stratum boundary (deeper or shallower), the HUD stratum label updates on the next HUD refresh without requiring a reload.
+- The displayed name is derived from the game’s existing stratum definitions/lookup so it matches gameplay logic.
+- If player depth does not map to a defined stratum (unexpected), the HUD shows a safe fallback (e.g., `Unknown`) rather than throwing.
 
 ## Expected file changes
-- `corebound/game.js`: define a per-stratum solid-tile palette and update tile rendering to use it for solid non-ore tiles only.
-- No other Corebound implementation files change.
-- Turnloop workflow files may change (task/prompt/status/history/expectations).
+- `corebound/index.html`: Add a HUD row labeled `Stratum` with a value span `id="hud-stratum"` (optional row id/class consistent with existing HUD rows).
+- `corebound/game.js`: Cache the `hud-stratum` element and set its `textContent` in the HUD update path based on current player depth/stratum.
+- `corebound/style.css` (optional): Minor styling so the new row matches existing HUD formatting and spacing.
 
 ## Verification commands
-- `git -C corebound diff --name-only`
-  - Expected: only `game.js` is changed.
-- `git diff --name-only`
-  - Expected: only `agents/` workflow files are changed (no unrelated Turnloop code changes).
-- `cd corebound && python3 -m http.server 8000`
-  - Expected: game loads with no console errors.
-  - Expected: dig/move down across at least one stratum boundary; solid non-ore tile visuals change at the boundary.
-  - Expected: ore tiles remain visually distinct from solid tiles and match prior ore visuals.
-  - Expected: surface row looks the same as before (no unexpected palette-tinting).
+- `rg -n "id=\"hud-stratum\"" corebound/index.html` (expect: HUD value span present)
+- `rg -n "hud-stratum|hudStratum|Stratum" corebound/game.js` (expect: element cached + updated in HUD path)
+- `rg -n "hud-stratum|stratum" corebound/style.css` (expect: either no changes needed, or style consistent with HUD rows)
+- Manual run:
+  - `python3 -m http.server`
+  - Open `http://localhost:8000/corebound/` and move/dig across a known stratum boundary; confirm the `Stratum` value updates shortly after crossing.
 
 ## Non-functional requirements
-- No HUD updates, ore balance tweaks, controls changes, or unrelated gameplay changes.
-- Rendering remains lightweight (simple palette lookup per tile; no expensive per-frame work).
+- No new console errors or uncaught exceptions during play.
+- HUD update remains lightweight (reuse existing stratum lookup; no expensive per-frame work beyond current HUD updates).
+- UI remains readable and consistent with existing HUD rows (no overlap or broken layout at typical viewport sizes).
 
 ## Notes / assumptions
-- The project already has a source of truth for stratum boundaries (`STRATA` + helper) or per-tile stratum metadata.
+- The game already has named strata and a depth→stratum lookup used for ore/tiles; this change should reuse it.
+- HUD refresh already occurs periodically or is triggered by gameplay events; the stratum label should piggyback on that mechanism.

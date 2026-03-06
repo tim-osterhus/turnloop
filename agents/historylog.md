@@ -1,3 +1,21 @@
+[2026-03-06] QA • HUD Stratum Label
+- Summary: Verified the HUD includes a Stratum row and `updateHud()` sets `Surface` at depth 0 and the correct `STRATA` name underground; a Node VM harness confirmed the label changes at stratum boundaries (39→40, 79→80). Local `http.server` served `/corebound/` successfully (200).
+- Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
+- Commands: rg -n "id=\"hud-stratum\"" corebound/index.html, rg -n "hud-stratum|hudStratum|Stratum" corebound/game.js, rg -n "hud-stratum|stratum" corebound/style.css (no matches), python3 -m http.server 8000 (curl -I), node - <<'NODE' (VM HUD stratum harness)
+- Decisions: Accepted no `corebound/style.css` change because existing `.hud-row` styling applies to the new row.
+- Follow-ups: none
+- Prompt: agents/work/prompts/013-hud-stratum-label.md
+- Report artifacts: none
+
+[2026-03-06] Builder • HUD Stratum Label
+- Summary: Created the missing prompt artifact and linked it from the active task, then added a Stratum row to the Corebound HUD and wired `updateHud()` to show `Surface` above ground and the active stratum name underground. Refactor was a no-op because verification surfaced no evidence-backed improvement, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/013-hud-stratum-label.md, agents/work/task.md, corebound/index.html, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' agents/work/task.md, sed -n '1,220p' agents/roles/developer.md, sed -n '1,220p' agents/roles/refactor.md, sed -n '1,220p' agents/roles/remediator.md, sed -n '1,220p' agents/roles/prompt-architect.md, sed -n '1,220p' agents/work/quickfix.md, sed -n '1,220p' corebound/index.html, sed -n '1,220p' corebound/style.css, sed -n '1,260p' corebound/game.js, sed -n '260,560p' corebound/game.js, sed -n '560,760p' corebound/game.js, rg --files agents/work/prompts | sort, rg -n "^Prompt:" agents/work -S, rg -n "hud-stratum" corebound/index.html, apply_patch (agents/work/prompts/013-hud-stratum-label.md, agents/work/task.md, corebound/index.html, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md), timeout 2s python3 -m http.server 8000 (exit 124 after timeout), node - <<'NODE' (VM HUD stratum harness, pass)
+- Decisions: Reused the existing `STRATA` and `getStratumForRow()` logic so the HUD label stays aligned with the same depth-band source of truth already used elsewhere; left `corebound/style.css` unchanged because the new row matches the existing HUD structure without extra styling work.
+- Follow-ups: none
+- Prompt: agents/work/prompts/013-hud-stratum-label.md
+- Report artifacts: none
+
 [2026-03-06] QA • Distinct Stratum Solid Tile Visuals
 - Summary: Confirmed solid non-ore tiles render via a per-stratum palette (keys cover all strata and colors vary), while surface tiles still use `TILE_COLORS.surface` and ore tiles still use `ORE_TYPES[oreId].color`. Headless Chromium load surfaced no JS error signatures.
 - Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
@@ -949,6 +967,14 @@ $(cat agents/historylog.md)
 - Files touched: agents/outline.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
 - Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, sed -n '1,240p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git -C corebound diff --stat, git -C corebound diff, git add -A, git commit -m "Sync low-fuel warning artifacts and site build", git push, git -C corebound add -A, git -C corebound commit -m "Add low-fuel HUD warning", git -C corebound push
 - Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+[2026-03-06] Update • Site Build + Repo Sync
+- Summary: Rebuilt the public journal site and synced pending Turnloop/Corebound changes; no outline or README updates were needed this cycle.
+- Files touched: agents/historylog.md, agents/outline.md, agents/work/expectations.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md, site/data.json, corebound/game.js
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --name-only, git -C corebound diff --name-only, git add -A, git commit -m "Sync update artifacts and site build", git push, git -C corebound add -A, git -C corebound commit -m "Sync corebound updates", git -C corebound push
+- Decisions: Left outline and README unchanged because they already reflect current loop behavior.
 - Follow-ups: none
 - Prompt: none
 - Report artifacts: none
