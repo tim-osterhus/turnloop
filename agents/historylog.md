@@ -1,3 +1,30 @@
+[2026-03-06] QA • Manager Oldest-Only Staging Contract
+- Summary: Verified `agents/entrypoints/_manage.md` now constrains each run to exactly one staging spec: the oldest eligible file. The required phrase check passed, the workflow and success text consistently keep newer staging specs queued, and the overwrite-only status/history rules remain intact.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,220p' agents/work/task.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,240p' agents/roles/rubric-maker.md; sed -n '1,220p' agents/work/expectations.md; apply_patch (agents/work/expectations.md); sed -n '1,220p' agents/historylog.md; git status --short; git diff -- agents/entrypoints/_manage.md; sed -n '1,260p' agents/entrypoints/_manage.md; sed -n '1,240p' agents/roles/tester.md; rg -n 'process exactly one file per run|oldest file in `agents/ideas/staging/`|leave newer unprocessed staging specs|move only the processed oldest staging spec' agents/entrypoints/_manage.md (PASS); sed -n '1,260p' agents/entrypoints/_manage.md (PASS); git diff -- agents/entrypoints/_manage.md (PASS)
+- Decisions: Accepted the task despite unrelated pre-existing worktree changes because the implementation diff for this task is limited to `agents/entrypoints/_manage.md` and matches the requested scope.
+- Follow-ups: none
+- Prompt: agents/work/prompts/016-manager-oldest-only-staging-contract.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Manager Oldest-Only Staging Contract
+- Summary: Created the missing prompt artifact and linked it from the active task, then rewrote `agents/entrypoints/_manage.md` so Manager processes exactly one staging spec per run: the oldest eligible file. Verification passed; refactor was a no-op because no evidence-backed follow-up change surfaced, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/016-manager-oldest-only-staging-contract.md, agents/work/task.md, agents/entrypoints/_manage.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,240p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,240p' agents/roles/developer.md; sed -n '1,240p' agents/roles/refactor.md; sed -n '1,240p' agents/roles/remediator.md; sed -n '1,240p' agents/roles/prompt-architect.md; sed -n '1,220p' agents/work/quickfix.md; rg --files agents/work/prompts; sed -n '1,220p' agents/historylog.md; sed -n '1,260p' agents/entrypoints/_manage.md; sed -n '1,240p' agents/work/prompts/015-research-loop-single-cycle-test-knobs.md (missing); rg -n "Prompt:" agents/work/task.md agents/historylog.md; apply_patch (agents/work/prompts/016-manager-oldest-only-staging-contract.md, agents/work/task.md, agents/entrypoints/_manage.md, agents/historylog.md, agents/orchestrate_status.md); rg -n 'process exactly one file per run|oldest file in `agents/ideas/staging/`|leave newer unprocessed staging specs|move only the processed oldest staging spec' agents/entrypoints/_manage.md (PASS); rg -n 'Process all files in `agents/ideas/staging/` in one run|For each spec in `agents/ideas/staging/`' agents/entrypoints/_manage.md (no matches); sed -n '1,220p' agents/orchestrate_status.md
+- Decisions: Used prompt id `016` because history already referenced a missing `015` prompt artifact, so reusing that id would have muddied the audit trail. Kept the Manager edit limited to wording in the single entrypoint file so the loop behavior contract changes without touching scripts or validators.
+- Follow-ups: none
+- Prompt: agents/work/prompts/016-manager-oldest-only-staging-contract.md
+- Report artifacts: none
+
+[2026-03-06] Update • Site Build + Repo Sync
+- Summary: Regenerated the public journal site and synced pending Turnloop changes; no outline/README updates were needed this cycle.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md, agents/ideas/specs/turnloop-staging-queue-alignment-2026-03-06.md, agents/scripts/orchestrate_loop.sh, agents/scripts/research_loop.sh, agents/work/expectations.md, agents/work/prompts/015-research-loop-single-cycle-test-knobs.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json, site/index.html, site/style.css
+- Commands: sed -n '1,200p' agents/entrypoints/_update.md; sed -n '1,200p' agents/work/tasksarchive.md; sed -n '1,200p' agents/work/tasksbacklog.md; sed -n '1,200p' agents/historylog.md; sed -n '1,240p' agents/outline.md; sed -n '1,240p' README.md; sed -n '1,240p' agents/entrypoints/_manage.md; sed -n '1,260p' agents/scripts/research_loop.sh; python3 scripts/build_site.py; git status --short; git -C corebound status --short; git diff --stat; git add -A; git commit -m "Sync update artifacts and site build"; git push; git show --name-only --pretty='' HEAD
+- Decisions: Left `agents/outline.md` and `README.md` unchanged because they already reflect current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Research Loop Single-Cycle Test Knobs
 - Summary: Verified that `agents/scripts/research_loop.sh` now reads daemon-mode and delay overrides from the environment while preserving the default `true` / `120` / `180` fallback values when unset. The listed verification commands all passed, including a zero-delay non-daemon invocation that exited cleanly in the current empty inbox/staging state.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

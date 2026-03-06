@@ -1,18 +1,19 @@
-## 2026-03-06 — Research Loop Single-Cycle Test Knobs
-Prompt: agents/work/prompts/015-research-loop-single-cycle-test-knobs.md
-Goal: Make `agents/scripts/research_loop.sh` runnable in one fast local cycle without changing its default daemon behavior.
+## 2026-03-06 — Manager Oldest-Only Staging Contract
+Prompt: `agents/work/prompts/016-manager-oldest-only-staging-contract.md`
+Goal: Update the Manager instructions so each run targets exactly one staging spec: the oldest eligible file.
 Scope:
-- In: Add environment-variable overrides for daemon mode and the promote/poll delays, preserving the current defaults when unset.
-- Out: Any change to the default production cadence, runner selection, or queue semantics.
+- In: Rewrite `agents/entrypoints/_manage.md` to select one oldest staging spec, decompose only that spec, and move only that processed file to `agents/ideas/specs/`.
+- Out: Changes to loop scripts, validator rules, or execution-loop behavior.
+Assumptions: If a selected path is provided by the caller, Manager may use it as long as it still resolves to the oldest file being processed for that run.
 Files to touch:
-- agents/scripts/research_loop.sh
+- agents/entrypoints/_manage.md
 Steps:
-1. Read `TURNLOOP_DAEMON_MODE`, `TURNLOOP_PROMOTE_DELAY_SECS`, and `TURNLOOP_POLL_SECS` from the environment with the current hard-coded values as defaults.
-2. Keep the existing control flow intact so the loop still sleeps and repeats when the overrides are not provided.
-3. Confirm the script can be invoked in a no-wait single-cycle mode for local harness use.
+1. Replace the batch-processing language with oldest-only staging selection language in the critical rules, inputs, and workflow sections.
+2. State explicitly that newer staging files remain queued after a successful run.
+3. Keep the existing overwrite-only status-file rules and history-log requirements intact.
 Acceptance:
-- The script preserves its current behavior when the new environment variables are unset.
-- The script can be configured for a zero-delay, non-daemon run without syntax errors.
+- The instructions say to process exactly one file per run.
+- The selected file is described as the oldest staging spec.
+- Success criteria say only the processed oldest spec moves to `agents/ideas/specs/`.
 Verification commands:
-- `rg -n 'TURNLOOP_DAEMON_MODE|TURNLOOP_PROMOTE_DELAY_SECS|TURNLOOP_POLL_SECS' agents/scripts/research_loop.sh` — Expected: all three override names are present.
-- `bash -n agents/scripts/research_loop.sh` — Expected: exit 0.
+- `rg -n 'process exactly one file per run|oldest file in `agents/ideas/staging/`|leave newer unprocessed staging specs|move only the processed oldest staging spec' agents/entrypoints/_manage.md` — Expected: all four phrases match.
