@@ -1,17 +1,17 @@
-## 2026-03-05 — Update Finished Prompt: Validator Reports
-Goal: Update the validator reports prompt artifact to use the specs-path reference.
-Prompt: `agents/work/prompts/006-update-finished-validator-reports.md`
+## 2026-03-06 — Fuel Constants + HUD Binding
+Goal: Introduce fuel tuning constants, state, and HUD updates.
+Prompt: `agents/work/prompts/007-fuel-constants-hud.md`
 Scope:
-- In: Replace staging-path references in the validator reports finished prompt artifact.
-- Out: Changes to report logic requirements or other prompt artifacts.
+- In: Add `FUEL_*` constants, initialize `state.fuel`, and populate the Fuel HUD value each tick.
+- Out: Fuel drain, digging costs, refuel behavior, or warning states.
 Files to touch:
-- agents/work/finished/002-validator-reports.md
+- corebound/game.js
 Steps:
-1. Replace the staging-path reference in the command list with `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
-2. Update any “staging spec” wording to reference the specs path instead.
+1. Define `FUEL_MAX`, `FUEL_MOVE_RATE`, `FUEL_DIG_COST`, `FUEL_LOW_THRESHOLD`, and `FUEL_EMPTY_SPEED_MULT` near other tuning constants.
+2. Initialize `state.fuel` to `FUEL_MAX` when the session starts.
+3. Cache the `hud-fuel` element and update `updateHud` to render `fuel / FUEL_MAX` each tick.
 Acceptance:
-- `agents/work/finished/002-validator-reports.md` contains no `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` references.
-- The command list references `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+- On load, the Fuel HUD row shows `100 / 100`.
+- No console errors appear during HUD updates.
 Verification commands:
-- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` — Expected: no matches.
-- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` — Expected: 1 match.
+- `python3 -m http.server` — Expected: Fuel row renders `100 / 100` on load and stays in sync with state.

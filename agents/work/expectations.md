@@ -1,24 +1,21 @@
 # Expectations
 
 ## Goal
-Update the validator reports finished prompt artifact to reference the specs path instead of the staging path.
+Introduce fuel tuning constants, initialize fuel state, and bind Fuel HUD updates.
 
 ## Expected behavior
-- `agents/work/finished/002-validator-reports.md` replaces the staging-path reference with `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` in the command list.
-- Any wording that mentions a “staging spec” in `agents/work/finished/002-validator-reports.md` is updated to reference the specs path instead.
-- No references to `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` remain in `agents/work/finished/002-validator-reports.md`.
+- On load, the Fuel HUD row shows `100 / 100`.
+- Fuel HUD value reflects `state.fuel / FUEL_MAX` each tick.
+- No console errors occur during HUD updates.
 
 ## Expected file changes
-- `agents/work/finished/002-validator-reports.md` updated.
-- No other files modified.
+- `corebound/game.js`: add `FUEL_*` constants near other tuning constants, initialize `state.fuel` to `FUEL_MAX`, cache `hud-fuel`, and update `updateHud` to render fuel.
 
 ## Verification commands
-- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` (expect no matches)
-- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` (expect 1 match)
+- `python3 -m http.server` (then load the game in a browser and confirm Fuel row renders `100 / 100` on load and updates with state.)
 
 ## Non-functional requirements
-- Keep prompt semantics the same aside from path/wording updates.
-- Avoid changes to report logic requirements or other prompt artifacts.
+- No new fuel drain, digging cost, refuel logic, or warning states.
 
 ## Notes / assumptions
-- The only required edits are path and wording updates within `agents/work/finished/002-validator-reports.md`.
+- Fuel HUD element has id `hud-fuel` and is present in the DOM on load.

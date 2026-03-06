@@ -461,3 +461,44 @@ Verification commands:
 
 
 
+## 2026-03-05 — 2026-03-05 — Update Finished Prompt: Validator Reports
+
+## 2026-03-05 — Update Finished Prompt: Validator Reports
+Goal: Update the validator reports prompt artifact to use the specs-path reference.
+Prompt: `agents/work/prompts/006-update-finished-validator-reports.md`
+Scope:
+- In: Replace staging-path references in the validator reports finished prompt artifact.
+- Out: Changes to report logic requirements or other prompt artifacts.
+Files to touch:
+- agents/work/finished/002-validator-reports.md
+Steps:
+1. Replace the staging-path reference in the command list with `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+2. Update any “staging spec” wording to reference the specs path instead.
+Acceptance:
+- `agents/work/finished/002-validator-reports.md` contains no `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` references.
+- The command list references `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md`.
+Verification commands:
+- `rg -n "ideas/staging/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` — Expected: no matches.
+- `rg -n "ideas/specs/turnloop-spec-validation-2026-03-05.md" agents/work/finished/002-validator-reports.md` — Expected: 1 match.
+
+
+## 2026-03-05 — 2026-03-06 — Fuel HUD Row + Controls Note
+
+## 2026-03-06 — Fuel HUD Row + Controls Note
+Goal: Add a visible fuel row in the HUD and a controls note about surface refuel.
+Prompt: agents/work/prompts/007-fuel-hud-row-controls-note.md
+Scope:
+- In: Add a Fuel HUD row with a value span and add a controls list item noting fuel refills at the surface.
+- Out: Any fuel logic or styling changes beyond existing HUD layout.
+Files to touch:
+- corebound/index.html
+Steps:
+1. Insert a HUD row labeled Fuel with a value span using `id="hud-fuel"` and a row hook `id="hud-fuel-row"`.
+2. Add a controls item indicating fuel refills at the surface.
+Acceptance:
+- The HUD shows a Fuel row alongside Depth, Cash, and Inventory.
+- The controls panel lists a line indicating fuel refills at the surface.
+Verification commands:
+- `python3 -m http.server` — Expected: page loads at `http://localhost:8000/corebound/` with the Fuel HUD row and refuel note visible.
+
+

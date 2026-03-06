@@ -1,3 +1,112 @@
+[2026-03-06] QA • Fuel Constants + HUD Binding
+- Summary: Ran the local server and verified via headless Chromium that the Fuel HUD renders `100 / 100` on load; no JS error signatures were found in the run output.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,200p' agents/entrypoints/_check.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/roles/rubric-maker.md, cat > agents/work/expectations.md, sed -n '1,200p' agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, rg -n "hud-fuel" corebound/index.html, sed -n '1,200p' agents/roles/tester.md, python3 -m http.server 8000, ~/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=2000 --dump-dom http://127.0.0.1:8000/corebound/ > /tmp/corebound_dom.html, rg -n "hud-fuel" /tmp/corebound_dom.html, rg -n "Uncaught|ReferenceError|TypeError|SyntaxError" /tmp/corebound_dom.err
+- Decisions: Used cached Playwright Chromium with `--dump-dom` for HUD verification; treated DBus stderr noise as non-app output.
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+
+[2026-03-06] Troubleshoot • Fuel HUD Verification
+- Summary: Verified the Fuel HUD renders `100 / 100` on load by running the game in headless Chromium and dumping the DOM; no JS error keywords appeared in the captured output. Cleared the orchestration block.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 50 agents/historylog.md, rg -n "hud|updateHud|fuel" corebound/game.js, sed -n '1,120p' corebound/game.js, rg -n "requestAnimationFrame|setInterval|setTimeout|gameLoop|tick" corebound/game.js, sed -n '300,480p' corebound/game.js, npx playwright install chromium, npx -y playwright --help, npx -y playwright screenshot --help, npx -y playwright install chromium, ls -la ~/.cache, ls -la ~/.cache/ms-playwright, find ~/.cache/ms-playwright -maxdepth 3 -type f -name 'chrome' | head -n 20, find ~/.cache/ms-playwright -maxdepth 3 -type f -name 'headless_shell' | head -n 20, python3 -m http.server 8000, ~/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=2000 --dump-dom http://127.0.0.1:8000/corebound/ | rg -n "hud-fuel", python3 -m http.server 8000, ~/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=2000 --dump-dom http://127.0.0.1:8000/corebound/ 2>&1 | rg -n "hud-fuel|Uncaught|ReferenceError|TypeError|SyntaxError"
+- Decisions: Used cached Playwright Chromium with `--dump-dom` as a JS-capable headless check instead of installing system Chrome.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-06] Manager • Spec Validation Decomposition
+- Summary: Reviewed the staging spec; requirements are already represented by archived validator/gating task cards, so no new backlog entries were added.
+- Files touched: agents/research_status.md, agents/historylog.md, agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/ideas/specs/turnloop-spec-validation-2026-03-05.md
+- Commands: ls, cat README.md, cat agents/outline.md, cat agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls agents/ideas/specs, diff -u agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Decisions: Skipped adding duplicate task cards already archived for spec validation.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md
+- Report artifacts: none
+
+[2026-03-06] Troubleshoot • Missing JS Browser For QA
+- Summary: Confirmed no JS-capable browser binaries are available; Fuel HUD QA remains blocked because runtime verification requires a browser.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/historylog.md, which chromium-browser || which chromium || which google-chrome || which google-chrome-stable || true
+- Decisions: Avoided adding new test harness or dependencies; requires manual browser install.
+- Follow-ups: Install Chromium/Chrome or Playwright, then rerun Fuel HUD QA verification.
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+
+[2026-03-06] QA • Fuel Constants + HUD Binding
+- Summary: Ran the server command but could not verify Fuel HUD rendering or console errors because no JS-capable browser was available; blocked.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, rg -n "hud-fuel" corebound/index.html, cat agents/roles/tester.md, timeout 1s python3 -m http.server 8000, which chromium-browser || which chromium || which google-chrome || which google-chrome-stable, rg -n "FUEL_MAX|hud-fuel|fuel" corebound/game.js
+- Decisions: Marked QA blocked due to missing JS-capable browser.
+- Follow-ups: Verify in a JS-capable browser or install Playwright.
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Fuel Constants + HUD Binding
+- Summary: Reviewed the task and confirmed fuel constants, state initialization, and HUD binding are already in place; no code changes were required.
+- Files touched: agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/007-fuel-constants-hud.md, rg -n "FUEL|hud-fuel|HUD" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+
+[2026-03-06] Troubleshoot • Restore Missing Staging Spec
+- Summary: Restored the missing staging copy of the spec validation file to unblock the validator step.
+- Files touched: agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 40 agents/historylog.md, ls agents/ideas/staging, ls agents/ideas/specs, cp agents/ideas/specs/turnloop-spec-validation-2026-03-05.md agents/ideas/staging/turnloop-spec-validation-2026-03-05.md, head -n 40 agents/historylog.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
+[2026-03-06] QA • Fuel Constants + HUD Binding
+- Summary: Ran the local server command but could not verify Fuel HUD rendering because no JS-capable browser was available; Playwright install timed out.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: python3 -m http.server 8000, pkill -f "http.server 8000", which chromium-browser || which chromium || which google-chrome || which google-chrome-stable, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, rg -n "hud-fuel|Fuel" corebound/index.html, sed -n '300,380p' corebound/game.js, rg -n "updateHud" -n corebound/game.js
+- Decisions: Marked QA blocked due to missing JS-capable browser for verification.
+- Follow-ups: Install a browser/Playwright or verify manually in a local browser.
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+
+[2026-03-06] QA • Fuel HUD Row + Controls Note
+- Summary: Ran the local server and confirmed the Fuel HUD row and surface-refuel controls note appear in the rendered HTML; expectations met.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: python3 -m http.server 8000 (curl + rg check)
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-hud-row-controls-note.md
+- Report artifacts: none
+
+[2026-03-06] Manager • Corebound Fuel Loop Decomposition
+- Summary: Decomposed the Corebound fuel-loop spec into six ordered task cards covering UI scaffolding, fuel state, movement drain, dig cost, refuel, and low-fuel warning.
+- Files touched: agents/research_status.md, agents/work/tasksbacklog.md, agents/ideas/staging/corebound-fuel-loop-2026-03-05.md, agents/ideas/specs/corebound-fuel-loop-2026-03-05.md, agents/historylog.md
+- Commands: ls, ls agents/ideas/staging, printf '### MANAGE_RUNNING\\n' > agents/research_status.md, cat README.md, cat agents/outline.md, cat agents/ideas/staging/corebound-fuel-loop-2026-03-05.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksarchive.md, ls corebound, sed -n '1,200p' corebound/game.js, sed -n '200,400p' corebound/game.js, sed -n '400,800p' corebound/game.js, sed -n '1,200p' corebound/index.html, sed -n '1,200p' corebound/style.css, ls agents/ideas, sed -n '1,80p' agents/historylog.md, cat <<'EOF' > agents/work/tasksbacklog.md, mv agents/ideas/staging/corebound-fuel-loop-2026-03-05.md agents/ideas/specs/, python3 - <<'PY', printf '### IDLE\\n' > agents/research_status.md
+- Decisions: Treated the low-fuel warning as a polish card so core fuel mechanics land first.
+- Follow-ups: none
+- Prompt: agents/ideas/staging/corebound-fuel-loop-2026-03-05.md
+- Report artifacts: agents/work/tasksbacklog.md
+
+
+[2026-03-05] Researcher • Corebound Fuel Loop Spec
+- Summary: Assessed the current Corebound prototype and drafted a spec for a fuel system that adds return-to-surface pressure with HUD feedback.
+- Files touched: agents/research_status.md, agents/ideas/staging/corebound-fuel-loop-2026-03-05.md, agents/historylog.md, agents/ideas/processed/corebound-prompt-03-05-26-15.md
+- Commands: ls, cat agents/entrypoints/_research.md, ls -1 agents/ideas/inbox, cat <<'EOF' > agents/research_status.md, cat agents/roles/analyze.md, cat agents/roles/search.md, cat agents/roles/articulate.md, cat agents/ideas/inbox/corebound-prompt-03-05-26-15.md, cat agents/outline.md, cat agents/work/tasksbacklog.md, cat agents/work/tasksbackburner.md, cat agents/work/tasksarchive.md, ls -1 corebound, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, cat corebound/index.html, ls -1 agents/ideas/staging, sed -n '1,40p' agents/historylog.md, cat <<'EOF' > agents/ideas/staging/corebound-fuel-loop-2026-03-05.md
+- Decisions: Skipped external search because the prompt did not request or authorize it.
+- Follow-ups: Implement the fuel system per the spec and playtest tuning.
+- Prompt: agents/ideas/inbox/corebound-prompt-03-05-26-15.md
+- Report artifacts: agents/ideas/staging/corebound-fuel-loop-2026-03-05.md
+
+[2026-03-05] Update • Validator Prompt Sync + Site Build
+- Summary: Committed and pushed pending validator prompt/task updates and regenerated the public journal site data; no outline or README updates were needed.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md, agents/work/expectations.md, agents/work/finished/002-validator-reports.md, agents/work/finished/003-update-finished-prompts-requirements-rules.md, agents/work/prompts/006-update-finished-validator-reports.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, sed -n '1,240p' agents/scripts/research_loop.sh, python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git diff -- agents/historylog.md | head -n 120, git add -A, git commit -m "Sync validator prompt artifacts and site build", git push, git show --stat --oneline HEAD
+- Decisions: Left agents/outline.md and README.md unchanged because they already reflect current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-05] Builder • Update Finished Prompt: Validator Reports
 - Summary: Created the prompt artifact, linked it in the task card, and updated the finished validator reports prompt to reference the specs-path validation spec; rg checks confirmed the update.
 - Files touched: agents/work/prompts/006-update-finished-validator-reports.md, agents/work/task.md, agents/work/finished/002-validator-reports.md, agents/historylog.md
@@ -539,4 +648,44 @@ $(cat agents/historylog.md)
 - Decisions: none
 - Follow-ups: none
 - Prompt: agents/work/prompts/006-update-finished-validator-reports.md
+- Report artifacts: none
+[2026-03-06] Builder • Fuel HUD Row + Controls Note
+- Summary: Created the prompt artifact and linked it in the task card, then added a Fuel HUD row and a surface-refuel note in the controls list.
+- Files touched: agents/work/prompts/007-fuel-hud-row-controls-note.md, agents/work/task.md, corebound/index.html, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat <<'EOF' > agents/work/prompts/007-fuel-hud-row-controls-note.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/007-fuel-hud-row-controls-note.md, rg -n "HUD|hud" corebound/index.html, sed -n '1,80p' corebound/index.html, rg -n "fuel" corebound/game.js, apply_patch (corebound/index.html), python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: Used a placeholder Fuel value of 0 in the HUD row; refactor scan found no evidence-backed improvements.
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-hud-row-controls-note.md
+- Report artifacts: none
+[2026-03-06] Builder • Fuel Constants + HUD Binding
+- Summary: Added fuel tuning constants, initialized fuel state, and bound the Fuel HUD display to show current fuel versus max on each tick.
+- Files touched: agents/work/prompts/007-fuel-constants-hud.md, agents/work/task.md, corebound/game.js, agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, apply_patch (agents/work/prompts/007-fuel-constants-hud.md), apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/007-fuel-constants-hud.md, rg -n "FUEL|hud-fuel|hud" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, apply_patch (corebound/game.js), python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md
+- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+[2026-03-06] Builder • Fuel Constants + HUD Binding
+- Summary: Confirmed fuel constants, state initialization, and Fuel HUD binding are already in place; no code changes needed. Ran the local server command for the required verification step.
+- Files touched: agents/historylog.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/007-fuel-constants-hud.md, cat agents/roles/developer.md, cat agents/roles/refactor.md, cat agents/work/quickfix.md, rg -n "FUEL|hud-fuel|HUD|updateHud" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, timeout 2 python3 -m http.server, cat agents/historylog.md
+- Decisions: none
+- Follow-ups: Open the game in a browser to visually confirm the Fuel HUD shows `100 / 100` on load and no console errors appear.
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+[2026-03-06] QA • Fuel Constants + HUD Binding
+- Summary: Wrote expectations and ran the local server command, but verification is blocked because no JS-capable browser is available to confirm Fuel HUD rendering or console errors.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, git -C corebound diff -- index.html, cat agents/roles/tester.md, timeout 2s python3 -m http.server 8000, which chromium-browser || which chromium || which google-chrome || which google-chrome-stable || true
+- Decisions: Marked QA blocked due to missing JS-capable browser for HUD verification.
+- Follow-ups: Install Chromium/Chrome or Playwright, then rerun QA verification in a browser.
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
+- Report artifacts: none
+[2026-03-06] Builder • Fuel Constants + HUD Binding
+- Summary: Confirmed fuel constants, fuel state initialization, and Fuel HUD binding already exist in `corebound/game.js`; no code changes required. Refactor scan found no low-risk improvements.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/prompts/007-fuel-constants-hud.md, rg -n "HUD|hud|state|const" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, cat agents/work/quickfix.md, cat agents/orchestrate_status.md, cat agents/historylog.md
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/007-fuel-constants-hud.md
 - Report artifacts: none
