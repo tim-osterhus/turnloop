@@ -1,17 +1,17 @@
-## 2026-03-06 — Dig Fuel Cost + Empty Lockout
-Prompt: agents/work/prompts/008-dig-fuel-cost-lockout.md
-Goal: Charge fuel for successful digs and prevent digging when fuel is empty.
+## 2026-03-06 — Surface Auto-Refuel
+Goal: Automatically refill fuel to max at the surface.
 Scope:
-- In: Block digging when fuel is empty and subtract `FUEL_DIG_COST` on successful tile removal, clamped to `0..FUEL_MAX`.
-- Out: Movement drain or surface refuel behavior.
+- In: When depth is 0, set fuel to `FUEL_MAX` and keep the HUD in sync.
+- Out: Additional UI changes or new upgrades.
 Files to touch:
 - corebound/game.js
 Steps:
-1. Add an early return in `digAdjacentTile` when `state.fuel` is `0` (or less).
-2. After a dig succeeds (tile becomes air), subtract `FUEL_DIG_COST` and clamp the result.
-3. Ensure failed digs (air tile, bounds guard, or inventory-full ore) do not consume fuel.
+1. In the main tick or HUD update path, detect `depth === 0` and set `state.fuel = FUEL_MAX` (clamped).
+2. Ensure refuel happens without input and never exceeds `FUEL_MAX`.
 Acceptance:
-- Each successful dig reduces fuel by 8.
-- At fuel 0, digging no longer removes tiles.
+- After draining fuel, returning to depth 0 instantly refills to `100 / 100`.
+- The Fuel HUD row reflects the refilled value.
 Verification commands:
-- `python3 -m http.server` — Expected: fuel drops per successful dig and digging stops at 0.
+- `python3 -m http.server` — Expected: fuel refills to max on reaching depth 0.
+
+Prompt: agents/work/prompts/008-surface-auto-refuel.md

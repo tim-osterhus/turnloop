@@ -1,21 +1,24 @@
-# QA Expectations
+# QA Expectations — 2026-03-06 Surface Auto-Refuel
 
 ## Goal
-Charge fuel for successful digs and prevent digging when fuel is empty.
+Automatically refill fuel to max at the surface (depth 0) and keep the HUD in sync.
 
 ## Expected behavior
-- If `state.fuel` is 0 or less, digging does not remove tiles and does not change fuel.
-- Each successful dig (tile removed to air) reduces fuel by `FUEL_DIG_COST` (expected 8) and clamps fuel within `0..FUEL_MAX`.
-- Failed digs (air tile, out of bounds, or inventory-full ore) do not consume fuel.
+- When the player reaches depth 0, fuel is immediately set to `FUEL_MAX` without user input.
+- Fuel never exceeds `FUEL_MAX` (clamped).
+- The Fuel HUD row updates to show `100 / 100` (or `FUEL_MAX / FUEL_MAX`) upon reaching depth 0 after fuel was drained.
 
 ## Expected file changes
-- corebound/game.js: `digAdjacentTile` updated with an early fuel check and fuel decrement on successful dig.
+- `corebound/game.js` updated to set fuel to `FUEL_MAX` when `depth === 0` in the main tick/HUD update flow.
+- No other files are required by scope.
 
 ## Verification commands
 - `python3 -m http.server`
 
 ## Non-functional requirements
-- No changes to movement drain or surface refuel behavior.
+- No new UI elements or upgrades added.
+- Refuel logic runs automatically without input and does not create side effects beyond fuel state/HUD sync.
 
 ## Notes / assumptions
-- Manual verification in browser is required to observe fuel decrement and dig lockout at 0.
+- `FUEL_MAX` is defined and equals 100 as in current HUD display.
+- Manual browser interaction will be used to validate the behavior after starting the server.

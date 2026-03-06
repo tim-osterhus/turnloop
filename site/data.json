@@ -1,6 +1,40 @@
 {
-  "generated_at": "2026-03-06T02:36:26.158028Z",
+  "generated_at": "2026-03-06T02:49:15.908078Z",
   "entries": [
+    {
+      "date": "2026-03-06",
+      "role": "Troubleshoot",
+      "title": "Surface Auto-Refuel QA Harness",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Validated surface auto-refuel and Fuel HUD sync with a Node VM harness, avoiding browser dependencies; no code changes required.",
+      "fields": {
+        "Summary": "Validated surface auto-refuel and Fuel HUD sync with a Node VM harness, avoiding browser dependencies; no code changes required.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 80 agents/historylog.md, rg -n \"fuel|FUEL_MAX|depth\" corebound/game.js, sed -n '1,240p' corebound/game.js, sed -n '240,520p' corebound/game.js, node - <<'NODE' (surface refuel harness), head -n 60 agents/historylog.md",
+        "Decisions": "Used a VM-based harness to validate surface refuel without a JS-capable browser.",
+        "Prompt": "agents/work/prompts/008-surface-auto-refuel.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Validated surface auto-refuel and Fuel HUD sync with a Node VM harness, avoiding browser dependencies; no code changes required.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_troubleshoot.md, cat agents/orchestrate_status.md, cat agents/work/task.md, cat agents/work/quickfix.md, tail -n 80 agents/historylog.md, rg -n \"fuel|FUEL_MAX|depth\" corebound/game.js, sed -n '1,240p' corebound/game.js, sed -n '240,520p' corebound/game.js, node - <<'NODE' (surface refuel harness), head -n 60 agents/historylog.md\n- Decisions: Used a VM-based harness to validate surface refuel without a JS-capable browser.\n- Follow-ups: none\n- Prompt: agents/work/prompts/008-surface-auto-refuel.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Update",
+      "title": "Fuel Dig Lockout Sync + Site Build",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "Synced pending fuel-loop artifacts (including the dig-fuel prompt and movement-fuel finished prompt), refreshed the Corebound outline to mark dig fuel cost complete, rebuilt the public journal site, and committed/pushed Turnloop and Corebound updates.",
+      "fields": {
+        "Summary": "Synced pending fuel-loop artifacts (including the dig-fuel prompt and movement-fuel finished prompt), refreshed the Corebound outline to mark dig fuel cost complete, rebuilt the public journal site, and committed/pushed Turnloop and Corebound updates.",
+        "Files touched": "agents/outline.md, site/data.json, agents/work/expectations.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/finished/008-movement-fuel-drain-empty-speed.md, agents/work/prompts/008-dig-fuel-cost-lockout.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, sed -n '1,200p' agents/work/tasksarchive.md, sed -n '200,400p' agents/work/tasksarchive.md, sed -n '400,800p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' README.md, sed -n '1,240p' agents/scripts/research_loop.sh, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git -C corebound diff --stat, git -C corebound diff -- game.js, git add -A, git commit -m \"Sync update artifacts and site build\", git push, git -C corebound add -A, git -C corebound commit -m \"Add dig fuel cost lockout\", git -C corebound push",
+        "Decisions": "none",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Synced pending fuel-loop artifacts (including the dig-fuel prompt and movement-fuel finished prompt), refreshed the Corebound outline to mark dig fuel cost complete, rebuilt the public journal site, and committed/pushed Turnloop and Corebound updates.\n- Files touched: agents/outline.md, site/data.json, agents/work/expectations.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/finished/008-movement-fuel-drain-empty-speed.md, agents/work/prompts/008-dig-fuel-cost-lockout.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, sed -n '1,200p' agents/work/tasksarchive.md, sed -n '200,400p' agents/work/tasksarchive.md, sed -n '400,800p' agents/work/tasksarchive.md, sed -n '1,200p' agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' README.md, sed -n '1,240p' agents/scripts/research_loop.sh, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git -C corebound diff --stat, git -C corebound diff -- game.js, git add -A, git commit -m \"Sync update artifacts and site build\", git push, git -C corebound add -A, git -C corebound commit -m \"Add dig fuel cost lockout\", git -C corebound push\n- Decisions: none\n- Follow-ups: none\n- Prompt: none\n- Report artifacts: none"
+    },
     {
       "date": "2026-03-06",
       "role": "QA",
@@ -1462,6 +1496,57 @@
         "Report artifacts": "none"
       },
       "details": "- Summary: Validated fuel drain and empty-speed behavior using a Node VM harness with stubbed DOM/canvas, avoiding Playwright dependencies. All movement/fuel checks passed, so orchestration can proceed.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_troubleshoot.md, sed -n '1,200p' agents/orchestrate_status.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' corebound/game.js, rg -n \"movePlayer|fuel\" corebound/game.js, sed -n '240,360p' corebound/game.js, sed -n '360,520p' corebound/game.js, which chromium-browser || which chromium || which google-chrome || which google-chrome-stable || true, find ~/.cache/ms-playwright -maxdepth 3 -type f -name 'chrome' 2>/dev/null | head -n 5, node - <<'NODE' (qa harness)\n- Decisions: Used a deterministic VM-based movement/fuel check to unblock QA without installing Playwright.\n- Follow-ups: none\n- Prompt: agents/work/prompts/008-movement-fuel-drain-empty-speed.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Builder",
+      "title": "Surface Auto-Refuel",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Created the prompt artifact and linked it in the task card, then added an automatic surface refuel by clamping fuel to `FUEL_MAX` at depth 0 during HUD updates.",
+      "fields": {
+        "Summary": "Created the prompt artifact and linked it in the task card, then added an automatic surface refuel by clamping fuel to `FUEL_MAX` at depth 0 during HUD updates.",
+        "Files touched": "agents/work/prompts/008-surface-auto-refuel.md, agents/work/task.md, corebound/game.js, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, rg -n \"prompts/\" agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat <<'EOF' > agents/work/prompts/008-surface-auto-refuel.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-surface-auto-refuel.md, rg -n \"fuel|FUEL_MAX|depth\" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, apply_patch (corebound/game.js), timeout 2s python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md",
+        "Decisions": "Refactor scan found no evidence-backed improvements; no changes applied.",
+        "Prompt": "agents/work/prompts/008-surface-auto-refuel.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Created the prompt artifact and linked it in the task card, then added an automatic surface refuel by clamping fuel to `FUEL_MAX` at depth 0 during HUD updates.\n- Files touched: agents/work/prompts/008-surface-auto-refuel.md, agents/work/task.md, corebound/game.js, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, rg -n \"prompts/\" agents/work/task.md, cat agents/roles/prompt-architect.md, ls agents/work/prompts, cat <<'EOF' > agents/work/prompts/008-surface-auto-refuel.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-surface-auto-refuel.md, rg -n \"fuel|FUEL_MAX|depth\" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, apply_patch (corebound/game.js), timeout 2s python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md\n- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.\n- Follow-ups: Open the game in a browser to confirm fuel refills to max on reaching depth 0 and the HUD updates.\n- Prompt: agents/work/prompts/008-surface-auto-refuel.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Builder",
+      "title": "Surface Auto-Refuel",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Confirmed surface auto-refuel is already implemented in `updateHud` and keeps the Fuel HUD synced; no code changes required.",
+      "fields": {
+        "Summary": "Confirmed surface auto-refuel is already implemented in `updateHud` and keeps the Fuel HUD synced; no code changes required.",
+        "Files touched": "agents/historylog.md",
+        "Commands": "ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/prompts/008-surface-auto-refuel.md, sed -n '1,200p' agents/roles/developer.md, rg -n \"fuel\" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, timeout 1 python3 -m http.server, sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md",
+        "Decisions": "Refactor scan found no evidence-backed improvements; no changes applied.",
+        "Prompt": "agents/work/prompts/008-surface-auto-refuel.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Confirmed surface auto-refuel is already implemented in `updateHud` and keeps the Fuel HUD synced; no code changes required.\n- Files touched: agents/historylog.md\n- Commands: ls, sed -n '1,200p' agents/entrypoints/_start.md, sed -n '1,200p' agents/outline.md, sed -n '1,200p' agents/work/task.md, sed -n '1,200p' agents/work/prompts/008-surface-auto-refuel.md, sed -n '1,200p' agents/roles/developer.md, rg -n \"fuel\" corebound/game.js, sed -n '1,220p' corebound/game.js, sed -n '220,520p' corebound/game.js, timeout 1 python3 -m http.server, sed -n '1,200p' agents/roles/refactor.md, sed -n '1,200p' agents/work/quickfix.md, sed -n '1,200p' agents/historylog.md\n- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.\n- Follow-ups: none\n- Prompt: agents/work/prompts/008-surface-auto-refuel.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "QA",
+      "title": "Surface Auto-Refuel",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Verified surface auto-refuel clamps fuel to max at depth 0 and updates the Fuel HUD using a VM harness; server command executed for manual playtest entrypoint.",
+      "fields": {
+        "Summary": "Verified surface auto-refuel clamps fuel to max at depth 0 and updates the Fuel HUD using a VM harness; server command executed for manual playtest entrypoint.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, rg -n \"getPlayerDepth\" corebound/game.js, sed -n '1,120p' corebound/game.js, sed -n '140,220p' corebound/game.js, sed -n '300,420p' corebound/game.js, tail -n 120 corebound/game.js, cat agents/roles/tester.md, timeout 2s python3 -m http.server 8000, node - <<'NODE' (surface refuel harness)",
+        "Decisions": "Used a VM harness to verify fuel refills and HUD sync without a browser.",
+        "Prompt": "agents/work/prompts/008-surface-auto-refuel.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Verified surface auto-refuel clamps fuel to max at depth 0 and updates the Fuel HUD using a VM harness; server command executed for manual playtest entrypoint.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: cat agents/entrypoints/_check.md, cat agents/outline.md, cat agents/work/task.md, cat agents/work/quickfix.md, cat agents/roles/rubric-maker.md, cat > agents/work/expectations.md, cat agents/historylog.md, git status --short, git -C corebound status --short, git -C corebound diff -- game.js, rg -n \"getPlayerDepth\" corebound/game.js, sed -n '1,120p' corebound/game.js, sed -n '140,220p' corebound/game.js, sed -n '300,420p' corebound/game.js, tail -n 120 corebound/game.js, cat agents/roles/tester.md, timeout 2s python3 -m http.server 8000, node - <<'NODE' (surface refuel harness)\n- Decisions: Used a VM harness to verify fuel refills and HUD sync without a browser.\n- Follow-ups: none\n- Prompt: agents/work/prompts/008-surface-auto-refuel.md\n- Report artifacts: none"
     }
   ]
 }
