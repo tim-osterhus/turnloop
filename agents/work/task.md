@@ -1,20 +1,17 @@
-## 2026-03-06 — Validation Failure Blocks Manage Cycle
-Goal: Ensure a validation failure for the selected staging spec blocks the research status and skips Manager for that cycle.
+## 2026-03-06 — README One-Spec Queue Documentation
+Goal: Align the public Turnloop documentation with oldest-only staging validation and Manager processing.
 Scope:
-- In: Write `### BLOCKED` before manage-stage mechanic handling begins and keep the Manager entrypoint on the success-only path.
-- Out: Any change to mechanic escalation counts, nonviable moves, or validation-report content.
-Assumptions: The loop should continue using the existing next-poll retry behavior after a blocked cycle.
-Prompt: `agents/work/prompts/018-validation-failure-blocks-manage-cycle.md`
+- In: Update `README.md` so the research-loop overview and task descriptions describe one-spec-at-a-time staging handling.
+- Out: Outline changes, execution-loop docs, or new operational guidance beyond the queue contract.
+Prompt: `agents/work/prompts/019-readme-one-spec-queue-documentation.md`
 Files to touch:
-- agents/scripts/research_loop.sh
+- README.md
 Steps:
-1. Keep the validation step on the selected `staging_spec` and capture the failure branch explicitly.
-2. Write `### BLOCKED` before invoking manage-stage mechanic handling.
-3. Ensure the Manager entrypoint is not reached when validation fails for that cycle.
+1. Update the research-loop overview to say the oldest staging spec is validated and managed one at a time.
+2. Clarify that successful manage cycles leave newer staging specs in `agents/ideas/staging/`.
+3. Preserve the rest of the repo workflow documentation as-is unless wording must change for consistency.
 Acceptance:
-- Validation failure writes `### BLOCKED` before manage-stage mechanic handling starts.
-- Validation failure does not invoke Manager for any staging spec in that cycle.
-- The success path still runs Manager normally.
+- README states that staging processing is one-spec-at-a-time.
+- README matches the oldest-only validation and manage behavior.
 Verification commands:
-- `rg -n 'Staging validation failed for \\$staging_spec|write_status \"### BLOCKED\"|handle_mechanic \"manage\"|run_entrypoint \"\\$ENTRY_MANAGE\"' agents/scripts/research_loop.sh` — Expected: blocked-status and mechanic handling exist on the validation-failure path, and Manager remains on the success path.
-- `bash -n agents/scripts/research_loop.sh` — Expected: exit 0.
+- `rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md` — Expected: the README reflects the oldest-only queue contract.

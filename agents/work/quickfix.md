@@ -1,7 +1,6 @@
 # Quickfix
 
-- Status: CLOSED (2026-03-05) — staging spec present in `agents/ideas/staging/`.
-- Issue: `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` is missing.
-- Impact: `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` exits 3, so the staging validation acceptance fails.
-- Required fix: Restore/copy `agents/ideas/specs/turnloop-spec-validation-2026-03-05.md` into `agents/ideas/staging/turnloop-spec-validation-2026-03-05.md`.
-- Verification: `bash agents/scripts/validate_spec.sh agents/ideas/staging/turnloop-spec-validation-2026-03-05.md` (exit 0 on 2026-03-05).
+- Status: CLOSED (2026-03-06) — resolved in Builder remediator pass.
+- Resolved: Removed the out-of-scope `## The Experiment` section from `README.md` and kept only the requested oldest-only staging queue-contract wording.
+- Verification: `git diff -- README.md` — PASS; diff is limited to the README queue-contract wording.
+- Verification: `rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md` — PASS

@@ -6,7 +6,7 @@ It is designed to prove that a single agent can run continuous execution and res
 ## How It Works
 Turnloop separates work into two always‑on loops:
 - Execution loop: drains the task backlog, runs Builder and QA, and resolves quickfixes.
-- Research loop: ingests prompts from `agents/ideas/inbox/`, produces specs, and decomposes them into backlog tasks.
+- Research loop: ingests prompts from `agents/ideas/inbox/`, validates and manages the oldest staging spec one-spec-at-a-time, and decomposes approved specs into backlog tasks.
 
 The loops communicate only through files on disk, keeping state simple and auditable.
 
@@ -34,8 +34,8 @@ If the loop is blocked, it invokes the troubleshooter. Two consecutive troublesh
 ## Research Loop (High Level)
 1. Read the oldest prompt in `agents/ideas/inbox/`.
 2. Run Researcher to write a spec into `agents/ideas/staging/`.
-3. Validate the oldest staging spec with `agents/scripts/validate_spec.sh`; failures write reports to `agents/ideas/validation_reports/` and block the Manager run for that cycle.
-4. Run Manager to decompose the oldest staging spec (one at a time) into task cards in `agents/work/tasksbacklog.md`, then move the processed spec to `agents/ideas/specs/` and leave newer staging specs queued when validation passes.
+3. Validate the oldest staging spec with `agents/scripts/validate_spec.sh`; failures write reports to `agents/ideas/validation_reports/` and block the Manager run for that one-spec-at-a-time cycle.
+4. Run Manager to decompose the oldest staging spec one-spec-at-a-time into task cards in `agents/work/tasksbacklog.md`, then move only the processed oldest staging spec to `agents/ideas/specs/` and leave newer staging specs in `agents/ideas/staging/` when validation passes.
 
 If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic blocks move the offending file to `agents/ideas/nonviable/`.
 
@@ -46,7 +46,7 @@ If research is blocked, the loop invokes the Mechanic. Two consecutive mechanic 
 - Every run prepends a history log entry in `agents/historylog.md`.
 - Prompt artifacts live in `agents/work/prompts/` and are moved to `agents/work/finished/` after QA.
 - Task cards use `##` headings and live in `agents/work/tasksbacklog.md`.
-- The research loop runs `agents/scripts/validate_spec.sh` before Manager; failures write reports under `agents/ideas/validation_reports/` and block Manager for that cycle.
+- The research loop runs `agents/scripts/validate_spec.sh` before Manager on the oldest staging spec; failures write reports under `agents/ideas/validation_reports/` and block Manager for that one-spec-at-a-time cycle.
 
 ## Repository Layout
 - `agents/entrypoints/`: entry prompts for each stage.

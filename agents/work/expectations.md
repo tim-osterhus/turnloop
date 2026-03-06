@@ -1,24 +1,25 @@
 ## Goal
-Confirm that a staging-spec validation failure blocks the manage cycle before manage-stage mechanic handling begins, while the success path still reaches Manager normally.
+Confirm that `README.md` documents the one-spec-at-a-time staging queue contract, including oldest-only validation and management plus the retention of newer staged specs after a successful manage cycle.
 
 ## Expected behavior
-- `agents/scripts/research_loop.sh` validates the selected `"$staging_spec"` and has an explicit failure branch for that validation step.
-- On validation failure, the script writes `### BLOCKED` before any manage-stage mechanic handling starts.
-- On validation failure, the script does not invoke the Manager entrypoint for that cycle.
-- On validation success, the existing manage flow still reaches Manager normally.
+- The research-loop overview says staging specs are processed one at a time.
+- The README identifies the oldest staging spec as the one validated and managed in a cycle.
+- The README states that newer staging specs remain in `agents/ideas/staging/` after a successful manage cycle.
+- Documentation outside this queue-contract clarification remains materially unchanged unless a small wording adjustment is required for consistency.
 
 ## Expected file changes
-- `agents/scripts/research_loop.sh` only, with changes limited to the staging-validation failure branch and manage-stage control flow.
+- `README.md` contains the documentation update for the oldest-only, one-spec-at-a-time staging behavior.
+- `agents/work/expectations.md` is overwritten during this QA run.
 
 ## Verification commands
-- `rg -n 'Staging validation failed for \\$staging_spec|write_status "### BLOCKED"|handle_mechanic "manage"|run_entrypoint "\\$ENTRY_MANAGE"' agents/scripts/research_loop.sh`
-- `bash -n agents/scripts/research_loop.sh`
+- `rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md`
+- `git diff -- README.md`
 
 ## Non-functional requirements
-- Changes stay within `turnloop/`.
-- Shell syntax remains valid.
-- The implementation keeps existing next-poll retry behavior for blocked cycles.
-- The change does not alter mechanic escalation counts, nonviable moves, or validation-report content.
+- The README wording is clear, public-facing, and internally consistent with the described queue contract.
+- The change stays scoped to README queue-contract wording and does not introduce unrelated operational guidance.
+- The QA run stays within `turnloop/` and records results with evidence.
 
 ## Notes / assumptions
-- `agents/work/quickfix.md` is closed, so this QA run is not a doublecheck cycle.
+- The task scope excludes outline or execution-loop documentation edits unless the README needs a minimal consistency change.
+- `agents/work/quickfix.md` is closed, so this pass validates the primary task rather than an open quickfix.

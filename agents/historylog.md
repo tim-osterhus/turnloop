@@ -1,3 +1,48 @@
+[2026-03-06] QA • README One-Spec Queue Documentation
+- Summary: Verified that `README.md` now documents oldest-only staging validation and Manager handling as a one-spec-at-a-time flow. The required verification commands passed, and the diff stays scoped to the requested README queue-contract wording.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,260p' agents/work/quickfix.md; sed -n '1,220p' agents/roles/rubric-maker.md; sed -n '1,220p' agents/work/expectations.md; apply_patch (agents/work/expectations.md); sed -n '1,220p' agents/historylog.md; git status --short; git diff -- README.md; rg -n -C 2 'oldest staging spec|one-spec-at-a-time|leave newer staging specs|staging' README.md; sed -n '1,220p' agents/roles/tester.md; rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md (PASS); git diff -- README.md (PASS)
+- Decisions: Accepted the task because the README wording matches the oldest-only queue contract and the implementation diff remains limited to the requested documentation scope; did not invoke the double-check role because `agents/work/quickfix.md` had no OPEN items at the start of the run.
+- Follow-ups: none
+- Prompt: agents/work/prompts/019-readme-one-spec-queue-documentation.md
+- Report artifacts: none
+
+[2026-03-06] Builder • README One-Spec Queue Documentation
+- Summary: Removed the out-of-scope `## The Experiment` section from `README.md` and kept the one-spec queue-contract wording intact. Verification passed, refactor remained a no-op, and the remediator pass closed the open quickfix item.
+- Files touched: README.md, agents/work/quickfix.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,240p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,240p' agents/roles/prompt-architect.md; sed -n '1,260p' agents/work/prompts/019-readme-one-spec-queue-documentation.md; sed -n '1,240p' agents/work/quickfix.md; sed -n '1,260p' README.md; sed -n '1,120p' agents/historylog.md; git status --short; git diff -- README.md; sed -n '1,80p' agents/orchestrate_status.md; nl -ba README.md | sed -n '1,80p'; apply_patch (README.md, agents/work/quickfix.md, agents/historylog.md, agents/orchestrate_status.md); git diff -- README.md (PASS); rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md (PASS)
+- Decisions: Kept the fix strictly within the README queue-documentation scope and resolved only the explicit OPEN quickfix item. Left the refactor pass as a no-op because there was no evidence-backed follow-up improvement to make.
+- Follow-ups: none
+- Prompt: agents/work/prompts/019-readme-one-spec-queue-documentation.md
+- Report artifacts: none
+
+[2026-03-06] QA • README One-Spec Queue Documentation
+- Summary: The README queue-contract wording matches oldest-only staging validation and one-spec-at-a-time Manager handling, but the diff also adds a new `## The Experiment` section outside the task scope. Returning `QUICKFIX_NEEDED` until the README change is limited to the requested queue-documentation edits.
+- Files touched: agents/work/expectations.md, agents/work/quickfix.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,220p' agents/work/task.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,240p' agents/roles/rubric-maker.md; apply_patch (agents/work/expectations.md); sed -n '1,240p' agents/historylog.md; git status --short; git diff -- README.md; rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md; sed -n '1,240p' agents/roles/tester.md; sed -n '1,220p' agents/work/prompts/019-readme-one-spec-queue-documentation.md; nl -ba README.md | sed -n '1,90p'; sed -n '1,40p' agents/orchestrate_status.md
+- Decisions: Failed QA because the prompt requires a minimal README-only queue-contract update and the new `## The Experiment` section is unrelated operational guidance; did not invoke the double-check role because `agents/work/quickfix.md` had no OPEN items at the start of this pass.
+- Follow-ups: Remove the out-of-scope README section, keep the queue-contract wording changes, and rerun QA.
+- Prompt: agents/work/prompts/019-readme-one-spec-queue-documentation.md
+- Report artifacts: none
+
+[2026-03-06] Builder • README One-Spec Queue Documentation
+- Summary: Created the missing prompt artifact and linked it from the active task, then tightened `README.md` so the research-loop overview and high-level flow explicitly document oldest staging validation and Manager handling as one-spec-at-a-time. Verification passed; refactor was a no-op because no evidence-backed improvement surfaced, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: README.md, agents/work/prompts/019-readme-one-spec-queue-documentation.md, agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,220p' agents/orchestrate_status.md; rg -n "agents/work/prompts/|Prompt:" agents/work/task.md agents/historylog.md README.md; ls -1 agents/work/prompts; sed -n '1,260p' README.md; sed -n '1,220p' agents/roles/prompt-architect.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,80p' agents/historylog.md; nl -ba agents/work/task.md | sed -n '1,220p'; nl -ba README.md | sed -n '1,140p'; git status --short; git diff -- README.md; git diff -- agents/work/task.md; git diff -- agents/historylog.md; git diff -- agents/orchestrate_status.md; sed -n '1,260p' agents/work/prompts/018-validation-failure-blocks-manage-cycle.md; apply_patch (README.md, agents/work/prompts/019-readme-one-spec-queue-documentation.md, agents/work/task.md, agents/historylog.md, agents/orchestrate_status.md); sed -n '1,260p' agents/work/prompts/019-readme-one-spec-queue-documentation.md; git diff -- README.md agents/work/task.md agents/work/prompts/019-readme-one-spec-queue-documentation.md agents/historylog.md agents/orchestrate_status.md; rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md (PASS)
+- Decisions: Kept the documentation change limited to the README lines that describe the research loop and queue behavior; left the closed quickfix file untouched and recorded the refactor pass as a no-op because there was no explicit evidence for a safe follow-up edit.
+- Follow-ups: none
+- Prompt: agents/work/prompts/019-readme-one-spec-queue-documentation.md
+- Report artifacts: none
+
+[2026-03-06] Update • Site Build + Repo Sync
+- Summary: Rebuilt the public journal site and committed/pushed the pending Turnloop updates; `agents/outline.md` and `README.md` did not need changes this cycle.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md, agents/scripts/research_loop.sh, agents/work/expectations.md, agents/work/prompts/018-validation-failure-blocks-manage-cycle.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls; sed -n '1,200p' agents/entrypoints/_update.md; sed -n '1,200p' agents/work/tasksarchive.md; sed -n '200,400p' agents/work/tasksarchive.md; sed -n '400,800p' agents/work/tasksarchive.md; sed -n '800,1200p' agents/work/tasksarchive.md; sed -n '1,200p' agents/work/tasksbacklog.md; sed -n '1,200p' agents/historylog.md; sed -n '1,240p' agents/outline.md; sed -n '1,240p' README.md; python3 scripts/build_site.py; git status --short; git -C corebound status --short; git add -A; git commit -m "Sync update artifacts and site build"; git push; git show --name-only --pretty='' HEAD
+- Decisions: Left `agents/outline.md` and `README.md` unchanged because they already reflect current loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Validation Failure Blocks Manage Cycle
 - Summary: Verified `agents/scripts/research_loop.sh` writes `### BLOCKED` before manage-stage mechanic handling when staging validation fails, and keeps the Manager entrypoint behind the success-only path. The required verification commands passed, and `agents/work/quickfix.md` is closed, so no doublecheck pass was needed.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
