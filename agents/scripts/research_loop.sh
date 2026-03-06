@@ -26,19 +26,58 @@ DAEMON_MODE="true"
 POLL_SECS="120"
 PROMOTE_DELAY_SECS="180"
 
-RESEARCH_EFFORT="high"
-MANAGE_EFFORT="xhigh"
-MECHANIC_EFFORT="xhigh"
+RESEARCH_MODEL="${TURNLOOP_RESEARCH_MODEL:-gpt-5.4}"
+RESEARCH_EFFORT="${TURNLOOP_RESEARCH_EFFORT:-xhigh}"
+
+MANAGE_MODEL="${TURNLOOP_MANAGE_MODEL:-gpt-5.2-codex}"
+MANAGE_EFFORT="${TURNLOOP_MANAGE_EFFORT:-xhigh}"
+
+MECHANIC_MODEL="${TURNLOOP_MECHANIC_MODEL:-gpt-5.3-codex}"
+MECHANIC_EFFORT="${TURNLOOP_MECHANIC_EFFORT:-xhigh}"
+
+MECHANIC_AB_MODE="${TURNLOOP_MECHANIC_AB:-off}"   # off | alt | ab
+MECHANIC_MODEL_ALT="${TURNLOOP_MECHANIC_MODEL_ALT:-gpt-5.3-codex-spark}"
 
 mkdir -p "$TMP_DIR" "$INBOX_DIR" "$PROCESSED_DIR" "$STAGING_DIR" "$SPECS_DIR" "$LOG_DIR"
 mkdir -p "$NONVIABLE_DIR"
 
 MECHANIC_COUNT_FILE="${TMP_DIR}/mechanic_count.txt"
+MECHANIC_AB_FILE="${TMP_DIR}/mechanic_ab_toggle.txt"
 
 log() {
   local ts
   ts="$(date '+%F %T')"
   printf '[%s] %s\n' "$ts" "$1"
+}
+
+select_model() {
+  local primary="$1"
+  local alt="$2"
+  local mode="$3"
+  local toggle_file="$4"
+  case "$mode" in
+    alt)
+      printf '%s' "$alt"
+      return 0
+      ;;
+    ab)
+      local last=""
+      if [ -f "$toggle_file" ]; then
+        last="$(tr -d '\r' < "$toggle_file" || true)"
+      fi
+      local chosen="$primary"
+      if [ "$last" = "$primary" ]; then
+        chosen="$alt"
+      fi
+      printf '%s\n' "$chosen" > "$toggle_file"
+      printf '%s' "$chosen"
+      return 0
+      ;;
+    *)
+      printf '%s' "$primary"
+      return 0
+      ;;
+  esac
 }
 
 write_status() {
@@ -56,7 +95,8 @@ get_status() {
 
 run_entrypoint() {
   local entry="$1"
-  local effort="$2"
+  local model="$2"
+  local effort="$3"
   local entry_name codex_log
   entry_name="$(basename "$entry" .md)"
   codex_log="${LOG_DIR}/research_${entry_name}.log"
@@ -68,11 +108,11 @@ run_entrypoint() {
 
   if [ "$RUNNER" = "codex" ]; then
     env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
-      "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
+      "$RUNNER" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
       -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
       >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
+    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$model" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
     "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   fi
@@ -119,8 +159,10 @@ move_offending_to_nonviable() {
 
 handle_mechanic() {
   local stage="$1"
+  local mechanic_model
+  mechanic_model="$(select_model "$MECHANIC_MODEL" "$MECHANIC_MODEL_ALT" "$MECHANIC_AB_MODE" "$MECHANIC_AB_FILE")"
   log "Starting entrypoint: _mechanic.md (stage=${stage})"
-  run_entrypoint "$ENTRY_MECHANIC" "$MECHANIC_EFFORT" || true
+  run_entrypoint "$ENTRY_MECHANIC" "$mechanic_model" "$MECHANIC_EFFORT" || true
   log "Finished entrypoint: _mechanic.md (status=$(get_status))"
   if [ "$(get_status)" = "### BLOCKED" ]; then
     local count
@@ -152,7 +194,7 @@ while true; do
     log "Inbox has work; waiting ${PROMOTE_DELAY_SECS}s before research"
     sleep "$PROMOTE_DELAY_SECS"
     log "Starting entrypoint: _research.md"
-    run_entrypoint "$ENTRY_RESEARCH" "$RESEARCH_EFFORT" || true
+    run_entrypoint "$ENTRY_RESEARCH" "$RESEARCH_MODEL" "$RESEARCH_EFFORT" || true
     log "Finished entrypoint: _research.md (status=$(get_status))"
     case "$(get_status)" in
       "### IDLE")
@@ -182,7 +224,7 @@ while true; do
         handle_mechanic "manage"
       else
         log "Starting entrypoint: _manage.md"
-        run_entrypoint "$ENTRY_MANAGE" "$MANAGE_EFFORT" || true
+      run_entrypoint "$ENTRY_MANAGE" "$MANAGE_MODEL" "$MANAGE_EFFORT" || true
         log "Finished entrypoint: _manage.md (status=$(get_status))"
         case "$(get_status)" in
           "### IDLE")

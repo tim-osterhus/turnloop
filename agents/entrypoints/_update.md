@@ -50,3 +50,4 @@ Prepend a new entry to `agents/historylog.md` (newest first) using this basic te
 - Keep edits minimal and factual.
 - Do not invent progress not backed by `tasksarchive.md`.
 - Stay within `turnloop/` only.
+- The working tree is expected to be dirty from ongoing loop activity. Do not halt or ask for confirmation due to pre-existing changes; treat them as expected and proceed.

@@ -28,15 +28,29 @@ DAEMON_MODE="true"
 IDLE_POLL_SECS="120"
 PROMOTE_DELAY_SECS="180"
 
-START_EFFORT="high"
-CHECK_EFFORT="high"
-TROUBLE_EFFORT="xhigh"
-UPDATE_EFFORT="high"
+START_MODEL="${TURNLOOP_START_MODEL:-gpt-5.4}"
+START_EFFORT="${TURNLOOP_START_EFFORT:-high}"
+
+CHECK_MODEL="${TURNLOOP_CHECK_MODEL:-gpt-5.2}"
+CHECK_EFFORT="${TURNLOOP_CHECK_EFFORT:-xhigh}"
+
+TROUBLE_MODEL="${TURNLOOP_TROUBLE_MODEL:-gpt-5.3-codex}"
+TROUBLE_EFFORT="${TURNLOOP_TROUBLE_EFFORT:-xhigh}"
+
+UPDATE_MODEL="${TURNLOOP_UPDATE_MODEL:-gpt-5.2-codex}"
+UPDATE_EFFORT="${TURNLOOP_UPDATE_EFFORT:-high}"
+
+TROUBLE_AB_MODE="${TURNLOOP_TROUBLE_AB:-off}"    # off | alt | ab
+UPDATE_AB_MODE="${TURNLOOP_UPDATE_AB:-off}"      # off | alt | ab
+TROUBLE_MODEL_ALT="${TURNLOOP_TROUBLE_MODEL_ALT:-gpt-5.3-codex-spark}"
+UPDATE_MODEL_ALT="${TURNLOOP_UPDATE_MODEL_ALT:-gpt-5.3-codex-spark}"
 
 TROUBLE_COUNT_FILE="${TMP_DIR}/troubleshoot_count.txt"
 QUICKFIX_COUNT_FILE="${TMP_DIR}/quickfix_count.txt"
 CURRENT_TASK_ID_FILE="${TMP_DIR}/current_task_id.txt"
 UPDATE_BLOCKED_COUNT_FILE="${TMP_DIR}/update_blocked_count.txt"
+TROUBLE_AB_FILE="${TMP_DIR}/troubleshoot_ab_toggle.txt"
+UPDATE_AB_FILE="${TMP_DIR}/update_ab_toggle.txt"
 
 mkdir -p "$TMP_DIR" "$PROMPTS_DIR" "$FINISHED_DIR" "$LOG_DIR"
 
@@ -44,6 +58,36 @@ log() {
   local ts
   ts="$(date '+%F %T')"
   printf '[%s] %s\n' "$ts" "$1"
+}
+
+select_model() {
+  local primary="$1"
+  local alt="$2"
+  local mode="$3"
+  local toggle_file="$4"
+  case "$mode" in
+    alt)
+      printf '%s' "$alt"
+      return 0
+      ;;
+    ab)
+      local last=""
+      if [ -f "$toggle_file" ]; then
+        last="$(tr -d '\r' < "$toggle_file" || true)"
+      fi
+      local chosen="$primary"
+      if [ "$last" = "$primary" ]; then
+        chosen="$alt"
+      fi
+      printf '%s\n' "$chosen" > "$toggle_file"
+      printf '%s' "$chosen"
+      return 0
+      ;;
+    *)
+      printf '%s' "$primary"
+      return 0
+      ;;
+  esac
 }
 
 write_status() {
@@ -112,8 +156,10 @@ run_update_cycle() {
   local attempt=0
   while [ "$attempt" -lt 2 ]; do
     attempt=$((attempt + 1))
+    local update_model
+    update_model="$(select_model "$UPDATE_MODEL" "$UPDATE_MODEL_ALT" "$UPDATE_AB_MODE" "$UPDATE_AB_FILE")"
     log "Starting entrypoint: _update.md (attempt ${attempt})"
-    run_entrypoint "$ENTRY_UPDATE" "$UPDATE_EFFORT" || true
+    run_entrypoint "$ENTRY_UPDATE" "$update_model" "$UPDATE_EFFORT" || true
     log "Finished entrypoint: _update.md (status=$(get_status))"
     if [ "$(get_status)" = "### UPDATE_COMPLETE" ]; then
       return 0
@@ -203,7 +249,8 @@ move_prompt_to_finished() {
 
 run_entrypoint() {
   local entry="$1"
-  local effort="$2"
+  local model="$2"
+  local effort="$3"
   local entry_name codex_log
   entry_name="$(basename "$entry" .md)"
   codex_log="${LOG_DIR}/orchestrate_${entry_name}.log"
@@ -215,11 +262,11 @@ run_entrypoint() {
 
   if [ "$RUNNER" = "codex" ]; then
     env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
-      "$RUNNER" exec --model "$RUNNER_MODEL" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
+      "$RUNNER" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
       -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
       >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
   elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$RUNNER_MODEL" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
+    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$model" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
   else
     "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
   fi
@@ -227,8 +274,10 @@ run_entrypoint() {
 
 handle_blocked() {
   local count
+  local trouble_model
+  trouble_model="$(select_model "$TROUBLE_MODEL" "$TROUBLE_MODEL_ALT" "$TROUBLE_AB_MODE" "$TROUBLE_AB_FILE")"
   log "Starting entrypoint: _troubleshoot.md"
-  run_entrypoint "$ENTRY_TROUBLE" "$TROUBLE_EFFORT" || true
+  run_entrypoint "$ENTRY_TROUBLE" "$trouble_model" "$TROUBLE_EFFORT" || true
   log "Finished entrypoint: _troubleshoot.md (status=$(get_status))"
   if [ "$(get_status)" = "### TROUBLESHOOT_COMPLETE" ]; then
     reset_troubleshoot_count
@@ -267,12 +316,12 @@ while true; do
   fi
 
   log "Starting entrypoint: _start.md"
-  run_entrypoint "$ENTRY_START" "$START_EFFORT" || true
+  run_entrypoint "$ENTRY_START" "$START_MODEL" "$START_EFFORT" || true
   log "Finished entrypoint: _start.md (status=$(get_status))"
   case "$(get_status)" in
     "### BUILDER_COMPLETE")
       log "Starting entrypoint: _check.md"
-      run_entrypoint "$ENTRY_CHECK" "$CHECK_EFFORT" || true
+      run_entrypoint "$ENTRY_CHECK" "$CHECK_MODEL" "$CHECK_EFFORT" || true
       log "Finished entrypoint: _check.md (status=$(get_status))"
       ;;
     "### BLOCKED")
@@ -298,10 +347,10 @@ while true; do
       while [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -lt 2 ]; do
         inc_quickfix_count >/dev/null
         log "Starting entrypoint: _start.md (quickfix attempt $(get_quickfix_count))"
-        run_entrypoint "$ENTRY_START" "$START_EFFORT" || true
+        run_entrypoint "$ENTRY_START" "$START_MODEL" "$START_EFFORT" || true
         log "Finished entrypoint: _start.md (status=$(get_status))"
         log "Starting entrypoint: _check.md (quickfix attempt $(get_quickfix_count))"
-        run_entrypoint "$ENTRY_CHECK" "$CHECK_EFFORT" || true
+        run_entrypoint "$ENTRY_CHECK" "$CHECK_MODEL" "$CHECK_EFFORT" || true
         log "Finished entrypoint: _check.md (status=$(get_status))"
       done
       if [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -ge 2 ]; then

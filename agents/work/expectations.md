@@ -1,25 +1,31 @@
-# QA Expectations — Low-Fuel Warning State
+# QA Expectations — Apply Strata Metadata in World Generation
 
 ## Goal
-Highlight low fuel in the HUD when at or below the threshold.
+Tag underground tiles with stratum metadata during world generation, while preserving surface traversal and starter shaft openness.
 
 ## Expected behavior
-- Fuel HUD row gains a visible warning style when `fuel <= FUEL_LOW_THRESHOLD` (threshold is 20 per task acceptance).
-- Warning style clears when `fuel > FUEL_LOW_THRESHOLD` (e.g., after refuel).
-- Other HUD rows remain unchanged.
+- World generation assigns stratum metadata to **underground solid tiles** (not surface row, not air), visible in DevTools when inspecting tile objects.
+- Surface row remains traversable (no new solids/regressions on the surface row).
+- Starter shaft remains open from the surface into the underground (shaft tiles are air/traversable, not solid).
+- Stratum tagging uses the existing depth→stratum resolver (no duplicate boundary logic).
 
 ## Expected file changes
-- `corebound/style.css`: add a warning style targeting the Fuel row when a class like `.is-low` (or equivalent) is present.
-- `corebound/game.js`: cache the Fuel row element and toggle the warning class in `updateHud` based on the fuel threshold.
+- `corebound/game.js`: assign stratum metadata on underground solid tiles during generation.
+- No other implementation files change.
 
 ## Verification commands
-- `python3 -m http.server`
-  - Expected: in the running game, Fuel row styling switches on at 20 or below and clears after refuel above 20.
+- `cd corebound && python3 -m http.server`
+  - Expected: page loads with no console errors.
+  - Expected: you can move down the starter shaft from the surface.
+  - Expected: inspecting an underground solid tile shows a populated stratum identifier (e.g., `stratumId` or `stratumName`).
+  - Expected: inspecting a surface tile and a starter-shaft air tile shows they are not treated as solid underground tiles (no stratum metadata required there).
+- `git diff --name-only`
+  - Expected: only `corebound/game.js` is changed in the implementation.
 
 ## Non-functional requirements
-- No changes to fuel drain/refuel tuning or gameplay balance.
-- Warning logic is simple and deterministic; no animation or heavy DOM work required.
+- No changes to ore weighting, tile visuals, HUD, controls, or gameplay tuning beyond adding metadata.
+- No noticeable slowdown in world generation (stratum lookup should be O(1) per tile/row).
+- Metadata field is stable and easy to inspect for later rendering/ore selection work.
 
 ## Notes / assumptions
-- `FUEL_LOW_THRESHOLD` is defined and equals 20 in `corebound/game.js`.
-- Manual verification is acceptable for this UI-only change.
+- Exact property name may differ (`stratumId` preferred); requirement is that an underground solid tile exposes a stable, inspectable stratum identifier/value.
