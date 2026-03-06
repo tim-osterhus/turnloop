@@ -28,17 +28,29 @@ DAEMON_MODE="true"
 IDLE_POLL_SECS="120"
 PROMOTE_DELAY_SECS="180"
 
+START_RUNNER="${TURNLOOP_START_RUNNER:-$RUNNER}"
 START_MODEL="${TURNLOOP_START_MODEL:-gpt-5.4}"
 START_EFFORT="${TURNLOOP_START_EFFORT:-high}"
+START_FALLBACK_RUNNER="${TURNLOOP_START_FALLBACK_RUNNER:-codex}"
+START_FALLBACK_MODEL="${TURNLOOP_START_FALLBACK_MODEL:-gpt-5.4}"
 
+CHECK_RUNNER="${TURNLOOP_CHECK_RUNNER:-$RUNNER}"
 CHECK_MODEL="${TURNLOOP_CHECK_MODEL:-gpt-5.4}"
 CHECK_EFFORT="${TURNLOOP_CHECK_EFFORT:-xhigh}"
+CHECK_FALLBACK_RUNNER="${TURNLOOP_CHECK_FALLBACK_RUNNER:-codex}"
+CHECK_FALLBACK_MODEL="${TURNLOOP_CHECK_FALLBACK_MODEL:-gpt-5.4}"
 
+TROUBLE_RUNNER="${TURNLOOP_TROUBLE_RUNNER:-$RUNNER}"
 TROUBLE_MODEL="${TURNLOOP_TROUBLE_MODEL:-gpt-5.3-codex}"
 TROUBLE_EFFORT="${TURNLOOP_TROUBLE_EFFORT:-xhigh}"
+TROUBLE_FALLBACK_RUNNER="${TURNLOOP_TROUBLE_FALLBACK_RUNNER:-codex}"
+TROUBLE_FALLBACK_MODEL="${TURNLOOP_TROUBLE_FALLBACK_MODEL:-gpt-5.3-codex}"
 
+UPDATE_RUNNER="${TURNLOOP_UPDATE_RUNNER:-$RUNNER}"
 UPDATE_MODEL="${TURNLOOP_UPDATE_MODEL:-gpt-5.2-codex}"
 UPDATE_EFFORT="${TURNLOOP_UPDATE_EFFORT:-high}"
+UPDATE_FALLBACK_RUNNER="${TURNLOOP_UPDATE_FALLBACK_RUNNER:-codex}"
+UPDATE_FALLBACK_MODEL="${TURNLOOP_UPDATE_FALLBACK_MODEL:-gpt-5.2-codex}"
 
 TROUBLE_AB_MODE="${TURNLOOP_TROUBLE_AB:-off}"    # off | alt | ab
 UPDATE_AB_MODE="${TURNLOOP_UPDATE_AB:-off}"      # off | alt | ab
@@ -58,6 +70,114 @@ log() {
   local ts
   ts="$(date '+%F %T')"
   printf '[%s] %s\n' "$ts" "$1"
+}
+
+append_file_to_log() {
+  local src="$1"
+  local dest="$2"
+  if [ -s "$src" ]; then
+    cat "$src" >> "$dest"
+    if [ "$(tail -c 1 "$src" 2>/dev/null || true)" != "" ]; then
+      printf '\n' >> "$dest"
+    fi
+  fi
+}
+
+gemini_extract_error_text() {
+  local stdout_file="$1"
+  local stderr_file="$2"
+  python3 - "$stdout_file" "$stderr_file" <<'PY'
+import json
+import pathlib
+import sys
+
+stdout_path = pathlib.Path(sys.argv[1])
+stderr_path = pathlib.Path(sys.argv[2])
+parts = []
+if stdout_path.exists() and stdout_path.stat().st_size:
+    try:
+        data = json.loads(stdout_path.read_text())
+    except Exception:
+        parts.append(stdout_path.read_text())
+    else:
+        err = data.get("error") or {}
+        if isinstance(err, dict):
+            for key in ("type", "message", "code"):
+                value = err.get(key)
+                if value not in (None, ""):
+                    parts.append(str(value))
+if stderr_path.exists() and stderr_path.stat().st_size:
+    parts.append(stderr_path.read_text())
+print(" ".join(parts).strip())
+PY
+}
+
+gemini_is_capacity_error() {
+  local stdout_file="$1"
+  local stderr_file="$2"
+  local error_text
+  error_text="$(gemini_extract_error_text "$stdout_file" "$stderr_file" | tr '[:upper:]' '[:lower:]')"
+  case "$error_text" in
+    *"resource_exhausted"*|*"rate limit"*|*"quota"*|*"capacity"*|*"too many requests"*|*"429"*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+run_gemini_entrypoint() {
+  local instruction="$1"
+  local model="$2"
+  local log_file="$3"
+  local stdout_file stderr_file
+  stdout_file="$(mktemp "${TMP_DIR}/gemini_${model//[^A-Za-z0-9_.-]/_}_stdout_XXXXXX.json")"
+  stderr_file="$(mktemp "${TMP_DIR}/gemini_${model//[^A-Za-z0-9_.-]/_}_stderr_XXXXXX.log")"
+  if gemini --model "$model" --approval-mode yolo --output-format json "$instruction" >"$stdout_file" 2>"$stderr_file"; then
+    append_file_to_log "$stdout_file" "$log_file"
+    append_file_to_log "$stderr_file" "$log_file"
+    rm -f "$stdout_file" "$stderr_file"
+    return 0
+  fi
+  append_file_to_log "$stdout_file" "$log_file"
+  append_file_to_log "$stderr_file" "$log_file"
+  if gemini_is_capacity_error "$stdout_file" "$stderr_file"; then
+    rm -f "$stdout_file" "$stderr_file"
+    return 11
+  fi
+  rm -f "$stdout_file" "$stderr_file"
+  return 1
+}
+
+invoke_runner() {
+  local runner="$1"
+  local instruction="$2"
+  local model="$3"
+  local effort="$4"
+  local log_file="$5"
+  if ! command -v "$runner" >/dev/null 2>&1; then
+    echo "Missing runner: $runner" >&2
+    return 1
+  fi
+
+  if [ "$runner" = "codex" ]; then
+    env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
+      "$runner" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
+      -c "model_reasoning_effort=\"${effort}\"" "$instruction" \
+      >> "$log_file" 2>&1
+    return $?
+  fi
+  if [ "$runner" = "claude" ]; then
+    "$runner" -p "$instruction" --model "$model" --output-format text --dangerously-skip-permissions >> "$log_file" 2>&1
+    return $?
+  fi
+  if [ "$runner" = "gemini" ]; then
+    run_gemini_entrypoint "$instruction" "$model" "$log_file"
+    return $?
+  fi
+
+  "$runner" "$instruction" >> "$log_file" 2>&1
 }
 
 select_model() {
@@ -159,7 +279,7 @@ run_update_cycle() {
     local update_model
     update_model="$(select_model "$UPDATE_MODEL" "$UPDATE_MODEL_ALT" "$UPDATE_AB_MODE" "$UPDATE_AB_FILE")"
     log "Starting entrypoint: _update.md (attempt ${attempt})"
-    run_entrypoint "$ENTRY_UPDATE" "$update_model" "$UPDATE_EFFORT" || true
+    run_entrypoint "$ENTRY_UPDATE" "$UPDATE_RUNNER" "$update_model" "$UPDATE_EFFORT" "$UPDATE_FALLBACK_RUNNER" "$UPDATE_FALLBACK_MODEL" || true
     log "Finished entrypoint: _update.md (status=$(get_status))"
     if [ "$(get_status)" = "### UPDATE_COMPLETE" ]; then
       return 0
@@ -249,27 +369,31 @@ move_prompt_to_finished() {
 
 run_entrypoint() {
   local entry="$1"
-  local model="$2"
-  local effort="$3"
-  local entry_name codex_log
+  local runner="$2"
+  local model="$3"
+  local effort="$4"
+  local fallback_runner="$5"
+  local fallback_model="$6"
+  local entry_name codex_log instruction
   entry_name="$(basename "$entry" .md)"
   codex_log="${LOG_DIR}/orchestrate_${entry_name}.log"
-  if ! command -v "$RUNNER" >/dev/null 2>&1; then
-    echo "Missing runner: $RUNNER" >&2
-    write_status "### BLOCKED"
-    return 1
+  instruction="Open ${entry} and follow instructions."
+  local rc=0
+  invoke_runner "$runner" "$instruction" "$model" "$effort" "$codex_log"
+  rc=$?
+  if [ "$rc" -eq 0 ]; then
+    return 0
   fi
-
-  if [ "$RUNNER" = "codex" ]; then
-    env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
-      "$RUNNER" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
-      -c "model_reasoning_effort=\"${effort}\"" "Open ${entry} and follow instructions." \
-      >> "$codex_log" 2>&1 || { write_status "### BLOCKED"; return 1; }
-  elif [ "$RUNNER" = "claude" ]; then
-    "$RUNNER" -p "Open ${entry} and follow instructions." --model "$model" --output-format text --dangerously-skip-permissions || { write_status "### BLOCKED"; return 1; }
-  else
-    "$RUNNER" "Open ${entry} and follow instructions." || { write_status "### BLOCKED"; return 1; }
+  if [ "$runner" = "gemini" ] && [ "$rc" -eq 11 ] && [ -n "$fallback_runner" ] && [ -n "$fallback_model" ]; then
+    log "Gemini model ${model} hit capacity/quota limits; falling back to ${fallback_runner}:${fallback_model}"
+    invoke_runner "$fallback_runner" "$instruction" "$fallback_model" "$effort" "$codex_log" || {
+      write_status "### BLOCKED"
+      return 1
+    }
+    return 0
   fi
+  write_status "### BLOCKED"
+  return 1
 }
 
 handle_blocked() {
@@ -277,7 +401,7 @@ handle_blocked() {
   local trouble_model
   trouble_model="$(select_model "$TROUBLE_MODEL" "$TROUBLE_MODEL_ALT" "$TROUBLE_AB_MODE" "$TROUBLE_AB_FILE")"
   log "Starting entrypoint: _troubleshoot.md"
-  run_entrypoint "$ENTRY_TROUBLE" "$trouble_model" "$TROUBLE_EFFORT" || true
+  run_entrypoint "$ENTRY_TROUBLE" "$TROUBLE_RUNNER" "$trouble_model" "$TROUBLE_EFFORT" "$TROUBLE_FALLBACK_RUNNER" "$TROUBLE_FALLBACK_MODEL" || true
   log "Finished entrypoint: _troubleshoot.md (status=$(get_status))"
   if [ "$(get_status)" = "### TROUBLESHOOT_COMPLETE" ]; then
     reset_troubleshoot_count
@@ -316,12 +440,12 @@ while true; do
   fi
 
   log "Starting entrypoint: _start.md"
-  run_entrypoint "$ENTRY_START" "$START_MODEL" "$START_EFFORT" || true
+  run_entrypoint "$ENTRY_START" "$START_RUNNER" "$START_MODEL" "$START_EFFORT" "$START_FALLBACK_RUNNER" "$START_FALLBACK_MODEL" || true
   log "Finished entrypoint: _start.md (status=$(get_status))"
   case "$(get_status)" in
     "### BUILDER_COMPLETE")
       log "Starting entrypoint: _check.md"
-      run_entrypoint "$ENTRY_CHECK" "$CHECK_MODEL" "$CHECK_EFFORT" || true
+      run_entrypoint "$ENTRY_CHECK" "$CHECK_RUNNER" "$CHECK_MODEL" "$CHECK_EFFORT" "$CHECK_FALLBACK_RUNNER" "$CHECK_FALLBACK_MODEL" || true
       log "Finished entrypoint: _check.md (status=$(get_status))"
       ;;
     "### BLOCKED")
@@ -347,10 +471,10 @@ while true; do
       while [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -lt 2 ]; do
         inc_quickfix_count >/dev/null
         log "Starting entrypoint: _start.md (quickfix attempt $(get_quickfix_count))"
-        run_entrypoint "$ENTRY_START" "$START_MODEL" "$START_EFFORT" || true
+        run_entrypoint "$ENTRY_START" "$START_RUNNER" "$START_MODEL" "$START_EFFORT" "$START_FALLBACK_RUNNER" "$START_FALLBACK_MODEL" || true
         log "Finished entrypoint: _start.md (status=$(get_status))"
         log "Starting entrypoint: _check.md (quickfix attempt $(get_quickfix_count))"
-        run_entrypoint "$ENTRY_CHECK" "$CHECK_MODEL" "$CHECK_EFFORT" || true
+        run_entrypoint "$ENTRY_CHECK" "$CHECK_RUNNER" "$CHECK_MODEL" "$CHECK_EFFORT" "$CHECK_FALLBACK_RUNNER" "$CHECK_FALLBACK_MODEL" || true
         log "Finished entrypoint: _check.md (status=$(get_status))"
       done
       if [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -ge 2 ]; then

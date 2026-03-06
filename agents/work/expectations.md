@@ -1,36 +1,30 @@
 ## Goal
-
-Validate that the active task adds a repo-local regression harness proving one manage-ready research-loop cycle selects only the oldest of two staged specs.
+Validate that `corebound/game.js` replaces the one-off surface upgrade state with a structured upgrade-ladder scaffold and session depth milestone tracking, without changing the current starting gameplay defaults.
 
 ## Expected behavior
-
-- `bash agents/scripts/test_research_queue_contract.sh` seeds two staged specs with deterministic oldest/newest ordering inside an isolated temp workspace under the repo.
-- The harness exercises the real queue-selection path in `agents/scripts/research_loop.sh` for exactly one cycle, rather than reimplementing queue selection separately.
-- The harness uses local stubs for validator/runner dependencies and records which staged spec was validated and dispatched.
-- The harness exits 0 only when the oldest staged spec is the only spec validated and dispatched in that cycle.
-- The harness fails if the newer spec is selected or if both staged specs are processed in the same cycle.
-- After the cycle, the newer staged spec remains queued in staging.
+- `corebound/game.js` defines structured upgrade-line data rather than a single upgrade constant.
+- The structured data includes at least three upgrade lines.
+- Each upgrade line includes at least two tiers for this first ladder pass.
+- Session state records the deepest tile row reached during the current session.
+- Unlock checks can read the deepest session depth.
+- Generic helpers exist for reading the next tier, checking unlock status, checking affordability, and rejecting invalid or maxed upgrade purchases.
+- The current starting balance, inventory, fuel, and movement defaults remain unchanged unless explicitly derived from purchased tiers during play.
 
 ## Expected file changes
-
-- `agents/scripts/test_research_queue_contract.sh`: new or updated offline regression harness with isolated temp state, local stubs, deterministic queue seeding, and assertions for oldest-only processing.
-- `agents/scripts/research_loop.sh`: only minimal changes needed to allow the harness to exercise the real queue-selection path and stay offline, if any.
-- No unrelated repo files should change for this task.
+- `corebound/game.js` contains new structured upgrade definitions with per-line ids, names, tier data, and unlock requirements.
+- `corebound/game.js` contains per-line purchased-tier state and deepest-depth session tracking helpers.
+- No other file changes are required for this task.
 
 ## Verification commands
-
-- `bash agents/scripts/test_research_queue_contract.sh`
-- `git diff -- agents/scripts/test_research_queue_contract.sh agents/scripts/research_loop.sh`
+- `rg -n "deepestDepth|tiers|canPurchaseUpgrade|purchaseUpgrade|unlock" corebound/game.js`
+- `node --check corebound/game.js`
+- `rg -n "startingCash|inventory|fuel|maxFuel|player\\.speed|moveSpeed" corebound/game.js`
 
 ## Non-functional requirements
-
-- No network calls.
-- No Codex, Claude, or other external runner invocations during the harness.
-- Only local shell utilities and repo-local stubs are used.
-- The harness does not mutate the real staging queue or other live repo state.
-- Behavior is deterministic and repeatable across runs.
+- The implementation must stay within `corebound/game.js`.
+- `corebound/game.js` must remain syntactically valid JavaScript.
+- The scaffold should be data-driven and generic enough to support multiple upgrade lines and tiers without one-off purchase logic.
 
 ## Notes / assumptions
-
-- The task only needs to prove one-cycle oldest-only behavior, not multi-cycle queue draining.
-- Evidence may be captured through recorded validator/manager inputs, remaining staged files, exit status, and harness output.
+- Unlock progress is based on the deepest tile row reached in the current session.
+- This task is a scaffold only; multi-row shop UI, visual styling, and gameplay tuning beyond the scaffold are out of scope.

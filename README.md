@@ -82,8 +82,32 @@ Each task card should be a small, testable unit of work and must start with a do
 Task cards belong in `agents/work/tasksbacklog.md` and should include explicit file paths, numbered steps, acceptance checks, and verification commands.
 
 ## Runners
-Turnloop expects a CLI runner such as Codex or Claude.
-Runners are invoked by the loop scripts, and each entrypoint is executed with its required reasoning level.
+Turnloop expects a CLI runner such as Codex, Claude, or Gemini. Runners are invoked by the loop scripts, and each entrypoint is executed with its configured model.
+
+### Gemini Headless Usage
+Turnloop can call Gemini CLI in headless mode with JSON output and auto-approved actions. The loops support stage-specific runner selection, so only chosen stages need to be Gemini-backed.
+
+```bash
+export TURNLOOP_START_RUNNER=gemini
+export TURNLOOP_START_MODEL=gemini-3.1-pro-preview
+export TURNLOOP_START_FALLBACK_RUNNER=codex
+export TURNLOOP_START_FALLBACK_MODEL=gpt-5.4
+
+export TURNLOOP_MANAGE_RUNNER=gemini
+export TURNLOOP_MANAGE_MODEL=gemini-3-flash-preview
+export TURNLOOP_MANAGE_FALLBACK_RUNNER=codex
+export TURNLOOP_MANAGE_FALLBACK_MODEL=gpt-5.4
+```
+
+Gemini is invoked in the equivalent shape of:
+
+```bash
+gemini --model gemini-3.1-pro-preview --approval-mode yolo --output-format json "Open agents/entrypoints/_start.md and follow instructions."
+```
+
+If a Gemini run fails with a quota/capacity/rate-limit style error, Turnloop will automatically retry the same entrypoint with that stage's configured fallback runner and model, typically Codex.
+
+For headless Gemini auth, use cached Gemini CLI login or environment-based auth such as `GEMINI_API_KEY`, or Vertex settings like `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION`.
 
 Public repo (for reference):
 - Turnloop: `https://github.com/tim-osterhus/turnloop`

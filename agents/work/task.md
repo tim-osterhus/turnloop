@@ -1,21 +1,21 @@
-## 2026-03-06 — Research Queue Contract Harness
-Prompt: agents/work/prompts/020-research-queue-contract-harness.md
-Goal: Add a local regression harness that exercises a two-spec staging queue and proves one cycle targets only the oldest spec.
+## 2026-03-06 — Corebound Upgrade Ladder Data Scaffold
+Goal: Replace the one-off surface upgrade state with structured upgrade-line data and session depth milestone tracking in `corebound/game.js`.
+Prompt: `agents/work/prompts/021-corebound-upgrade-ladder-data-scaffold.md`
 Scope:
-- In: Create a repo-local shell harness that seeds two staging specs, runs one manage-ready research-loop cycle with stubbed local components, and asserts the newer spec remains queued.
-- Out: External runners, network calls, or a broader end-to-end integration suite.
-Assumptions: The harness may stub the runner and validation behavior locally as long as it exercises the real queue-selection path in `agents/scripts/research_loop.sh`.
+- In: Add data-driven upgrade line definitions, per-line tier state, and deepest-depth session tracking helpers.
+- Out: Final multi-row shop markup, visual styling, or gameplay tuning beyond the scaffold.
+Assumptions: Track unlock progress as the deepest tile row reached this session; each upgrade line starts with two tiers for the first ladder pass.
 Files to touch:
-- agents/scripts/test_research_queue_contract.sh
-- agents/scripts/research_loop.sh
+- corebound/game.js
 Steps:
-1. Build the harness around an isolated temp workspace under the repo so it does not mutate real queue state.
-2. Seed two staging specs with deterministic ordering and capture which path the loop validates and dispatches to Manager.
-3. Stub any runner or validator dependencies locally so the harness stays offline and does not call Codex, Claude, or network services.
-4. Assert that one cycle targets only the oldest spec and leaves the newer spec in staging afterward.
+1. Replace the single `SURFACE_UPGRADE` definition with a structured upgrade collection that describes line ids, names, tier data, and unlock requirements.
+2. Add session state for current purchased tier per upgrade line and the deepest depth reached during the session.
+3. Add generic helpers for reading the next tier, checking unlock status, checking affordability, and rejecting invalid or maxed purchases.
+4. Keep the current starting balance, inventory, fuel, and movement defaults unchanged until later cards wire tier effects into them.
 Acceptance:
-- The harness exits 0 when only the oldest staging spec is validated and dispatched in one cycle.
-- The harness fails if the newer spec is selected or if both specs are processed in the same cycle.
-- The harness uses only local shell utilities and repo-local stubs.
+- `corebound/game.js` defines at least three upgrade lines with two tiers each in structured data.
+- Session state records deepest depth reached and exposes it to unlock checks.
+- `node --check corebound/game.js` exits `0`.
 Verification commands:
-- `bash agents/scripts/test_research_queue_contract.sh` — Expected: exit 0 and output confirming that only the oldest staging spec was targeted while the newer spec remained queued.
+- `rg -n "deepestDepth|tiers|canPurchaseUpgrade|purchaseUpgrade|unlock" corebound/game.js` — Expected: matches for session-depth tracking plus generic upgrade helpers and tier data.
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
