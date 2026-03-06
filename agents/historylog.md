@@ -1,3 +1,30 @@
+[2026-03-06] QA • Distinct Stratum Solid Tile Visuals
+- Summary: Confirmed solid non-ore tiles render via a per-stratum palette (keys cover all strata and colors vary), while surface tiles still use `TILE_COLORS.surface` and ore tiles still use `ORE_TYPES[oreId].color`. Headless Chromium load surfaced no JS error signatures.
+- Files touched: agents/work/expectations.md, agents/orchestrate_status.md, agents/historylog.md
+- Commands: git -C corebound diff --name-only, git diff --name-only, python3 -m http.server 8000 (curl -I), ~/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome --headless=new --dump-dom (stderr scan), node - (palette/branch harness)
+- Decisions: none
+- Follow-ups: none
+- Prompt: agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Distinct Stratum Solid Tile Visuals
+- Summary: Created the prompt artifact and linked it from the active task, then updated Corebound solid-tile rendering to use distinct colors per stratum while leaving ore and surface colors unchanged. Refactor was a no-op because verification surfaced no evidence-backed follow-up change, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' agents/work/task.md, sed -n '1,220p' agents/work/quickfix.md, sed -n '1,220p' agents/roles/developer.md, sed -n '1,220p' agents/roles/refactor.md, rg -n "agents/work/prompts|Prompt:" agents/work/task.md agents/historylog.md agents/work/prompts -S, ls -1 agents/work/prompts, sed -n '1,240p' agents/roles/prompt-architect.md, sed -n '1,240p' agents/work/prompts/011-per-stratum-ore-tables-new-ore.md, rg -n "STRATA|getStratumForRow|render|fillStyle|ore|tile" corebound/game.js -S, sed -n '1,260p' corebound/game.js, sed -n '260,620p' corebound/game.js, apply_patch (agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md, agents/work/task.md, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md), timeout 2s python3 -m http.server 8000 (exit 124 after timeout), node - <<'NODE' (VM stratum-color harness, pass), git status --short, git -C corebound status --short, git diff -- agents/work/task.md agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md agents/orchestrate_status.md agents/historylog.md, git -C corebound diff -- game.js, head -n 20 agents/historylog.md
+- Decisions: Reused existing stratum metadata and added a render helper with a per-stratum color map so the change stayed isolated to visuals and kept fallback behavior for any tile missing metadata.
+- Follow-ups: none
+- Prompt: agents/work/prompts/012-distinct-stratum-solid-tile-visuals.md
+- Report artifacts: none
+
+[2026-03-06] Update • Outline Ore Tables + Site Build
+- Summary: Updated the Corebound outline to note per-stratum ore tables with a deeper-only gold ore, rebuilt the public journal site, and committed/pushed pending Turnloop updates.
+- Files touched: agents/outline.md, site/data.json, agents/historylog.md, agents/orchestrate_status.md
+- Commands: ls, cat agents/entrypoints/_update.md, cat agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, cat agents/historylog.md, cat agents/outline.md, cat README.md, sed -n '1,240p' agents/scripts/research_loop.sh, rg -n "STRATA|ore|gold" corebound/game.js, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git add -A, git commit -m "Sync update artifacts and site build", git push
+- Decisions: Left README unchanged because it already reflects the current research loop behavior.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • Per-Stratum Ore Tables + New Ore
 - Summary: Verified per-stratum ore tables with deeper-only `gold`: VM harness found 0 gold in `shallows` and 167 gold in `deep-core`, and deep expected value per solid tile (3.994) exceeds shallow (0.985). Headless Chromium load showed HUD updates (Cu/Fe/Au counts) and no JS error keywords.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
