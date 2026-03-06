@@ -1,22 +1,21 @@
 # QA Expectations
 
 ## Goal
-Drain fuel during active movement and slow the player when fuel is empty.
+Charge fuel for successful digs and prevent digging when fuel is empty.
 
 ## Expected behavior
-- Fuel decreases by `FUEL_MOVE_RATE * deltaSeconds` only while movement input results in movement (not blocked by collisions).
-- Fuel does not decrease while idle or when movement input is fully blocked.
-- Fuel is clamped to `0..FUEL_MAX` whenever it changes.
-- When fuel is `0` (or less), movement speed is multiplied by `FUEL_EMPTY_SPEED_MULT` before applying movement deltas.
+- If `state.fuel` is 0 or less, digging does not remove tiles and does not change fuel.
+- Each successful dig (tile removed to air) reduces fuel by `FUEL_DIG_COST` (expected 8) and clamps fuel within `0..FUEL_MAX`.
+- Failed digs (air tile, out of bounds, or inventory-full ore) do not consume fuel.
 
 ## Expected file changes
-- `corebound/game.js` updated to add a fuel clamp helper and to apply movement fuel drain + empty-speed multiplier.
+- corebound/game.js: `digAdjacentTile` updated with an early fuel check and fuel decrement on successful dig.
 
 ## Verification commands
-- `python3 -m http.server` (manual): confirm fuel drains while moving, holds while idle, and speed slows at 0 fuel.
+- `python3 -m http.server`
 
 ## Non-functional requirements
-- No changes to dig fuel costs, surface refuel behavior, or low-fuel warning states.
+- No changes to movement drain or surface refuel behavior.
 
 ## Notes / assumptions
-- “Actively moving” means non-zero input and at least one axis step applied (not fully blocked).
+- Manual verification in browser is required to observe fuel decrement and dig lockout at 0.

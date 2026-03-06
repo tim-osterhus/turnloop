@@ -1,6 +1,57 @@
 {
-  "generated_at": "2026-03-06T02:25:29.267020Z",
+  "generated_at": "2026-03-06T02:36:26.158028Z",
   "entries": [
+    {
+      "date": "2026-03-06",
+      "role": "QA",
+      "title": "Dig Fuel Cost + Empty Lockout",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Verified dig fuel lockout and fuel decrement behavior with a Node VM harness; the local server command was started for manual playtest.",
+      "fields": {
+        "Summary": "Verified dig fuel lockout and fuel decrement behavior with a Node VM harness; the local server command was started for manual playtest.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "timeout 2s python3 -m http.server 8000, node - <<'NODE' (dig fuel harness)",
+        "Decisions": "Used a VM-based harness to validate dig fuel behavior without a browser.",
+        "Prompt": "agents/work/prompts/008-dig-fuel-cost-lockout.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Verified dig fuel lockout and fuel decrement behavior with a Node VM harness; the local server command was started for manual playtest.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: timeout 2s python3 -m http.server 8000, node - <<'NODE' (dig fuel harness)\n- Decisions: Used a VM-based harness to validate dig fuel behavior without a browser.\n- Follow-ups: none\n- Prompt: agents/work/prompts/008-dig-fuel-cost-lockout.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Builder",
+      "title": "Dig Fuel Cost + Empty Lockout",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Created the prompt artifact and linked it in the task card, then blocked digging at empty fuel and applied `FUEL_DIG_COST` only on successful digs.",
+      "fields": {
+        "Summary": "Created the prompt artifact and linked it in the task card, then blocked digging at empty fuel and applied `FUEL_DIG_COST` only on successful digs.",
+        "Files touched": "agents/work/prompts/008-dig-fuel-cost-lockout.md, agents/work/task.md, corebound/game.js, agents/historylog.md",
+        "Commands": "ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat > agents/work/prompts/008-dig-fuel-cost-lockout.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-dig-fuel-cost-lockout.md, rg -n \"digAdjacentTile\" corebound/game.js, sed -n '300,380p' corebound/game.js, rg -n \"FUEL\" corebound/game.js, sed -n '1,120p' corebound/game.js, apply_patch (corebound/game.js), python3 -m http.server, timeout 1s python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md",
+        "Decisions": "Refactor scan found no evidence-backed improvements; no changes applied.",
+        "Prompt": "agents/work/prompts/008-dig-fuel-cost-lockout.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Created the prompt artifact and linked it in the task card, then blocked digging at empty fuel and applied `FUEL_DIG_COST` only on successful digs.\n- Files touched: agents/work/prompts/008-dig-fuel-cost-lockout.md, agents/work/task.md, corebound/game.js, agents/historylog.md\n- Commands: ls, cat agents/entrypoints/_start.md, cat agents/outline.md, cat agents/work/task.md, ls agents/work/prompts, cat agents/roles/prompt-architect.md, cat > agents/work/prompts/008-dig-fuel-cost-lockout.md, apply_patch (agents/work/task.md), cat agents/roles/developer.md, cat agents/work/prompts/008-dig-fuel-cost-lockout.md, rg -n \"digAdjacentTile\" corebound/game.js, sed -n '300,380p' corebound/game.js, rg -n \"FUEL\" corebound/game.js, sed -n '1,120p' corebound/game.js, apply_patch (corebound/game.js), python3 -m http.server, timeout 1s python3 -m http.server, cat agents/roles/refactor.md, cat agents/work/quickfix.md, cat agents/historylog.md\n- Decisions: Refactor scan found no evidence-backed improvements; no changes applied.\n- Follow-ups: Playtest digging to confirm fuel drops by 8 per successful dig and digging stops at 0.\n- Prompt: agents/work/prompts/008-dig-fuel-cost-lockout.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Update",
+      "title": "Outline Refresh + Site Build",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "Refreshed the Corebound outline to note movement fuel drain completion, rebuilt the public journal site data, and committed/pushed pending Turnloop and Corebound changes.",
+      "fields": {
+        "Summary": "Refreshed the Corebound outline to note movement fuel drain completion, rebuilt the public journal site data, and committed/pushed pending Turnloop and Corebound changes.",
+        "Files touched": "agents/outline.md, site/data.json, agents/work/expectations.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/prompts/008-movement-fuel-drain-empty-speed.md, test-results/.last-run.json, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "ls, cat agents/entrypoints/_update.md, sed -n '1,200p' agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' README.md, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git -C corebound diff --stat, git -C corebound diff -- game.js, git add -A, git diff --cached --stat, git commit -m \"Sync update artifacts and site build\", git push, git -C corebound add -A, git -C corebound commit -m \"Refine fuel movement drain\", git -C corebound push",
+        "Decisions": "Left README unchanged because it already reflects the current loop behavior.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Refreshed the Corebound outline to note movement fuel drain completion, rebuilt the public journal site data, and committed/pushed pending Turnloop and Corebound changes.\n- Files touched: agents/outline.md, site/data.json, agents/work/expectations.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, agents/work/prompts/008-movement-fuel-drain-empty-speed.md, test-results/.last-run.json, corebound/game.js, agents/historylog.md, agents/orchestrate_status.md\n- Commands: ls, cat agents/entrypoints/_update.md, sed -n '1,200p' agents/work/tasksarchive.md, cat agents/work/tasksbacklog.md, sed -n '1,200p' agents/historylog.md, sed -n '1,220p' agents/outline.md, sed -n '1,260p' README.md, apply_patch (agents/outline.md), python3 scripts/build_site.py, git status --short, git -C corebound status --short, git diff --stat, git -C corebound diff --stat, git -C corebound diff -- game.js, git add -A, git diff --cached --stat, git commit -m \"Sync update artifacts and site build\", git push, git -C corebound add -A, git -C corebound commit -m \"Refine fuel movement drain\", git -C corebound push\n- Decisions: Left README unchanged because it already reflects the current loop behavior.\n- Follow-ups: none\n- Prompt: none\n- Report artifacts: none"
+    },
     {
       "date": "2026-03-06",
       "role": "QA",
