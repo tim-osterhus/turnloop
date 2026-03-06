@@ -1,28 +1,31 @@
-# Expectations — 2026-03-06 Hardening: Stratum Lookup Fallbacks
+# Expectations — 2026-03-06 Research Loop Single-Cycle Test Knobs
 
 ## Goal
-Prevent undefined stratum states and keep the Stratum HUD stable at the surface and at boundaries/out-of-range rows.
+Make `agents/scripts/research_loop.sh` configurable for a fast local single-cycle run via environment variables without changing its default daemon behavior when overrides are unset.
 
 ## Expected behavior
-- At depth 0 / surface rows, the stratum label resolves to a safe fallback (e.g., `Surface`) and never renders blank/`undefined`.
-- For out-of-range row inputs (negative rows, rows beyond world bounds), stratum lookup clamps safely and returns a valid stratum object/name.
-- All strata references (HUD, ore generation, rendering) use the safe lookup helper; no direct indexing that can yield `undefined`.
-- Moving across stratum boundaries and at world edges produces no console errors related to stratum lookup.
+- The script reads `TURNLOOP_DAEMON_MODE`, `TURNLOOP_PROMOTE_DELAY_SECS`, and `TURNLOOP_POLL_SECS` from the environment.
+- When those variables are unset, the script preserves the current hard-coded daemon mode and delay values.
+- When `TURNLOOP_DAEMON_MODE` requests a non-daemon run and both delay variables are set to `0`, the script supports a no-wait single-cycle execution path for local testing.
+- Existing loop/repeat behavior remains intact in the default configuration.
 
 ## Expected file changes
-- `corebound/game.js`: extend/adjust stratum lookup helper and refactor call sites to use it everywhere strata are referenced.
-- No other files are expected to change.
+- `agents/scripts/research_loop.sh` adds the three environment-variable overrides and wires them into the existing control flow.
+- No other file changes are expected for the implementation.
 
 ## Verification commands
-- `python3 -m http.server` (from repo root)
-  - Open the game in a browser.
-  - Expected: Stratum HUD shows `Surface` at depth 0 and a named stratum below; no blank/undefined values.
-  - Expected: no console errors while moving across strata boundaries or at world edges.
+- `rg -n 'TURNLOOP_DAEMON_MODE|TURNLOOP_PROMOTE_DELAY_SECS|TURNLOOP_POLL_SECS' agents/scripts/research_loop.sh`
+  - Expected: all three override names are present in the script.
+- `bash -n agents/scripts/research_loop.sh`
+  - Expected: exit 0.
+- `TURNLOOP_DAEMON_MODE=0 TURNLOOP_PROMOTE_DELAY_SECS=0 TURNLOOP_POLL_SECS=0 bash agents/scripts/research_loop.sh`
+  - Expected: if the script's required local dependencies are available, it completes a single non-daemon cycle without waiting on the default sleep cadence.
 
 ## Non-functional requirements
-- No new console warnings/errors introduced by the change.
-- Behavior is backward-compatible aside from making previously-undefined stratum states deterministic and safe.
+- Default production cadence is unchanged when environment overrides are unset.
+- Runner selection and queue semantics remain unchanged.
+- The script remains shell-syntax-valid and readable.
 
 ## Notes / assumptions
-- “Surface” label is acceptable per task acceptance criteria (exact casing may vary but must be human-readable and non-empty).
-- If ore generation depends on stratum metadata, the fallback must provide safe defaults so gameplay does not crash at boundaries.
+- `TURNLOOP_DAEMON_MODE=0` is assumed to be the non-daemon value unless the implementation documents an equivalent accepted falsey form.
+- The runtime smoke test may depend on local repo state or helper scripts; if so, QA should record whether that blocks full runtime confirmation.
