@@ -1,25 +1,36 @@
 ## Goal
-Confirm that `README.md` documents the one-spec-at-a-time staging queue contract, including oldest-only validation and management plus the retention of newer staged specs after a successful manage cycle.
+
+Validate that the active task adds a repo-local regression harness proving one manage-ready research-loop cycle selects only the oldest of two staged specs.
 
 ## Expected behavior
-- The research-loop overview says staging specs are processed one at a time.
-- The README identifies the oldest staging spec as the one validated and managed in a cycle.
-- The README states that newer staging specs remain in `agents/ideas/staging/` after a successful manage cycle.
-- Documentation outside this queue-contract clarification remains materially unchanged unless a small wording adjustment is required for consistency.
+
+- `bash agents/scripts/test_research_queue_contract.sh` seeds two staged specs with deterministic oldest/newest ordering inside an isolated temp workspace under the repo.
+- The harness exercises the real queue-selection path in `agents/scripts/research_loop.sh` for exactly one cycle, rather than reimplementing queue selection separately.
+- The harness uses local stubs for validator/runner dependencies and records which staged spec was validated and dispatched.
+- The harness exits 0 only when the oldest staged spec is the only spec validated and dispatched in that cycle.
+- The harness fails if the newer spec is selected or if both staged specs are processed in the same cycle.
+- After the cycle, the newer staged spec remains queued in staging.
 
 ## Expected file changes
-- `README.md` contains the documentation update for the oldest-only, one-spec-at-a-time staging behavior.
-- `agents/work/expectations.md` is overwritten during this QA run.
+
+- `agents/scripts/test_research_queue_contract.sh`: new or updated offline regression harness with isolated temp state, local stubs, deterministic queue seeding, and assertions for oldest-only processing.
+- `agents/scripts/research_loop.sh`: only minimal changes needed to allow the harness to exercise the real queue-selection path and stay offline, if any.
+- No unrelated repo files should change for this task.
 
 ## Verification commands
-- `rg -n 'oldest staging spec|one-spec-at-a-time|leave newer staging specs' README.md`
-- `git diff -- README.md`
+
+- `bash agents/scripts/test_research_queue_contract.sh`
+- `git diff -- agents/scripts/test_research_queue_contract.sh agents/scripts/research_loop.sh`
 
 ## Non-functional requirements
-- The README wording is clear, public-facing, and internally consistent with the described queue contract.
-- The change stays scoped to README queue-contract wording and does not introduce unrelated operational guidance.
-- The QA run stays within `turnloop/` and records results with evidence.
+
+- No network calls.
+- No Codex, Claude, or other external runner invocations during the harness.
+- Only local shell utilities and repo-local stubs are used.
+- The harness does not mutate the real staging queue or other live repo state.
+- Behavior is deterministic and repeatable across runs.
 
 ## Notes / assumptions
-- The task scope excludes outline or execution-loop documentation edits unless the README needs a minimal consistency change.
-- `agents/work/quickfix.md` is closed, so this pass validates the primary task rather than an open quickfix.
+
+- The task only needs to prove one-cycle oldest-only behavior, not multi-cycle queue draining.
+- Evidence may be captured through recorded validator/manager inputs, remaining staged files, exit status, and harness output.

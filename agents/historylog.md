@@ -1,3 +1,30 @@
+[2026-03-06] QA • Research Queue Contract Harness
+- Summary: Validated that the new offline harness seeds two staged specs, runs one manage-ready research-loop cycle against isolated temp state, and proves only the oldest staged spec is validated and dispatched while the newer spec remains queued. The loop script syntax checks passed, and the task/prompt linkage matches the active task.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,220p' agents/work/task.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,220p' agents/roles/rubric-maker.md; apply_patch (agents/work/expectations.md); sed -n '1,220p' agents/historylog.md; git status --short; git diff -- agents/scripts/test_research_queue_contract.sh agents/scripts/research_loop.sh; sed -n '1,240p' agents/scripts/test_research_queue_contract.sh; sed -n '1,280p' agents/scripts/research_loop.sh; sed -n '1,220p' agents/roles/tester.md; sed -n '1,220p' agents/work/prompts/020-research-queue-contract-harness.md; bash agents/scripts/test_research_queue_contract.sh (PASS); git diff -- agents/scripts/test_research_queue_contract.sh agents/scripts/research_loop.sh (PASS); bash -n agents/scripts/research_loop.sh (PASS); bash -n agents/scripts/test_research_queue_contract.sh (PASS); git diff -- agents/work/task.md agents/work/prompts/020-research-queue-contract-harness.md (PASS); git status --short -- agents/scripts/test_research_queue_contract.sh agents/scripts/research_loop.sh agents/work/task.md agents/work/prompts/020-research-queue-contract-harness.md (PASS)
+- Decisions: Accepted the task because the harness provides direct oldest-only queue-contract evidence using repo-local stubs and isolated temp state, while the loop changes stay limited to env-based test hooks that preserve normal behavior defaults. Did not invoke the double-check role because `agents/work/quickfix.md` had no OPEN items at the start of the run.
+- Follow-ups: none
+- Prompt: agents/work/prompts/020-research-queue-contract-harness.md
+- Report artifacts: none
+
+[2026-03-06] Builder • Research Queue Contract Harness
+- Summary: Created the missing prompt artifact and linked it from the active task, added env-based isolated-workspace and validator overrides to `agents/scripts/research_loop.sh`, and added a local harness that seeds two staging specs and proves one manage-ready cycle validates and dispatches only the oldest spec while leaving the newer spec queued. Verification passed; refactor was a no-op, and remediator was skipped because `agents/work/quickfix.md` has no OPEN items.
+- Files touched: agents/work/prompts/020-research-queue-contract-harness.md, agents/work/task.md, agents/scripts/research_loop.sh, agents/scripts/test_research_queue_contract.sh, agents/historylog.md, agents/orchestrate_status.md
+- Commands: sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,220p' agents/roles/prompt-architect.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,280p' agents/scripts/validate_spec.sh; sed -n '1,240p' agents/entrypoints/_manage.md; sed -n '1,240p' agents/work/prompts/017-research-loop-selected-spec-handoff.md; sed -n '1,240p' agents/work/prompts/018-validation-failure-blocks-manage-cycle.md; apply_patch (agents/work/task.md, agents/work/prompts/020-research-queue-contract-harness.md, agents/scripts/research_loop.sh, agents/scripts/test_research_queue_contract.sh, agents/historylog.md, agents/orchestrate_status.md); rg -n 'TURNLOOP_WORK_ROOT|TURNLOOP_VALIDATE_SPEC_SCRIPT|validate_spec.sh|TURNLOOP_STAGING_SPEC' agents/scripts/research_loop.sh (PASS); bash -n agents/scripts/research_loop.sh (PASS); bash agents/scripts/test_research_queue_contract.sh (PASS); bash -n agents/scripts/test_research_queue_contract.sh (PASS)
+- Decisions: Kept production behavior unchanged by making the new loop hooks env-only defaults, and used repo-local runner/validator stubs inside a temp workspace so the harness exercises the real oldest-file selection path without mutating live queue state.
+- Follow-ups: none
+- Prompt: agents/work/prompts/020-research-queue-contract-harness.md
+- Report artifacts: none
+
+[2026-03-06] Update • Site Build + Repo Sync
+- Summary: Rebuilt the public journal site and committed/pushed pending Turnloop updates; `agents/outline.md` and `README.md` required no changes this cycle.
+- Files touched: README.md, agents/historylog.md, agents/orchestrate_status.md, agents/work/expectations.md, agents/work/quickfix.md, agents/work/prompts/019-readme-one-spec-queue-documentation.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json
+- Commands: ls; sed -n '1,200p' agents/entrypoints/_update.md; sed -n '1,200p' agents/work/tasksarchive.md; sed -n '200,400p' agents/work/tasksarchive.md; sed -n '400,800p' agents/work/tasksarchive.md; sed -n '1,200p' agents/work/tasksbacklog.md; sed -n '1,200p' agents/historylog.md; sed -n '1,240p' agents/outline.md; sed -n '1,260p' README.md; python3 scripts/build_site.py; git status --short; git -C corebound status --short; git diff --stat; git add -A; git commit -m "Sync update artifacts and site build"; git push
+- Decisions: Left `agents/outline.md` and `README.md` unchanged because they already reflect the current loop behavior and Corebound scope.
+- Follow-ups: none
+- Prompt: none
+- Report artifacts: none
+
 [2026-03-06] QA • README One-Spec Queue Documentation
 - Summary: Verified that `README.md` now documents oldest-only staging validation and Manager handling as a one-spec-at-a-time flow. The required verification commands passed, and the diff stays scoped to the requested README queue-contract wording.
 - Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md

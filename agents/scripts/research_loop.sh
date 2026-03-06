@@ -3,22 +3,24 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd -P)"
-cd "$REPO_ROOT"
+WORK_ROOT="${TURNLOOP_WORK_ROOT:-$REPO_ROOT}"
+cd "$WORK_ROOT"
 
-INBOX_DIR="agents/ideas/inbox"
-PROCESSED_DIR="agents/ideas/processed"
-STAGING_DIR="agents/ideas/staging"
-SPECS_DIR="agents/ideas/specs"
-NONVIABLE_DIR="agents/ideas/nonviable"
-STATUS="agents/research_status.md"
-HISTORY="agents/historylog.md"
-TMP_DIR="agents/.tmp"
-LOG_DIR="agents/logs"
-AUTONOMY_COMPLETE_MARKER="agents/AUTONOMY_COMPLETE"
+INBOX_DIR="${TURNLOOP_INBOX_DIR:-agents/ideas/inbox}"
+PROCESSED_DIR="${TURNLOOP_PROCESSED_DIR:-agents/ideas/processed}"
+STAGING_DIR="${TURNLOOP_STAGING_DIR:-agents/ideas/staging}"
+SPECS_DIR="${TURNLOOP_SPECS_DIR:-agents/ideas/specs}"
+NONVIABLE_DIR="${TURNLOOP_NONVIABLE_DIR:-agents/ideas/nonviable}"
+STATUS="${TURNLOOP_RESEARCH_STATUS_FILE:-agents/research_status.md}"
+HISTORY="${TURNLOOP_HISTORY_FILE:-agents/historylog.md}"
+TMP_DIR="${TURNLOOP_TMP_DIR:-agents/.tmp}"
+LOG_DIR="${TURNLOOP_LOG_DIR:-agents/logs}"
+AUTONOMY_COMPLETE_MARKER="${TURNLOOP_AUTONOMY_COMPLETE_MARKER:-agents/AUTONOMY_COMPLETE}"
 
-ENTRY_RESEARCH="agents/entrypoints/_research.md"
-ENTRY_MANAGE="agents/entrypoints/_manage.md"
-ENTRY_MECHANIC="agents/entrypoints/_mechanic.md"
+ENTRY_RESEARCH="${TURNLOOP_ENTRY_RESEARCH:-agents/entrypoints/_research.md}"
+ENTRY_MANAGE="${TURNLOOP_ENTRY_MANAGE:-agents/entrypoints/_manage.md}"
+ENTRY_MECHANIC="${TURNLOOP_ENTRY_MECHANIC:-agents/entrypoints/_mechanic.md}"
+VALIDATE_SPEC_SCRIPT="${TURNLOOP_VALIDATE_SPEC_SCRIPT:-${SCRIPT_DIR}/validate_spec.sh}"
 
 RUNNER="${TURNLOOP_RUNNER:-codex}"
 RUNNER_MODEL="${TURNLOOP_MODEL:-gpt-5.2-codex}"
@@ -223,7 +225,7 @@ while true; do
       handle_mechanic "manage"
     else
       log "Validating staging spec: $staging_spec"
-      if ! "${SCRIPT_DIR}"/validate_spec.sh "$staging_spec"; then
+      if ! "$VALIDATE_SPEC_SCRIPT" "$staging_spec"; then
         log "Staging validation failed for $staging_spec"
         write_status "### BLOCKED"
         handle_mechanic "manage"
