@@ -3,7 +3,8 @@ set -euo pipefail
 
 # Seed prompt injector (one-shot).
 # Intended to be run on a schedule (e.g., every 6 hours) by an external cron.
-# Uses OAuth-based Codex CLI status for usage remaining when available.
+# Uses a weekly-usage percentage from an explicit override/file when available.
+# Codex TUI probing is only a fallback because the status surface can change.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd -P)"
@@ -107,57 +108,12 @@ strip_ansi() {
 parse_weekly_pct() {
   awk '
     BEGIN { IGNORECASE=1 }
-    /Weekly limit/ && !seen {
+    /(Weekly limit|weekly remaining|weekly usage)/ && !seen {
       for (i=1; i<=NF; i++) {
-        if ($i ~ /%/) { gsub(/%/,"",$i); print $i; seen=1; exit }
+        if ($i ~ /^[0-9]+%$/) { gsub(/%/,"",$i); print $i; seen=1; exit }
       }
     }
   '
-}
-
-expect_weekly_remaining_pct() {
-  if ! command -v expect >/dev/null 2>&1; then
-    return 1
-  fi
-  local out raw
-  out="$(expect <<'EXPECT' 2>/dev/null || true
-    log_user 1
-    set timeout 20
-    set env(TERM) "xterm-256color"
-    set env(COLUMNS) "140"
-    set env(LINES) "50"
-    spawn -noecho env -u CODEX_THREAD_ID -u CODEX_SESSION_ID -u CODEX_CI codex
-    stty rows 50 columns 140
-    expect {
-      -re {Do you trust the contents of this directory} { send "1\r"; exp_continue }
-      -re {Press enter to continue} { send "\r"; exp_continue }
-      -re {Refusing to start the interactive TUI} { send "\003"; expect eof; exit 1 }
-      -re {OpenAI Codex} { }
-      timeout { }
-    }
-    send "/status\r"
-    expect {
-      -re {Weekly limit} { }
-      timeout { }
-    }
-    after 500
-    send "/exit\r"
-    after 200
-    send "\003"
-    expect eof
-EXPECT
-)"
-  if [ "${TURNLOOP_USAGE_DEBUG:-off}" = "on" ]; then
-    local debug_file="${STATE_DIR}/last_codex_status_raw_expect.txt"
-    printf '%s\n' "$out" > "$debug_file"
-    echo "DEBUG: raw expect /status output saved to ${debug_file}" >&2
-  fi
-  raw="$(printf '%s' "$out" | strip_ansi | parse_weekly_pct)"
-  if [ -n "$raw" ]; then
-    printf '%s' "$raw"
-    return 0
-  fi
-  return 1
 }
 
 tmux_weekly_remaining_pct() {
@@ -172,7 +128,7 @@ tmux_weekly_remaining_pct() {
   fi
 
   tmux send-keys -t "${session}:0.0" \
-    "env -u CODEX_THREAD_ID -u CODEX_SESSION_ID -u CODEX_CI codex" C-m >/dev/null 2>&1
+    "env -u CODEX_THREAD_ID -u CODEX_SESSION_ID -u CODEX_CI codex --no-alt-screen" C-m >/dev/null 2>&1
 
   # Fixed waits to allow the TUI to fully initialize.
   sleep 20
@@ -211,28 +167,22 @@ codex_weekly_remaining_pct() {
   if ! command -v codex >/dev/null 2>&1; then
     return 1
   fi
-  if expect_weekly_remaining_pct; then
-    return 0
-  fi
   tmux_weekly_remaining_pct
 }
 
 get_remaining_pct() {
   local raw=""
 
-  if [ "$USAGE_SOURCE" = "codex" ]; then
+  if [ -n "${TURNLOOP_USAGE_REMAINING_PCT:-}" ]; then
+    raw="$TURNLOOP_USAGE_REMAINING_PCT"
+  elif [ -n "${TURNLOOP_USAGE_FILE:-}" ] && [ -f "$TURNLOOP_USAGE_FILE" ]; then
+    raw="$(head -n 1 "$TURNLOOP_USAGE_FILE" 2>/dev/null || true)"
+  elif [ -f "$USAGE_FILE_DEFAULT" ]; then
+    raw="$(head -n 1 "$USAGE_FILE_DEFAULT" 2>/dev/null || true)"
+  elif [ -n "${TURNLOOP_USAGE_CMD:-}" ]; then
+    raw="$(bash -lc "$TURNLOOP_USAGE_CMD" 2>/dev/null | head -n 1 || true)"
+  elif [ "$USAGE_SOURCE" = "codex" ]; then
     raw="$(codex_weekly_remaining_pct || true)"
-  fi
-  if [ -z "$raw" ]; then
-    if [ -n "${TURNLOOP_USAGE_REMAINING_PCT:-}" ]; then
-      raw="$TURNLOOP_USAGE_REMAINING_PCT"
-    elif [ -n "${TURNLOOP_USAGE_FILE:-}" ] && [ -f "$TURNLOOP_USAGE_FILE" ]; then
-      raw="$(head -n 1 "$TURNLOOP_USAGE_FILE" 2>/dev/null || true)"
-    elif [ -f "$USAGE_FILE_DEFAULT" ]; then
-      raw="$(head -n 1 "$USAGE_FILE_DEFAULT" 2>/dev/null || true)"
-    elif [ -n "${TURNLOOP_USAGE_CMD:-}" ]; then
-      raw="$(bash -lc "$TURNLOOP_USAGE_CMD" 2>/dev/null | head -n 1 || true)"
-    fi
   fi
 
   normalize_pct "$raw" || return 1
