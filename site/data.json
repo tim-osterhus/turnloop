@@ -1,8 +1,113 @@
 {
-  "generated_at": "2026-03-07T15:37:03Z",
-  "entry_count": 9,
+  "generated_at": "2026-03-07T15:57:12Z",
+  "entry_count": 14,
   "day_count": 1,
   "entries": [
+    {
+      "timestamp": "2026-03-07 05:56",
+      "date": "2026-03-07",
+      "time": "05:56:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:56:00",
+      "has_time": true,
+      "role": "QA",
+      "title": "Corebound economy base interactions validated",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations before implementation review, validated the Corebound economy/base-interaction work against the task and prompt, and confirmed the required economy test command passes. The affordability checks now encode explicit deterministic minute assumptions and prove the 8-minute and 15-minute targets.",
+      "fields": {
+        "Summary": "Wrote QA expectations before implementation review, validated the Corebound economy/base-interaction work against the task and prompt, and confirmed the required economy test command passes. The affordability checks now encode explicit deterministic minute assumptions and prove the 8-minute and 15-minute targets.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "`sed -n '1,220p' agents/entrypoints/_check.md`; `sed -n '1,220p' agents/outline.md`; `sed -n '1,220p' agents/work/task.md`; `sed -n '1,240p' agents/work/quickfix.md`; `sed -n '1,220p' agents/roles/rubric-maker.md`; `sed -n '1,220p' agents/work/expectations.md`; `sed -n '1,260p' agents/historylog.md`; `git status --short`; `git diff -- agents/work/expectations.md corebound/src/simulation/economy.ts corebound/src/simulation/upgrades.ts corebound/src/content/tuning.ts corebound/tests/economy.test.ts`; `sed -n '1,260p' corebound/src/simulation/economy.ts`; `sed -n '1,260p' corebound/src/simulation/upgrades.ts`; `sed -n '1,260p' corebound/src/content/tuning.ts`; `sed -n '1,260p' corebound/tests/economy.test.ts`; `git -C corebound status --short`; `git -C corebound diff -- src/simulation/economy.ts src/simulation/upgrades.ts src/content/tuning.ts tests/economy.test.ts`; `sed -n '1,220p' agents/roles/tester.md`; `sed -n '1,220p' agents/roles/historian.md`; `npm test tests/economy.test.ts` (pass); `sed -n '1,240p' agents/work/prompts/001-corebound-economy-base-interactions.md`; `nl -ba corebound/src/simulation/economy.ts | sed -n '1,240p'`; `nl -ba corebound/src/simulation/upgrades.ts | sed -n '1,220p'`; `nl -ba corebound/src/content/tuning.ts | sed -n '1,220p'`; `nl -ba corebound/tests/economy.test.ts | sed -n '1,240p'`; `rg -n \"R9|R10|R11|R12|R13|R21|8 min|15 min|afford\" agents/work/task.md agents/work/prompts/001-corebound-economy-base-interactions.md agents/ideas/specs/corebound-spec-03-07-26-04.md -S`; `sed -n '1,220p' corebound/src/content/ores.ts`; `rg -n \"ORE_TUNING|DRILL_RESISTANCE|ECONOMY_TUNING|SESSION_TARGET_TUNING|UPGRADE_TUNING|UPGRADE_STAT_INCREMENTS|BASE_UPGRADE_STATS\" corebound/src corebound/tests -S`; `rg -n \"sellValue: 12|sellValue: 28|sellValue: 55|sellValue: 96|fuelPricePerUnit|repairPricePerPoint|starterCopperTripMinutes\" corebound/src corebound/tests -S`; `date '+%Y-%m-%d %H:%M'`",
+        "Decisions": "Marked QA as complete because the scoped behavior is implemented, tuning is centralized in content modules, and the prescribed verification command produced passing evidence. Because `corebound/` is a nested repo with untracked files from the turnloop root perspective, QA relied on direct file inspection plus `git -C corebound status --short` rather than root diff output for change attribution.",
+        "Prompt": "agents/work/prompts/001-corebound-economy-base-interactions.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 05:53",
+      "date": "2026-03-07",
+      "time": "05:53:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:53:00",
+      "has_time": true,
+      "role": "Builder",
+      "title": "Corebound Economy Time-Target Coverage",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Made the starter economy assumptions explicit by adding shared session target tuning and updating the affordability tests to prove the first and second upgrade targets by elapsed minutes instead of raw trip counts. Also aligned economy state initialization with the centralized starting fuel and hull tuning values, and resolved the open quickfix item.",
+      "fields": {
+        "Summary": "Made the starter economy assumptions explicit by adding shared session target tuning and updating the affordability tests to prove the first and second upgrade targets by elapsed minutes instead of raw trip counts. Also aligned economy state initialization with the centralized starting fuel and hull tuning values, and resolved the open quickfix item.",
+        "Files touched": "corebound/src/content/tuning.ts, corebound/src/simulation/economy.ts, corebound/tests/economy.test.ts, agents/work/quickfix.md, agents/historylog.md",
+        "Commands": "`sed -n '1,220p' agents/entrypoints/_start.md`; `sed -n '1,220p' agents/outline.md`; `sed -n '1,260p' agents/work/task.md`; `rg --files agents/work/prompts`; `sed -n '1,260p' agents/work/prompts/001-corebound-economy-base-interactions.md`; `sed -n '1,220p' agents/roles/developer.md`; `sed -n '1,220p' agents/roles/refactor.md`; `sed -n '1,220p' agents/roles/remediator.md`; `sed -n '1,220p' agents/roles/historian.md`; `sed -n '1,220p' agents/work/quickfix.md`; `rg --files corebound/src corebound/tests`; `sed -n '1,240p' corebound/src/content/ores.ts`; `sed -n '1,260p' corebound/src/simulation/vehicle.ts`; `sed -n '1,260p' corebound/tests/economy.test.ts`; `sed -n '1,260p' corebound/src/simulation/economy.ts`; `sed -n '1,260p' corebound/src/simulation/upgrades.ts`; `sed -n '1,260p' corebound/src/content/tuning.ts`; `sed -n '1,220p' corebound/src/content/index.ts`; `sed -n '1,220p' corebound/src/simulation/index.ts`; `cd corebound && npm test tests/economy.test.ts` (passed before edits); `git status --short`; `date '+%Y-%m-%d %H:%M'`; `cd corebound && npm test tests/economy.test.ts` (passed after edits); `git diff -- corebound/src/content/tuning.ts corebound/src/simulation/economy.ts corebound/tests/economy.test.ts agents/work/quickfix.md`; `git diff --stat -- corebound/src/content/tuning.ts corebound/src/simulation/economy.ts corebound/tests/economy.test.ts`; `git status --short -- corebound/src/content/tuning.ts corebound/src/simulation/economy.ts corebound/tests/economy.test.ts agents/work/quickfix.md`; `git -C corebound status --short`; `git -C corebound diff --stat -- src/content/tuning.ts src/simulation/economy.ts tests/economy.test.ts`",
+        "Decisions": "Used the existing prompt artifact as the execution plan; treated the OPEN quickfix item as required remediation for this Builder run; kept the refactor pass low-risk by only wiring `createEconomyState` to already-defined starting fuel and hull constants.",
+        "Prompt": "agents/work/prompts/001-corebound-economy-base-interactions.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 05:49",
+      "date": "2026-03-07",
+      "time": "05:49:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:49:00",
+      "has_time": true,
+      "role": "QA",
+      "title": "Corebound economy affordability evidence gap",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Wrote QA expectations, inspected the Corebound economy implementation, and ran the required verification command. `cd corebound && npm test tests/economy.test.ts` passed, but QA found the affordability coverage incomplete because the tests assert credits after two or three hauling loops without encoding why those loops equal 8 or 15 minutes.",
+      "fields": {
+        "Summary": "Wrote QA expectations, inspected the Corebound economy implementation, and ran the required verification command. `cd corebound && npm test tests/economy.test.ts` passed, but QA found the affordability coverage incomplete because the tests assert credits after two or three hauling loops without encoding why those loops equal 8 or 15 minutes.",
+        "Files touched": "agents/work/expectations.md, agents/work/quickfix.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,260p' agents/work/quickfix.md; sed -n '1,240p' agents/roles/rubric-maker.md; sed -n '1,240p' agents/work/expectations.md; sed -n '1,260p' agents/historylog.md; git status --short; git -C corebound status --short; git -C corebound diff -- src/simulation/economy.ts src/simulation/upgrades.ts src/content/tuning.ts tests/economy.test.ts src/content/index.ts src/simulation/index.ts src/simulation/vehicle.ts; sed -n '1,260p' corebound/src/simulation/economy.ts; sed -n '1,260p' corebound/src/simulation/upgrades.ts; sed -n '1,260p' corebound/src/content/tuning.ts; sed -n '1,320p' corebound/tests/economy.test.ts; sed -n '1,220p' corebound/src/content/index.ts; sed -n '1,220p' corebound/src/simulation/index.ts; sed -n '1,260p' corebound/src/simulation/vehicle.ts; sed -n '1,260p' agents/roles/tester.md; sed -n '1,240p' agents/roles/historian.md; sed -n '1,220p' agents/roles/double-check.md; rg -n \"getUpgradeStats|purchaseUpgrade|refuelAtBase|repairAtBase|sellCargo|createEconomyState|ECONOMY_TUNING|UPGRADE_TUNING|DRILL_RESISTANCE\" corebound/src corebound/tests; npm test tests/economy.test.ts; sed -n '1,240p' agents/work/prompts/001-corebound-economy-base-interactions.md; rg -n \"R9|R10|R11|R12|R13|R21|8 min|15 min|afford\" agents/ideas/specs/corebound-spec-03-07-26-04.md agents/work/task.md agents/work/prompts/001-corebound-economy-base-interactions.md -S; rg -n \"minute|min|trip|tutorial|guided\" corebound/src corebound/tests -S; nl -ba corebound/tests/economy.test.ts | sed -n '1,220p'; nl -ba corebound/src/simulation/vehicle.ts | sed -n '40,70p'; rg -n \"OPEN|Impact|Required fix|Verification\" agents/work/quickfix.md agents/historylog.md agents -S; nl -ba agents/work/prompts/001-corebound-economy-base-interactions.md | sed -n '12,38p'; date '+%Y-%m-%d %H:%M'",
+        "Decisions": "Marked this run as `QUICKFIX_NEEDED` because the prompt requires affordability tests to explicitly demonstrate the 8-minute and 15-minute targets under deterministic assumptions, and the current tests do not encode any time model. No double-check role was needed because `agents/work/quickfix.md` had no OPEN items at the start of the run.",
+        "Prompt": "agents/work/prompts/001-corebound-economy-base-interactions.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 05:44",
+      "date": "2026-03-07",
+      "time": "05:44:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:44:00",
+      "has_time": true,
+      "role": "Builder",
+      "title": "Corebound economy base interactions and upgrade tuning",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Added a data-driven first-pass economy for Corebound with cargo selling, base refuel/repair services, four upgrade categories, escalating upgrade costs, and deterministic affordability tests for the first-session pacing targets. Refactor was a no-op because the required and full-suite test runs passed without exposing any evidence-backed follow-up changes; `agents/work/quickfix.md` had no OPEN items.",
+      "fields": {
+        "Summary": "Added a data-driven first-pass economy for Corebound with cargo selling, base refuel/repair services, four upgrade categories, escalating upgrade costs, and deterministic affordability tests for the first-session pacing targets. Refactor was a no-op because the required and full-suite test runs passed without exposing any evidence-backed follow-up changes; `agents/work/quickfix.md` had no OPEN items.",
+        "Files touched": "agents/work/prompts/001-corebound-economy-base-interactions.md, agents/work/task.md, corebound/src/content/index.ts, corebound/src/content/ores.ts, corebound/src/content/tuning.ts, corebound/src/simulation/economy.ts, corebound/src/simulation/index.ts, corebound/src/simulation/upgrades.ts, corebound/src/simulation/vehicle.ts, corebound/tests/economy.test.ts",
+        "Commands": "sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,220p' agents/roles/historian.md; sed -n '1,220p' agents/roles/prompt-architect.md; ls -1 agents/work/prompts; sed -n '1,220p' agents/work/quickfix.md; rg --files corebound/src corebound/tests | sort; sed -n '1,260p' corebound/src/simulation/world.ts; sed -n '1,260p' corebound/src/simulation/vehicle.ts; sed -n '1,260p' corebound/src/content/index.ts; sed -n '1,260p' corebound/src/content/ores.ts; sed -n '1,260p' corebound/tests/world.test.ts; sed -n '1,260p' corebound/tests/physics.test.ts; sed -n '1,220p' corebound/package.json; sed -n '1,240p' corebound/tsconfig.json; sed -n '1,240p' corebound/tsconfig.app.json; sed -n '1,240p' corebound/tsconfig.node.json; rg -n \"fuel|health|cargo|upgrade|engine|drill\" corebound/src corebound/tests; sed -n '1,220p' agents/work/prompts/001-corebound-economy-base-interactions.md; npm test tests/economy.test.ts; npm test; date '+%Y-%m-%d %H:%M'; sed -n '1,80p' agents/historylog.md; rg -n \"OPEN\" agents/work/quickfix.md; git status --short; git -C corebound status --short",
+        "Decisions": "Centralized ore values, drill timings, economy prices, and upgrade tuning in `corebound/src/content/tuning.ts` so the new economy modules and existing gameplay code read from one source of truth instead of duplicating constants. Kept the implementation pure-function based and limited to the economy/task scope without adding HUD or hazard systems.",
+        "Prompt": "agents/work/prompts/001-corebound-economy-base-interactions.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 05:37",
+      "date": "2026-03-07",
+      "time": "05:37:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:37:00",
+      "has_time": true,
+      "role": "Update",
+      "title": "Update cycle cleanup and site rebuild",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "Completed end-of-cycle cleanup by archiving the finished world-generation prompt to `agents/work/finished/`, regenerating `site/data.json`, and updating stale status docs; no new gameplay implementation changes were introduced.",
+      "fields": {
+        "Summary": "Completed end-of-cycle cleanup by archiving the finished world-generation prompt to `agents/work/finished/`, regenerating `site/data.json`, and updating stale status docs; no new gameplay implementation changes were introduced.",
+        "Files touched": "agents/work/expectations.md, agents/outline.md, agents/work/finished/002-corebound-world-generation.md, site/data.json",
+        "Commands": "cat agents/entrypoints/_update.md; cat agents/work/tasksarchive.md; cat agents/work/tasksbacklog.md; cat agents/historylog.md; cat agents/outline.md; cat README.md; cat agents/work/task.md; cat agents/work/quickfix.md; cat agents/work/expectations.md; ls agents/work/prompts; mv agents/work/prompts/002-corebound-world-generation.md agents/work/finished/002-corebound-world-generation.md; python3 scripts/build_site.py; git status --short; git status --short --branch; git add agents/work/expectations.md agents/outline.md agents/work/finished/002-corebound-world-generation.md site/data.json; git commit -m \"Update cycle cleanup and journal rebuild\"; git push",
+        "Decisions": "Kept scope minimal to required stale-doc refresh and journal rebuild; retained no speculative scope changes; archived prompt and avoided touching task cards in this update cycle.",
+        "Prompt": "none",
+        "Report artifacts": "agents/work/finished/002-corebound-world-generation.md, site/data.json"
+      }
+    },
     {
       "timestamp": "2026-03-07 05:35",
       "date": "2026-03-07",
