@@ -1,2 +1,2 @@
-## Status
-No outstanding expected behaviors recorded.
+## Goal
+No active QA expectations for the current cycle.
