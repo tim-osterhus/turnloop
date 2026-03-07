@@ -1,27 +1,132 @@
 {
-  "generated_at": "2026-03-07T11:00:01Z",
-  "entry_count": 1,
+  "generated_at": "2026-03-07T15:22:48Z",
+  "entry_count": 6,
   "day_count": 1,
   "entries": [
     {
-      "timestamp": "2026-03-06 23:30",
-      "date": "2026-03-06",
-      "time": "23:30:00",
-      "day_key": "2026-03-06",
-      "sort_key": "2026-03-06T23:30:00",
+      "timestamp": "2026-03-07 05:21",
+      "date": "2026-03-07",
+      "time": "05:21:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:21:00",
       "has_time": true,
-      "role": "Reset",
-      "title": "Day 0 Baseline",
-      "entrypoint": "_baseline",
-      "loop": "Baseline",
-      "summary": "Reinitialized the public Turnloop baseline after the contaminated shared-environment run. The framework code and current Corebound prototype were preserved, while prior journal history, queues, prompt artifacts, and generated site data were reset for a clean restart.",
+      "role": "QA",
+      "title": "Validated Corebound foundation simulation pass",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Validated the Corebound foundation task against explicit QA expectations and found the required behavior present: React/Vite/TypeScript scaffolding, fixed-timestep simulation, vehicle movement with collision and drilling logic, and targeted physics coverage. Verification commands passed, Vite reported ready in about 1.1 seconds, and the served `src/main.tsx` entry confirmed the app boot path was being transformed successfully.",
       "fields": {
-        "Summary": "Reinitialized the public Turnloop baseline after the contaminated shared-environment run. The framework code and current Corebound prototype were preserved, while prior journal history, queues, prompt artifacts, and generated site data were reset for a clean restart.",
-        "Files touched": "agents/historylog.md, agents/orchestrate_status.md, agents/research_status.md, agents/work/task.md, agents/work/tasksbacklog.md, agents/work/tasksarchive.md, agents/work/tasksbackburner.md, agents/work/quickfix.md, agents/work/expectations.md, agents/ideas/, agents/work/, site/data.json, site/index.html, site/style.css",
-        "Commands": "NOT RUN",
-        "Decisions": "Kept the current codebase and reduced script surface, but cleared operational artifacts so the restart begins from a presentable Day 0.",
+        "Summary": "Validated the Corebound foundation task against explicit QA expectations and found the required behavior present: React/Vite/TypeScript scaffolding, fixed-timestep simulation, vehicle movement with collision and drilling logic, and targeted physics coverage. Verification commands passed, Vite reported ready in about 1.1 seconds, and the served `src/main.tsx` entry confirmed the app boot path was being transformed successfully.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "sed -n '1,220p' agents/entrypoints/_check.md; sed -n '1,220p' agents/outline.md; sed -n '1,220p' agents/work/task.md; sed -n '1,220p' agents/work/quickfix.md; sed -n '1,240p' agents/roles/rubric-maker.md; sed -n '1,260p' agents/historylog.md; git status --short --branch; git diff --stat; git -C corebound status --short --branch; git -C corebound diff --stat; rg --files corebound | sort; sed -n '1,220p' corebound/package.json; sed -n '1,220p' corebound/vite.config.ts; sed -n '1,260p' corebound/src/simulation/physics.ts; sed -n '1,320p' corebound/src/simulation/vehicle.ts; sed -n '1,260p' corebound/tests/physics.test.ts; sed -n '1,260p' corebound/src/App.tsx; sed -n '1,260p' corebound/src/simulation/index.ts; sed -n '1,240p' agents/roles/tester.md; npm install; npm test tests/physics.test.ts; npm run dev -- --host 127.0.0.1; curl -I http://127.0.0.1:5173; curl -s http://127.0.0.1:5173/src/main.tsx | sed -n '1,120p'; sed -n '1,260p' agents/roles/historian.md; date '+%Y-%m-%d %H:%M'",
+        "Decisions": "Marked the task complete because all expectation-defined verification commands passed and no evidence-backed requirement gaps were found in the inspected implementation. Used the served module response as additional runtime evidence for the \u201ccontrollable state\u201d acceptance since browser automation was not available in this environment.",
+        "Prompt": "agents/work/prompts/001-corebound-foundation.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 05:17",
+      "date": "2026-03-07",
+      "time": "05:17:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T05:17:00",
+      "has_time": true,
+      "role": "Builder",
+      "title": "Corebound foundation simulation pass",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Replaced the placeholder Corebound Vite screen with a runnable fixed-timestep mining prototype, including deterministic vehicle movement, solid-terrain collision, and configurable dirt/rock drill timings. Added targeted physics tests and completed the required verification commands. Refactor scan found no evidence-backed follow-up changes, and `agents/work/quickfix.md` contains no OPEN items.",
+      "fields": {
+        "Summary": "Replaced the placeholder Corebound Vite screen with a runnable fixed-timestep mining prototype, including deterministic vehicle movement, solid-terrain collision, and configurable dirt/rock drill timings. Added targeted physics tests and completed the required verification commands. Refactor scan found no evidence-backed follow-up changes, and `agents/work/quickfix.md` contains no OPEN items.",
+        "Files touched": "agents/work/prompts/001-corebound-foundation.md, agents/work/task.md, corebound/package.json, corebound/vite.config.ts, corebound/src/App.tsx, corebound/src/App.css, corebound/src/index.css, corebound/src/simulation/index.ts, corebound/src/simulation/physics.ts, corebound/src/simulation/vehicle.ts, corebound/tests/physics.test.ts",
+        "Commands": "sed -n '1,220p' agents/entrypoints/_start.md; sed -n '1,220p' agents/outline.md; sed -n '1,260p' agents/work/task.md; sed -n '1,220p' agents/roles/developer.md; sed -n '1,220p' agents/roles/refactor.md; sed -n '1,220p' agents/roles/remediator.md; sed -n '1,220p' agents/roles/historian.md; sed -n '1,220p' agents/roles/prompt-architect.md; find corebound -maxdepth 3 -type f | sort; sed -n '1,220p' corebound/package.json; sed -n '1,220p' corebound/vite.config.ts; sed -n '1,220p' corebound/tsconfig.json; sed -n '1,220p' corebound/tsconfig.app.json; sed -n '1,220p' corebound/tsconfig.node.json; sed -n '1,220p' corebound/eslint.config.js; npm test tests/physics.test.ts; npm run build; rg -n \"OPEN\" agents/work/quickfix.md",
+        "Decisions": "Kept the implementation minimal by building a pure simulation core and a compact debug-style React view instead of broader gameplay or world-generation systems. Treated the refactor role as a no-op because verification passed and no explicit evidence justified extra changes.",
+        "Prompt": "agents/work/prompts/001-corebound-foundation.md",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 04:20",
+      "date": "2026-03-07",
+      "time": "04:20:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T04:20:00",
+      "has_time": true,
+      "role": "Manager",
+      "title": "Decomposed Corebound First-Session Tuning Spec",
+      "entrypoint": "_manage",
+      "loop": "Research",
+      "summary": "Decomposed the 'Corebound Spec: First 15 Minutes' into 7 refined task cards. Merged specific pacing, tuning, and quality targets into the existing project plan to ensure the first playable build meets defined feel and readability bars.",
+      "fields": {
+        "Summary": "Decomposed the 'Corebound Spec: First 15 Minutes' into 7 refined task cards. Merged specific pacing, tuning, and quality targets into the existing project plan to ensure the first playable build meets defined feel and readability bars.",
+        "Files touched": "agents/work/tasksbacklog.md, agents/ideas/specs/corebound-spec-03-07-26-04.md, agents/research_status.md, agents/historylog.md",
+        "Commands": "read_file(agents/entrypoints/_manage.md), read_file(README.md), read_file(agents/outline.md), read_file(agents/work/tasksbacklog.md), read_file(agents/ideas/staging/corebound-spec-03-07-26-04.md), write_file(agents/work/tasksbacklog.md), run_shell_command(mv agents/ideas/staging/corebound-spec-03-07-26-04.md agents/ideas/specs/)",
+        "Decisions": "Overwrote the existing generic Corebound backlog cards with a more detailed set that incorporates the R1-R23 requirements from the new spec. This avoids duplication while providing the Builder with explicit implementation and tuning targets (e.g., fixed-timestep physics, specific drill timings, and economy affordability).",
         "Prompt": "none",
         "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 04:14",
+      "date": "2026-03-07",
+      "time": "04:14:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T04:14:00",
+      "has_time": true,
+      "role": "Researcher",
+      "title": "Corebound first-session tuning spec",
+      "entrypoint": "_research",
+      "loop": "Research",
+      "summary": "Wrote a follow-on Corebound spec that defines the first 15 minutes of play as a tuned, testable mining loop. Reused the existing greenfield and backlog context, but focused this run on first-session feel, pacing, onboarding, and upgrade payoff instead of duplicating the prior broad vertical-slice spec.",
+      "fields": {
+        "Summary": "Wrote a follow-on Corebound spec that defines the first 15 minutes of play as a tuned, testable mining loop. Reused the existing greenfield and backlog context, but focused this run on first-session feel, pacing, onboarding, and upgrade payoff instead of duplicating the prior broad vertical-slice spec.",
+        "Files touched": "agents/research_status.md, agents/ideas/staging/corebound-spec-03-07-26-04.md, agents/ideas/processed/corebound-prompt-03-07-26-03.md, agents/historylog.md",
+        "Commands": "sed -n '1,240p' agents/entrypoints/_research.md; ls -1tr agents/ideas/inbox; sed -n '1,220p' agents/roles/analyze.md; sed -n '1,220p' agents/roles/articulate.md; sed -n '1,220p' agents/roles/historian.md; sed -n '1,220p' agents/roles/search.md; sed -n '1,260p' agents/ideas/inbox/corebound-prompt-03-07-26-03.md; sed -n '1,260p' agents/outline.md; sed -n '1,260p' agents/work/tasksbacklog.md; sed -n '1,260p' agents/work/tasksbackburner.md; sed -n '1,260p' agents/work/tasksarchive.md; rg --files corebound; rg -n \"Corebound|corebound|Motherload|mining game\" -S .; sed -n '1,260p' agents/work/task.md; sed -n '1,260p' agents/ideas/specs/corebound-spec-03-07-26-03.md; git -C corebound status --short --branch; find corebound -maxdepth 3 -type f | sort; cmp -s agents/ideas/inbox/corebound-prompt-03-07-26-03.md agents/ideas/processed/corebound-prompt-03-07-26-03.md; date '+%Y-%m-%d %H:%M'; mv -f agents/ideas/inbox/corebound-prompt-03-07-26-03.md agents/ideas/processed/corebound-prompt-03-07-26-03.md; web.search_query(site:store.steampowered.com Super Motherload Steam, site:store.steampowered.com Dome Keeper Steam, site:store.steampowered.com SteamWorld Dig Steam page)",
+        "Decisions": "Classified Corebound as greenfield in implementation terms because `corebound/` still contains no runnable game code, but treated the area as planning-established because the repo already has a vertical-slice spec and decomposed backlog. Wrote a first-session quality spec to complement that existing plan. Overwrote the processed prompt path because the inbox file matched an existing processed artifact byte-for-byte.",
+        "Prompt": "agents/ideas/processed/corebound-prompt-03-07-26-03.md",
+        "Report artifacts": "agents/ideas/staging/corebound-spec-03-07-26-04.md"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 04:03",
+      "date": "2026-03-07",
+      "time": "04:03:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T04:03:00",
+      "has_time": true,
+      "role": "Manager",
+      "title": "Decomposed Corebound Vertical Slice Spec",
+      "entrypoint": "_manage",
+      "loop": "Research",
+      "summary": "Decomposed the 'Initial Browser Mining Vertical Slice' spec for Corebound into 7 executable task cards in the backlog.",
+      "fields": {
+        "Summary": "Decomposed the 'Initial Browser Mining Vertical Slice' spec for Corebound into 7 executable task cards in the backlog.",
+        "Files touched": "agents/work/tasksbacklog.md, agents/ideas/specs/corebound-spec-03-07-26-03.md, agents/research_status.md",
+        "Commands": "cat > agents/work/tasksbacklog.md, mv agents/ideas/staging/corebound-spec-03-07-26-03.md agents/ideas/specs/",
+        "Decisions": "Followed the 3-8 card guidance, creating 7 cards to cover the full vertical slice from foundation to polish. Used a Vite + React + TypeScript stack for the web foundation as per standard project preferences.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      }
+    },
+    {
+      "timestamp": "2026-03-07 03:28",
+      "date": "2026-03-07",
+      "time": "03:28:00",
+      "day_key": "2026-03-07",
+      "sort_key": "2026-03-07T03:28:00",
+      "has_time": true,
+      "role": "Researcher",
+      "title": "Corebound greenfield vertical slice spec",
+      "entrypoint": "_research",
+      "loop": "Research",
+      "summary": "Wrote a greenfield spec for Corebound's first browser-based mining vertical slice after confirming the repo only contains initial scaffolding and no playable baseline. Used a narrow inspiration pass against official game pages to anchor the loop around mining, hazards, upgrades, and return-to-base progression.",
+      "fields": {
+        "Summary": "Wrote a greenfield spec for Corebound's first browser-based mining vertical slice after confirming the repo only contains initial scaffolding and no playable baseline. Used a narrow inspiration pass against official game pages to anchor the loop around mining, hazards, upgrades, and return-to-base progression.",
+        "Files touched": "agents/research_status.md, agents/ideas/staging/corebound-spec-03-07-26-03.md, agents/ideas/processed/corebound-prompt-03-07-26-03.md, agents/historylog.md",
+        "Commands": "sed -n '1,240p' agents/entrypoints/_research.md; find agents/ideas/inbox -maxdepth 1 -type f -printf '%T@ %p\\n' | sort -n; sed -n '1,220p' agents/roles/analyze.md; sed -n '1,220p' agents/roles/articulate.md; sed -n '1,220p' agents/roles/historian.md; sed -n '1,220p' agents/roles/search.md; sed -n '1,240p' agents/ideas/inbox/corebound-prompt-03-07-26-03.md; sed -n '1,240p' agents/outline.md; sed -n '1,240p' agents/work/tasksbacklog.md; sed -n '1,240p' agents/work/tasksbackburner.md; sed -n '1,240p' agents/work/tasksarchive.md; rg --files corebound | sed -n '1,260p'; find corebound -maxdepth 2 -type d | sort; find corebound -maxdepth 3 -type f | sort; git -C corebound status --short --branch; git -C corebound log --oneline --decorate -n 10; git -C corebound remote -v; sed -n '1,200p' corebound/LICENSE; find agents/ideas/staging -maxdepth 1 -type f | sort; find agents/ideas/processed -maxdepth 1 -type f | sort | tail -n 20; sed -n '1,200p' corebound/.gitignore; sed -n '1,260p' agents/ideas/staging/corebound-spec-03-07-26-03.md; date '+%Y-%m-%d %H:%M'; mv agents/ideas/inbox/corebound-prompt-03-07-26-03.md agents/ideas/processed/corebound-prompt-03-07-26-03.md; web.search_query(Super Motherload official game features steam, Dome Keeper official game features, SteamWorld Dig official game features, XGen Studios Motherload Goldium fuel hull cargo official)",
+        "Decisions": "Treated agents/ideas/inbox/.gitkeep as a placeholder rather than a prompt file. Classified Corebound as greenfield because the local repo contains only LICENSE, .gitignore, and git metadata. Used browsing because the prompt explicitly allowed it.",
+        "Prompt": "agents/ideas/processed/corebound-prompt-03-07-26-03.md",
+        "Report artifacts": "agents/ideas/staging/corebound-spec-03-07-26-03.md"
       }
     }
   ]

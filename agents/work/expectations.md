@@ -1,3 +1,2 @@
-# Expectations
-
-No active QA expectations.
+## Status
+No outstanding expected behaviors recorded.
