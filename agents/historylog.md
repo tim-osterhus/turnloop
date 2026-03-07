@@ -1,3 +1,21 @@
+[2026-03-06] QA • README Execution-Loop Regression Usage
+- Summary: Rebuilt the QA expectations from the active task card, then ran the required README verification commands. The evidence shows `README.md` already contains both execution-loop regression harness commands and the isolated temp-state note in a dedicated subsection, so the task passes without additional README edits.
+- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md
+- Commands: `sed -n '1,220p' agents/entrypoints/_check.md`; `sed -n '1,220p' agents/outline.md`; `sed -n '1,220p' agents/work/task.md`; `sed -n '1,220p' agents/work/quickfix.md`; `sed -n '1,220p' agents/roles/rubric-maker.md`; `sed -n '1,220p' agents/roles/tester.md`; `sed -n '1,220p' agents/roles/double-check.md`; `apply_patch` (agents/work/expectations.md); `sed -n '1,220p' agents/historylog.md`; `git status --short`; `git diff -- README.md agents/work/expectations.md`; `rg -n "test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state|execution-loop|regression|happy path|quickfix" README.md`; `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md` (PASS); `rg -n 'execution-loop|regression|happy path|quickfix' README.md` (PASS); `sed -n '72,82p' README.md`
+- Decisions: Marked QA complete because the README content already satisfies the task acceptance and there were no OPEN quickfix items to trigger a double-check pass.
+- Follow-ups: none
+- Prompt: agents/work/prompts/031-readme-execution-loop-regression-usage.md
+- Report artifacts: none
+
+[2026-03-06] Builder • README Execution-Loop Regression Usage
+- Summary: Verified that `README.md` already correctly documents the execution-loop regression harness commands and their isolated temp-state behavior. No edits were required.
+- Files touched: agents/historylog.md, agents/orchestrate_status.md
+- Commands: `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md`
+- Decisions: Left `README.md` unmodified since the prompt requirements are already met.
+- Follow-ups: none
+- Prompt: agents/work/prompts/031-readme-execution-loop-regression-usage.md
+- Report artifacts: none
+
 [2026-03-06] Manual • Push Failure Diagnosis + Ignore Guard
 - Summary: Investigated the Turnloop push failures manually after the public site stayed behind local commits. SSH push is unavailable on this machine because GitHub public-key auth is not configured, HTTPS auth succeeds, and the real blocker is GitHub rejecting oversized tracked Playwright browser binaries under `.playwright-browsers/`; added a `.gitignore` guard so future local browser installs do not get staged by default.
 - Files touched: .gitignore, agents/historylog.md

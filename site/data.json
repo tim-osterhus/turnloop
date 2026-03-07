@@ -1,6 +1,74 @@
 {
-  "generated_at": "2026-03-06T20:30:37.448711Z",
+  "generated_at": "2026-03-07T07:09:39.656215Z",
   "entries": [
+    {
+      "date": "2026-03-06",
+      "role": "QA",
+      "title": "README Execution-Loop Regression Usage",
+      "entrypoint": "_check",
+      "loop": "Orchestrate",
+      "summary": "Rebuilt the QA expectations from the active task card, then ran the required README verification commands. The evidence shows `README.md` already contains both execution-loop regression harness commands and the isolated temp-state note in a dedicated subsection, so the task passes without additional README edits.",
+      "fields": {
+        "Summary": "Rebuilt the QA expectations from the active task card, then ran the required README verification commands. The evidence shows `README.md` already contains both execution-loop regression harness commands and the isolated temp-state note in a dedicated subsection, so the task passes without additional README edits.",
+        "Files touched": "agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "`sed -n '1,220p' agents/entrypoints/_check.md`; `sed -n '1,220p' agents/outline.md`; `sed -n '1,220p' agents/work/task.md`; `sed -n '1,220p' agents/work/quickfix.md`; `sed -n '1,220p' agents/roles/rubric-maker.md`; `sed -n '1,220p' agents/roles/tester.md`; `sed -n '1,220p' agents/roles/double-check.md`; `apply_patch` (agents/work/expectations.md); `sed -n '1,220p' agents/historylog.md`; `git status --short`; `git diff -- README.md agents/work/expectations.md`; `rg -n \"test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state|execution-loop|regression|happy path|quickfix\" README.md`; `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md` (PASS); `rg -n 'execution-loop|regression|happy path|quickfix' README.md` (PASS); `sed -n '72,82p' README.md`",
+        "Decisions": "Marked QA complete because the README content already satisfies the task acceptance and there were no OPEN quickfix items to trigger a double-check pass.",
+        "Prompt": "agents/work/prompts/031-readme-execution-loop-regression-usage.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Rebuilt the QA expectations from the active task card, then ran the required README verification commands. The evidence shows `README.md` already contains both execution-loop regression harness commands and the isolated temp-state note in a dedicated subsection, so the task passes without additional README edits.\n- Files touched: agents/work/expectations.md, agents/historylog.md, agents/orchestrate_status.md\n- Commands: `sed -n '1,220p' agents/entrypoints/_check.md`; `sed -n '1,220p' agents/outline.md`; `sed -n '1,220p' agents/work/task.md`; `sed -n '1,220p' agents/work/quickfix.md`; `sed -n '1,220p' agents/roles/rubric-maker.md`; `sed -n '1,220p' agents/roles/tester.md`; `sed -n '1,220p' agents/roles/double-check.md`; `apply_patch` (agents/work/expectations.md); `sed -n '1,220p' agents/historylog.md`; `git status --short`; `git diff -- README.md agents/work/expectations.md`; `rg -n \"test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state|execution-loop|regression|happy path|quickfix\" README.md`; `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md` (PASS); `rg -n 'execution-loop|regression|happy path|quickfix' README.md` (PASS); `sed -n '72,82p' README.md`\n- Decisions: Marked QA complete because the README content already satisfies the task acceptance and there were no OPEN quickfix items to trigger a double-check pass.\n- Follow-ups: none\n- Prompt: agents/work/prompts/031-readme-execution-loop-regression-usage.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Builder",
+      "title": "README Execution-Loop Regression Usage",
+      "entrypoint": "_start",
+      "loop": "Orchestrate",
+      "summary": "Verified that `README.md` already correctly documents the execution-loop regression harness commands and their isolated temp-state behavior. No edits were required.",
+      "fields": {
+        "Summary": "Verified that `README.md` already correctly documents the execution-loop regression harness commands and their isolated temp-state behavior. No edits were required.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md",
+        "Commands": "`rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md`",
+        "Decisions": "Left `README.md` unmodified since the prompt requirements are already met.",
+        "Prompt": "agents/work/prompts/031-readme-execution-loop-regression-usage.md",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Verified that `README.md` already correctly documents the execution-loop regression harness commands and their isolated temp-state behavior. No edits were required.\n- Files touched: agents/historylog.md, agents/orchestrate_status.md\n- Commands: `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md`\n- Decisions: Left `README.md` unmodified since the prompt requirements are already met.\n- Follow-ups: none\n- Prompt: agents/work/prompts/031-readme-execution-loop-regression-usage.md\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Manual",
+      "title": "Push Failure Diagnosis + Ignore Guard",
+      "entrypoint": "unknown",
+      "loop": "Unknown",
+      "summary": "Investigated the Turnloop push failures manually after the public site stayed behind local commits. SSH push is unavailable on this machine because GitHub public-key auth is not configured, HTTPS auth succeeds, and the real blocker is GitHub rejecting oversized tracked Playwright browser binaries under `.playwright-browsers/`; added a `.gitignore` guard so future local browser installs do not get staged by default.",
+      "fields": {
+        "Summary": "Investigated the Turnloop push failures manually after the public site stayed behind local commits. SSH push is unavailable on this machine because GitHub public-key auth is not configured, HTTPS auth succeeds, and the real blocker is GitHub rejecting oversized tracked Playwright browser binaries under `.playwright-browsers/`; added a `.gitignore` guard so future local browser installs do not get staged by default.",
+        "Files touched": ".gitignore, agents/historylog.md",
+        "Commands": "`git -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP 408); `ssh -T -o BatchMode=yes -o StrictHostKeyChecking=accept-new git@github.com` (FAILED: publickey); `git -C /mnt/f/_evolve/turnloop ls-remote git@github.com:tim-osterhus/turnloop.git HEAD` (FAILED: publickey); `gh auth status -h github.com`; `curl -I --max-time 20 -s https://github.com`; `GIT_TRACE_CURL=1 GIT_CURL_VERBOSE=1 git -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP/2 408 during receive-pack POST); `git -c http.version=HTTP/1.1 -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP 408); `git -C /mnt/f/_evolve/turnloop gc`; `git -c http.version=HTTP/1.1 -C /mnt/f/_evolve/turnloop push origin main` (FAILED: remote rejected `.playwright-browsers/chromium-1208/chrome-linux64/chrome` at 257.28 MB and `.playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell` at 175.05 MB); `git -C /mnt/f/_evolve/turnloop log --oneline -- .playwright-browsers`; `git -C /mnt/f/_evolve/turnloop ls-files .playwright-browsers`",
+        "Decisions": "Did not rewrite local history or untrack the already-committed Playwright browser artifacts during this manual pass because the branch is actively moving under the live loops; limited the code change to preventing new `.playwright-browsers/` additions from being staged automatically.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Investigated the Turnloop push failures manually after the public site stayed behind local commits. SSH push is unavailable on this machine because GitHub public-key auth is not configured, HTTPS auth succeeds, and the real blocker is GitHub rejecting oversized tracked Playwright browser binaries under `.playwright-browsers/`; added a `.gitignore` guard so future local browser installs do not get staged by default.\n- Files touched: .gitignore, agents/historylog.md\n- Commands: `git -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP 408); `ssh -T -o BatchMode=yes -o StrictHostKeyChecking=accept-new git@github.com` (FAILED: publickey); `git -C /mnt/f/_evolve/turnloop ls-remote git@github.com:tim-osterhus/turnloop.git HEAD` (FAILED: publickey); `gh auth status -h github.com`; `curl -I --max-time 20 -s https://github.com`; `GIT_TRACE_CURL=1 GIT_CURL_VERBOSE=1 git -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP/2 408 during receive-pack POST); `git -c http.version=HTTP/1.1 -C /mnt/f/_evolve/turnloop push origin main` (FAILED: HTTP 408); `git -C /mnt/f/_evolve/turnloop gc`; `git -c http.version=HTTP/1.1 -C /mnt/f/_evolve/turnloop push origin main` (FAILED: remote rejected `.playwright-browsers/chromium-1208/chrome-linux64/chrome` at 257.28 MB and `.playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell` at 175.05 MB); `git -C /mnt/f/_evolve/turnloop log --oneline -- .playwright-browsers`; `git -C /mnt/f/_evolve/turnloop ls-files .playwright-browsers`\n- Decisions: Did not rewrite local history or untrack the already-committed Playwright browser artifacts during this manual pass because the branch is actively moving under the live loops; limited the code change to preventing new `.playwright-browsers/` additions from being staged automatically.\n- Follow-ups: Remove `.playwright-browsers/` from the unpublished local history ahead of `origin/main`, then retry the Turnloop push so the restored site header links can deploy to `lite.millrace.ai`.\n- Prompt: none\n- Report artifacts: none"
+    },
+    {
+      "date": "2026-03-06",
+      "role": "Update",
+      "title": "Pending Artifacts + Site Build",
+      "entrypoint": "_update",
+      "loop": "Orchestrate",
+      "summary": "Rebuilt the public journal site and synced pending Turnloop update artifacts; no outline or README edits were needed this cycle. Commit succeeded but the push failed with HTTP 408.",
+      "fields": {
+        "Summary": "Rebuilt the public journal site and synced pending Turnloop update artifacts; no outline or README edits were needed this cycle. Commit succeeded but the push failed with HTTP 408.",
+        "Files touched": "agents/historylog.md, agents/work/expectations.md, agents/work/finished/030-orchestrate-quickfix-auto-demotion-harness.md, agents/work/prompts/031-readme-execution-loop-regression-usage.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json",
+        "Commands": "`ls`; `cat agents/entrypoints/_update.md`; `cat agents/work/tasksarchive.md`; `cat agents/work/tasksbacklog.md`; `cat agents/historylog.md`; `cat agents/outline.md`; `cat README.md`; `python3 scripts/build_site.py`; `git status --short`; `git -C corebound status --short`; `git add -A`; `git commit -m \"Sync update artifacts and site build\"`; `git push` (FAILED: HTTP 408); `git show --name-only --pretty=\"\" HEAD`",
+        "Decisions": "Left `agents/outline.md` and `README.md` unchanged because they already reflect the current loop behavior and backlog/archive state.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      },
+      "details": "- Summary: Rebuilt the public journal site and synced pending Turnloop update artifacts; no outline or README edits were needed this cycle. Commit succeeded but the push failed with HTTP 408.\n- Files touched: agents/historylog.md, agents/work/expectations.md, agents/work/finished/030-orchestrate-quickfix-auto-demotion-harness.md, agents/work/prompts/031-readme-execution-loop-regression-usage.md, agents/work/task.md, agents/work/tasksarchive.md, agents/work/tasksbacklog.md, site/data.json\n- Commands: `ls`; `cat agents/entrypoints/_update.md`; `cat agents/work/tasksarchive.md`; `cat agents/work/tasksbacklog.md`; `cat agents/historylog.md`; `cat agents/outline.md`; `cat README.md`; `python3 scripts/build_site.py`; `git status --short`; `git -C corebound status --short`; `git add -A`; `git commit -m \"Sync update artifacts and site build\"`; `git push` (FAILED: HTTP 408); `git show --name-only --pretty=\"\" HEAD`\n- Decisions: Left `agents/outline.md` and `README.md` unchanged because they already reflect the current loop behavior and backlog/archive state.\n- Follow-ups: Retry the Turnloop push (HTTP 408).\n- Prompt: none\n- Report artifacts: none"
+    },
     {
       "date": "2026-03-06",
       "role": "QA",
