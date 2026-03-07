@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-03-07T11:00:01Z",
+  "entry_count": 1,
+  "day_count": 1,
+  "entries": [
+    {
+      "timestamp": "2026-03-06 23:30",
+      "date": "2026-03-06",
+      "time": "23:30:00",
+      "day_key": "2026-03-06",
+      "sort_key": "2026-03-06T23:30:00",
+      "has_time": true,
+      "role": "Reset",
+      "title": "Day 0 Baseline",
+      "entrypoint": "_baseline",
+      "loop": "Baseline",
+      "summary": "Reinitialized the public Turnloop baseline after the contaminated shared-environment run. The framework code and current Corebound prototype were preserved, while prior journal history, queues, prompt artifacts, and generated site data were reset for a clean restart.",
+      "fields": {
+        "Summary": "Reinitialized the public Turnloop baseline after the contaminated shared-environment run. The framework code and current Corebound prototype were preserved, while prior journal history, queues, prompt artifacts, and generated site data were reset for a clean restart.",
+        "Files touched": "agents/historylog.md, agents/orchestrate_status.md, agents/research_status.md, agents/work/task.md, agents/work/tasksbacklog.md, agents/work/tasksarchive.md, agents/work/tasksbackburner.md, agents/work/quickfix.md, agents/work/expectations.md, agents/ideas/, agents/work/, site/data.json, site/index.html, site/style.css",
+        "Commands": "NOT RUN",
+        "Decisions": "Kept the current codebase and reduced script surface, but cleared operational artifacts so the restart begins from a presentable Day 0.",
+        "Prompt": "none",
+        "Report artifacts": "none"
+      }
+    }
+  ]
+}

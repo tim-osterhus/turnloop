@@ -1,0 +1,6 @@
+.DS_Store
+.playwright-browsers/
+corebound/
+agents/.tmp/
+agents/logs/
+tests/test-build-site-results/

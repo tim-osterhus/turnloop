@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Turnloop Journal</title>
+  <link rel="icon" type="image/png" href="MillraceIconTransparent.png">
+  <link rel="shortcut icon" type="image/png" href="MillraceIconTransparent.png">
+  <link rel="apple-touch-icon" href="MillraceIconTransparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="#top">
+        <span class="brand-kicker">MR</span>
+        <span class="brand-copy">
+          <span class="brand-name">Turnloop Journal</span>
+          <span class="brand-tag">lite.millrace.ai</span>
+        </span>
+      </a>
+      <div class="nav-links" aria-label="Project links">
+        <a class="nav-link" href="https://github.com/tim-osterhus/turnloop" target="_blank" rel="noreferrer">Harness</a>
+        <a class="nav-link" href="https://github.com/tim-osterhus/corebound" target="_blank" rel="noreferrer">Project</a>
+        <a class="nav-link" href="https://game.millrace.ai" target="_blank" rel="noreferrer">Game</a>
+        <a class="nav-link" href="https://millrace.ai/#waitlist" target="_blank" rel="noreferrer">Updates</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div class="hero-panel">
+        <p class="hero-eyebrow">Millrace / Turnloop</p>
+        <h1 class="hero-title">Clean loops.<br><span class="hero-title-accent">Visible progress.</span></h1>
+        <p class="hero-copy">A public journal generated from <code>agents/historylog.md</code>. Entries are grouped by day, sorted chronologically, and trimmed to the essential summary so the timeline stays readable.</p>
+      </div>
+      <aside class="hero-summary">
+        <p class="summary-label">Journal Overview</p>
+        <div class="summary-grid">
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="daysCount">0</span>
+            <span class="summary-stat-note">active journal days</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="entriesCount">0</span>
+            <span class="summary-stat-note">logged entries</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="latestStamp">None</span>
+            <span class="summary-stat-note">latest visible timestamp</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="controls-panel" aria-label="Filters">
+      <div class="controls-header">
+        <div>
+          <h2 class="controls-title">Filter timeline</h2>
+          <p class="controls-subtitle">Narrow the view without losing the day-grouped layout.</p>
+        </div>
+      </div>
+      <div class="filter-grid">
+        <div class="control">
+          <label class="control-label" for="loopFilter">Loop</label>
+          <select id="loopFilter">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="control">
+          <label class="control-label" for="roleFilter">Role</label>
+          <select id="roleFilter">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="control">
+          <label class="control-label" for="entrypointFilter">Entrypoint</label>
+          <select id="entrypointFilter">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="control">
+          <span class="control-label">Ordering</span>
+          <div class="toggle-row">
+            <button id="dayLatest" class="toggle-button active" type="button">Newest first</button>
+            <button id="dayOldest" class="toggle-button" type="button">Oldest first</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-shell" id="entries" aria-live="polite"></section>
+
+    <div class="footer" id="footer"></div>
+  </main>
+
+  <script>
+  const state = {
+    loop: 'all',
+    role: 'all',
+    entrypoint: 'all',
+    dayDirection: 'latest'
+  };
+
+  const roleFilter = document.getElementById('roleFilter');
+  const entrypointFilter = document.getElementById('entrypointFilter');
+  const loopFilter = document.getElementById('loopFilter');
+  const entriesEl = document.getElementById('entries');
+  const footerEl = document.getElementById('footer');
+  const daysCountEl = document.getElementById('daysCount');
+  const entriesCountEl = document.getElementById('entriesCount');
+  const latestStampEl = document.getElementById('latestStamp');
+
+  const btnLatest = document.getElementById('dayLatest');
+  const btnOldest = document.getElementById('dayOldest');
+
+  function uniq(values) {
+    return Array.from(new Set(values)).sort();
+  }
+
+  function setButtonState() {
+    btnLatest.classList.toggle('active', state.dayDirection === 'latest');
+    btnOldest.classList.toggle('active', state.dayDirection === 'oldest');
+  }
+
+  function buildOptions(select, values) {
+    const current = select.value;
+    select.innerHTML = '<option value="all">All</option>';
+    values.forEach((value) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    });
+    if (values.includes(current)) {
+      select.value = current;
+    }
+  }
+
+  function buildDayMap(entries) {
+    const dayKeys = [];
+    entries.forEach((entry) => {
+      if (!dayKeys.includes(entry.day_key)) {
+        dayKeys.push(entry.day_key);
+      }
+    });
+    const map = new Map();
+    dayKeys.forEach((dayKey, index) => {
+      map.set(dayKey, index + 1);
+    });
+    return map;
+  }
+
+  function groupEntries(entries) {
+    const groups = [];
+    entries.forEach((entry) => {
+      let group = groups.find((candidate) => candidate.dayKey === entry.day_key);
+      if (!group) {
+        group = {
+          dayKey: entry.day_key,
+          date: entry.date,
+          entries: []
+        };
+        groups.push(group);
+      }
+      group.entries.push(entry);
+    });
+    return groups;
+  }
+
+  function render(entries) {
+    const dayMap = buildDayMap(entries);
+    const groups = groupEntries(entries);
+
+    entriesEl.innerHTML = '';
+    entriesCountEl.textContent = String(entries.length);
+    daysCountEl.textContent = String(groups.length);
+    latestStampEl.textContent = entries.length ? entries[0].timestamp : 'None';
+
+    if (!entries.length) {
+      entriesEl.innerHTML = '<div class="empty-state">No entries match the current filters.</div>';
+      footerEl.textContent = '0 entries visible';
+      return;
+    }
+
+    groups.forEach((group) => {
+      const section = document.createElement('section');
+      section.className = 'day-group';
+
+      const dayNumber = dayMap.get(group.dayKey) || 1;
+      const plural = group.entries.length === 1 ? 'entry' : 'entries';
+      const entryMarkup = group.entries.map((entry, index) => `
+        <article class="entry-card">
+          <div class="entry-timeblock">
+            <span class="entry-time">${entry.has_time ? entry.time : 'No time'}</span>
+            <span class="entry-index">${entry.loop}</span>
+          </div>
+          <div class="entry-main">
+            <div class="entry-head">
+              <span class="entry-role">${entry.role}</span>
+              <h3 class="entry-title">${entry.title}</h3>
+            </div>
+            <p class="entry-summary">${entry.summary || 'No summary provided.'}</p>
+            <div class="entry-meta">
+              <span class="meta-pill">${entry.entrypoint}</span>
+              <span class="meta-pill">${entry.timestamp}</span>
+              <span class="meta-pill">#${index + 1}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      section.innerHTML = `
+        <div class="day-header">
+          <div class="day-header-copy">
+            <span class="day-label">Day ${dayNumber}</span>
+            <h2 class="day-title">${group.date}</h2>
+            <span class="day-note">Grouped by calendar day from timestamped history entries.</span>
+          </div>
+          <span class="day-entry-count">${group.entries.length} ${plural}</span>
+        </div>
+        <div class="day-entries">${entryMarkup}</div>
+      `;
+      entriesEl.appendChild(section);
+    });
+
+    footerEl.textContent = `${entries.length} visible entries across ${groups.length} day groups`;
+  }
+
+  function applyFilters(allEntries) {
+    let entries = allEntries.slice();
+    if (state.loop !== 'all') {
+      entries = entries.filter((entry) => entry.loop === state.loop);
+    }
+    if (state.role !== 'all') {
+      entries = entries.filter((entry) => entry.role === state.role);
+    }
+    if (state.entrypoint !== 'all') {
+      entries = entries.filter((entry) => entry.entrypoint === state.entrypoint);
+    }
+    if (state.dayDirection === 'oldest') {
+      entries.reverse();
+    }
+    render(entries);
+  }
+
+  fetch('data.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const entries = data.entries || [];
+      buildOptions(loopFilter, uniq(entries.map((entry) => entry.loop)));
+      buildOptions(roleFilter, uniq(entries.map((entry) => entry.role)));
+      buildOptions(entrypointFilter, uniq(entries.map((entry) => entry.entrypoint)));
+      applyFilters(entries);
+
+      loopFilter.addEventListener('change', (event) => {
+        state.loop = event.target.value;
+        applyFilters(entries);
+      });
+      roleFilter.addEventListener('change', (event) => {
+        state.role = event.target.value;
+        applyFilters(entries);
+      });
+      entrypointFilter.addEventListener('change', (event) => {
+        state.entrypoint = event.target.value;
+        applyFilters(entries);
+      });
+      btnLatest.addEventListener('click', () => {
+        state.dayDirection = 'latest';
+        setButtonState();
+        applyFilters(entries);
+      });
+      btnOldest.addEventListener('click', () => {
+        state.dayDirection = 'oldest';
+        setButtonState();
+        applyFilters(entries);
+      });
+    });
+  </script>
+</body>
+</html>
