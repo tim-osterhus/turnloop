@@ -1,20 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+SOURCE_PATH="${BASH_SOURCE[0]:-}"
+if [[ -n "$SOURCE_PATH" && "$SOURCE_PATH" != /dev/fd/* && "$SOURCE_PATH" != /proc/*/fd/* ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "$SOURCE_PATH")" && pwd -P)"
+else
+  SCRIPT_DIR="$(cd "${PWD}/agents/scripts" && pwd -P)"
+fi
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd -P)"
+WORK_ROOT="${TURNLOOP_WORK_ROOT:-$REPO_ROOT}"
+if [[ "$WORK_ROOT" != /* ]]; then
+  WORK_ROOT="${REPO_ROOT}/${WORK_ROOT}"
+fi
 cd "$REPO_ROOT"
 
-TASK="agents/work/task.md"
-BACKLOG="agents/work/tasksbacklog.md"
-BACKBURNER="agents/work/tasksbackburner.md"
-ARCHIVE="agents/work/tasksarchive.md"
-STATUS="agents/orchestrate_status.md"
-HISTORY="agents/historylog.md"
-PROMPTS_DIR="agents/work/prompts"
-FINISHED_DIR="agents/work/finished"
-TMP_DIR="agents/.tmp"
-LOG_DIR="agents/logs"
+TASK="${WORK_ROOT}/agents/work/task.md"
+BACKLOG="${WORK_ROOT}/agents/work/tasksbacklog.md"
+BACKBURNER="${WORK_ROOT}/agents/work/tasksbackburner.md"
+ARCHIVE="${WORK_ROOT}/agents/work/tasksarchive.md"
+STATUS="${WORK_ROOT}/agents/orchestrate_status.md"
+HISTORY="${WORK_ROOT}/agents/historylog.md"
+PROMPTS_DIR="${WORK_ROOT}/agents/work/prompts"
+FINISHED_DIR="${WORK_ROOT}/agents/work/finished"
+TMP_DIR="${WORK_ROOT}/agents/.tmp"
+LOG_DIR="${WORK_ROOT}/agents/logs"
 AUTONOMY_COMPLETE_MARKER="agents/AUTONOMY_COMPLETE"
 
 ENTRY_START="agents/entrypoints/_start.md"
@@ -24,9 +33,9 @@ ENTRY_UPDATE="agents/entrypoints/_update.md"
 
 RUNNER="${TURNLOOP_RUNNER:-codex}"
 RUNNER_MODEL="${TURNLOOP_MODEL:-gpt-5.2-codex}"
-DAEMON_MODE="true"
-IDLE_POLL_SECS="120"
-PROMOTE_DELAY_SECS="180"
+DAEMON_MODE="${TURNLOOP_DAEMON_MODE:-true}"
+IDLE_POLL_SECS="${TURNLOOP_IDLE_POLL_SECS:-120}"
+PROMOTE_DELAY_SECS="${TURNLOOP_PROMOTE_DELAY_SECS:-180}"
 
 START_RUNNER="${TURNLOOP_START_RUNNER:-$RUNNER}"
 START_MODEL="${TURNLOOP_START_MODEL:-gpt-5.4}"
@@ -134,7 +143,8 @@ run_gemini_entrypoint() {
   local stdout_file stderr_file
   stdout_file="$(mktemp "${TMP_DIR}/gemini_${model//[^A-Za-z0-9_.-]/_}_stdout_XXXXXX.json")"
   stderr_file="$(mktemp "${TMP_DIR}/gemini_${model//[^A-Za-z0-9_.-]/_}_stderr_XXXXXX.log")"
-  if gemini --model "$model" --approval-mode yolo --output-format json "$instruction" >"$stdout_file" 2>"$stderr_file"; then
+  if env TURNLOOP_REPO_ROOT="$REPO_ROOT" TURNLOOP_WORK_ROOT="$WORK_ROOT" \
+    gemini --model "$model" --approval-mode yolo --output-format json "$instruction" >"$stdout_file" 2>"$stderr_file"; then
     append_file_to_log "$stdout_file" "$log_file"
     append_file_to_log "$stderr_file" "$log_file"
     rm -f "$stdout_file" "$stderr_file"
@@ -163,13 +173,15 @@ invoke_runner() {
 
   if [ "$runner" = "codex" ]; then
     env -u CODEX_THREAD_ID -u CODEX_SESSION_ID \
+      TURNLOOP_REPO_ROOT="$REPO_ROOT" TURNLOOP_WORK_ROOT="$WORK_ROOT" \
       "$runner" exec --model "$model" --dangerously-bypass-approvals-and-sandbox --ephemeral --color never \
       -c "model_reasoning_effort=\"${effort}\"" "$instruction" \
       >> "$log_file" 2>&1
     return $?
   fi
   if [ "$runner" = "claude" ]; then
-    "$runner" -p "$instruction" --model "$model" --output-format text --dangerously-skip-permissions >> "$log_file" 2>&1
+    env TURNLOOP_REPO_ROOT="$REPO_ROOT" TURNLOOP_WORK_ROOT="$WORK_ROOT" \
+      "$runner" -p "$instruction" --model "$model" --output-format text --dangerously-skip-permissions >> "$log_file" 2>&1
     return $?
   fi
   if [ "$runner" = "gemini" ]; then
@@ -177,7 +189,8 @@ invoke_runner() {
     return $?
   fi
 
-  "$runner" "$instruction" >> "$log_file" 2>&1
+  env TURNLOOP_REPO_ROOT="$REPO_ROOT" TURNLOOP_WORK_ROOT="$WORK_ROOT" \
+    "$runner" "$instruction" >> "$log_file" 2>&1
 }
 
 select_model() {
@@ -272,6 +285,12 @@ inc_update_blocked_count() {
   printf '%s\n' "$count"
 }
 
+exit_after_single_cycle_if_needed() {
+  if [ "$DAEMON_MODE" != "true" ]; then
+    exit 0
+  fi
+}
+
 run_update_cycle() {
   local attempt=0
   while [ "$attempt" -lt 2 ]; do
@@ -362,9 +381,40 @@ find_prompt_path() {
 move_prompt_to_finished() {
   local rel_path
   rel_path="$(find_prompt_path)"
-  if [ -n "$rel_path" ] && [ -f "$REPO_ROOT/$rel_path" ]; then
-    mv "$REPO_ROOT/$rel_path" "$FINISHED_DIR/"
+  if [ -n "$rel_path" ] && [ -f "$WORK_ROOT/$rel_path" ]; then
+    mv "$WORK_ROOT/$rel_path" "$FINISHED_DIR/"
   fi
+}
+
+build_entrypoint_instruction() {
+  local entry="$1"
+  if [ "$WORK_ROOT" = "$REPO_ROOT" ]; then
+    printf 'Open %s and follow instructions.' "$entry"
+    return 0
+  fi
+
+  cat <<EOF
+Open ${entry} and follow instructions.
+
+Repo-root files stay anchored to: ${REPO_ROOT}
+Active mutable workspace root: ${WORK_ROOT}
+
+When the entrypoint or its referenced roles mention these repo-relative workspace files, use the workspace-root copies instead:
+- agents/work/task.md -> ${TASK}
+- agents/work/tasksbacklog.md -> ${BACKLOG}
+- agents/work/tasksbackburner.md -> ${BACKBURNER}
+- agents/work/tasksarchive.md -> ${ARCHIVE}
+- agents/work/quickfix.md -> ${WORK_ROOT}/agents/work/quickfix.md
+- agents/work/expectations.md -> ${WORK_ROOT}/agents/work/expectations.md
+- agents/work/prompts/ -> ${PROMPTS_DIR}/
+- agents/work/finished/ -> ${FINISHED_DIR}/
+- agents/historylog.md -> ${HISTORY}
+- agents/orchestrate_status.md -> ${STATUS}
+- agents/.tmp/ -> ${TMP_DIR}/
+- agents/logs/ -> ${LOG_DIR}/
+
+Keep entrypoint markdown, role docs, README, and repo code under the real checkout at ${REPO_ROOT}.
+EOF
 }
 
 run_entrypoint() {
@@ -377,7 +427,7 @@ run_entrypoint() {
   local entry_name codex_log instruction
   entry_name="$(basename "$entry" .md)"
   codex_log="${LOG_DIR}/orchestrate_${entry_name}.log"
-  instruction="Open ${entry} and follow instructions."
+  instruction="$(build_entrypoint_instruction "$entry")"
   local rc=0
   invoke_runner "$runner" "$instruction" "$model" "$effort" "$codex_log"
   rc=$?
@@ -450,10 +500,12 @@ while true; do
       ;;
     "### BLOCKED")
       handle_blocked
+      exit_after_single_cycle_if_needed
       continue
       ;;
     *)
       handle_blocked
+      exit_after_single_cycle_if_needed
       continue
       ;;
   esac
@@ -466,6 +518,7 @@ while true; do
       : > "$TASK"
       write_status "### IDLE"
       reset_troubleshoot_count
+      exit_after_single_cycle_if_needed
       ;;
     "### QUICKFIX_NEEDED")
       while [ "$(get_status)" = "### QUICKFIX_NEEDED" ] && [ "$(get_quickfix_count)" -lt 2 ]; do
@@ -482,6 +535,7 @@ while true; do
         : > "$TASK"
         write_status "### IDLE"
         reset_troubleshoot_count
+        exit_after_single_cycle_if_needed
         continue
       fi
       if [ "$(get_status)" = "### QA_COMPLETE" ]; then
@@ -491,15 +545,19 @@ while true; do
         : > "$TASK"
         write_status "### IDLE"
         reset_troubleshoot_count
+        exit_after_single_cycle_if_needed
       elif [ "$(get_status)" = "### BLOCKED" ]; then
         handle_blocked
+        exit_after_single_cycle_if_needed
       fi
       ;;
     "### BLOCKED")
       handle_blocked
+      exit_after_single_cycle_if_needed
       ;;
     *)
       handle_blocked
+      exit_after_single_cycle_if_needed
       ;;
   esac
 

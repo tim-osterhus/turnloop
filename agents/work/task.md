@@ -1,21 +1,20 @@
-## 2026-03-06 — Corebound Upgrade Ladder Data Scaffold
-Goal: Replace the one-off surface upgrade state with structured upgrade-line data and session depth milestone tracking in `corebound/game.js`.
-Prompt: `agents/work/prompts/021-corebound-upgrade-ladder-data-scaffold.md`
+## 2026-03-06 — README Execution-Loop Regression Usage
+Goal: Document the local execution-loop regression commands in `README.md` and state clearly that they run against isolated temp state under the repo root.
+Prompt: agents/work/prompts/031-readme-execution-loop-regression-usage.md
 Scope:
-- In: Add data-driven upgrade line definitions, per-line tier state, and deepest-depth session tracking helpers.
-- Out: Final multi-row shop markup, visual styling, or gameplay tuning beyond the scaffold.
-Assumptions: Track unlock progress as the deepest tile row reached this session; each upgrade line starts with two tiers for the first ladder pass.
+- In: Add concise README instructions for the happy-path and quickfix harness commands, note their isolated temp-state behavior, and keep the rest of the loop documentation intact.
+- Out: Changes to loop behavior, harness implementation details beyond usage, or broader documentation rewrites.
+Assumptions: The harness scripts remain standalone shell entrypoints under `agents/scripts/`.
 Files to touch:
-- corebound/game.js
+- README.md
 Steps:
-1. Replace the single `SURFACE_UPGRADE` definition with a structured upgrade collection that describes line ids, names, tier data, and unlock requirements.
-2. Add session state for current purchased tier per upgrade line and the deepest depth reached during the session.
-3. Add generic helpers for reading the next tier, checking unlock status, checking affordability, and rejecting invalid or maxed purchases.
-4. Keep the current starting balance, inventory, fuel, and movement defaults unchanged until later cards wire tier effects into them.
+1. Add a short README subsection for local execution-loop regression coverage near the loop-running or testing guidance.
+2. Document `bash agents/scripts/test_orchestrate_happy_path.sh` and `bash agents/scripts/test_orchestrate_quickfix_demotion.sh`.
+3. State explicitly that both commands operate on isolated temp state under the repo root and do not mutate the real queue state when they pass.
+4. Verify the README references both harness script names and the isolated temp-state note.
 Acceptance:
-- `corebound/game.js` defines at least three upgrade lines with two tiers each in structured data.
-- Session state records deepest depth reached and exposes it to unlock checks.
-- `node --check corebound/game.js` exits `0`.
+- `README.md` mentions both execution-loop regression harness scripts by name.
+- The README states that the harnesses run against isolated temp state.
+- A grep command against `README.md` finds both script names and the isolation note.
 Verification commands:
-- `rg -n "deepestDepth|tiers|canPurchaseUpgrade|purchaseUpgrade|unlock" corebound/game.js` — Expected: matches for session-depth tracking plus generic upgrade helpers and tier data.
-- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+- `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md` — Expected: README contains both harness commands and the isolation note.

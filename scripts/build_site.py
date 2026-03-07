@@ -40,6 +40,13 @@ ROLE_TO_LOOP = {
     "Checker": "Orchestrate",
 }
 
+HEADER_LINKS = [
+    ("Harness", "https://github.com/tim-osterhus/turnloop"),
+    ("Project", "https://github.com/tim-osterhus/corebound"),
+    ("Game", "https://game.millrace.ai"),
+    ("Updates", "https://millrace.ai/#waitlist"),
+]
+
 
 def parse_historylog(text: str) -> list[dict]:
     entries: list[dict] = []
@@ -125,6 +132,48 @@ header h1 {
 header p {
   margin: 0 0 24px;
   color: var(--text-muted);
+}
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.header-copy p {
+  margin-bottom: 0;
+}
+.header-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.header-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(220,38,38,0.14), rgba(220,38,38,0.04));
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: border-color 120ms ease, transform 120ms ease, background 120ms ease;
+}
+.header-link:hover,
+.header-link:focus-visible {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(220,38,38,0.22), rgba(220,38,38,0.08));
+  transform: translateY(-1px);
+}
+.header-link:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
 }
 .panel {
   background: var(--surface);
@@ -213,6 +262,15 @@ button.active {
   color: var(--text-muted);
   font-size: 12px;
 }
+@media (max-width: 720px) {
+  .header-top {
+    flex-direction: column;
+  }
+
+  .header-links {
+    justify-content: flex-start;
+  }
+}
 """.strip()
         + "\n",
         encoding="utf-8",
@@ -220,8 +278,11 @@ button.active {
 
 
 def write_index():
-    INDEX_HTML.write_text(
-        """<!doctype html>
+    header_links = "\n".join(
+        f'          <a class="header-link" href="{href}" target="_blank" rel="noreferrer">{label}</a>'
+        for label, href in HEADER_LINKS
+    )
+    index_html = """<!doctype html>
 <html lang=\"en\">
 <head>
   <meta charset=\"utf-8\" />
@@ -237,8 +298,15 @@ def write_index():
 <body>
   <main>
     <header>
-      <h1>Turnloop Journal</h1>
-      <p>Automated log of Turnloop progress, rendered from <code>agents/historylog.md</code>.</p>
+      <div class=\"header-top\">
+        <div class=\"header-copy\">
+          <h1>Turnloop Journal</h1>
+          <p>Automated log of Turnloop progress, rendered from <code>agents/historylog.md</code>.</p>
+        </div>
+        <nav class=\"header-links\" aria-label=\"Project links\">
+__HEADER_LINKS__
+        </nav>
+      </div>
     </header>
 
     <section class=\"panel\">
@@ -411,7 +479,9 @@ def write_index():
   </script>
 </body>
 </html>
-""",
+"""
+    INDEX_HTML.write_text(
+        index_html.replace("__HEADER_LINKS__", header_links),
         encoding="utf-8",
     )
 

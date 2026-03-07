@@ -882,3 +882,258 @@ Verification commands:
 - `bash agents/scripts/test_research_queue_contract.sh` — Expected: exit 0 and output confirming that only the oldest staging spec was targeted while the newer spec remained queued.
 
 
+## 2026-03-06 — 2026-03-06 — Corebound Upgrade Ladder Data Scaffold
+
+## 2026-03-06 — Corebound Upgrade Ladder Data Scaffold
+Goal: Replace the one-off surface upgrade state with structured upgrade-line data and session depth milestone tracking in `corebound/game.js`.
+Prompt: `agents/work/prompts/021-corebound-upgrade-ladder-data-scaffold.md`
+Scope:
+- In: Add data-driven upgrade line definitions, per-line tier state, and deepest-depth session tracking helpers.
+- Out: Final multi-row shop markup, visual styling, or gameplay tuning beyond the scaffold.
+Assumptions: Track unlock progress as the deepest tile row reached this session; each upgrade line starts with two tiers for the first ladder pass.
+Files to touch:
+- corebound/game.js
+Steps:
+1. Replace the single `SURFACE_UPGRADE` definition with a structured upgrade collection that describes line ids, names, tier data, and unlock requirements.
+2. Add session state for current purchased tier per upgrade line and the deepest depth reached during the session.
+3. Add generic helpers for reading the next tier, checking unlock status, checking affordability, and rejecting invalid or maxed purchases.
+4. Keep the current starting balance, inventory, fuel, and movement defaults unchanged until later cards wire tier effects into them.
+Acceptance:
+- `corebound/game.js` defines at least three upgrade lines with two tiers each in structured data.
+- Session state records deepest depth reached and exposes it to unlock checks.
+- `node --check corebound/game.js` exits `0`.
+Verification commands:
+- `rg -n "deepestDepth|tiers|canPurchaseUpgrade|purchaseUpgrade|unlock" corebound/game.js` — Expected: matches for session-depth tracking plus generic upgrade helpers and tier data.
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+
+
+## 2026-03-06 — 2026-03-06 — Multi-Line Surface Shop UI Shell
+
+## 2026-03-06 — Multi-Line Surface Shop UI Shell
+Goal: Replace the single-upgrade HUD row with a repeatable surface shop list that can show multiple upgrade lines and availability states.
+Prompt: `agents/work/prompts/022-corebound-multi-line-surface-shop-ui-shell.md`
+Scope:
+- In: Update the HUD/shop markup, render a generated list of upgrade rows, and add baseline locked/available/maxed styling hooks.
+- Out: Final stat-effect tuning for specific upgrade lines.
+Files to touch:
+- corebound/index.html
+- corebound/style.css
+- corebound/game.js
+Steps:
+1. Replace the single upgrade row in `corebound/index.html` with a shop container that can host multiple generated lines.
+2. Add CSS hooks in `corebound/style.css` for line layout and state styling such as locked, affordable, unaffordable, and maxed.
+3. Update `corebound/game.js` to render one shop row per configured upgrade line with name, current level, next effect, cost, and status text placeholders.
+4. Keep the shop visible at the surface and ensure startup still succeeds before specific upgrade effects are completed.
+Acceptance:
+- The shop can render at least three upgrade lines without duplicating hard-coded markup per line.
+- Each line has visible fields for level, next effect, cost, and availability state.
+- `python3 -m http.server 8000` serves `/corebound/` without startup console errors.
+Verification commands:
+- `rg -n "hud-shop-list|shop-line|shop-status|shop-level" corebound/index.html corebound/style.css corebound/game.js` — Expected: matches for generated multi-line shop markup/styling/rendering.
+- `python3 -m http.server 8000` — Expected: `Serving HTTP on ...`; opening `http://localhost:8000/corebound/` shows the expanded shop UI.
+
+
+## 2026-03-06 — 2026-03-06 — Cargo Pods Capacity Tiers
+
+## 2026-03-06 — Cargo Pods Capacity Tiers
+Goal: Implement a cargo upgrade line whose purchased tiers immediately increase inventory capacity and keep the shop relevant after the first buy.
+Prompt: `agents/work/prompts/023-corebound-cargo-pods-capacity-tiers.md`
+Scope:
+- In: Define cargo tier values/costs, apply capacity boosts immediately, and update the line’s current/next tier state after each purchase.
+- Out: Fuel-capacity tuning or locked depth-gated upgrades.
+Files to touch:
+- corebound/game.js
+Steps:
+1. Define the Cargo Pods line’s tier effects and costs inside the shared upgrade data structure.
+2. Apply the purchased tier’s inventory-capacity effect immediately when the line is bought.
+3. Update the shop row so the current level, next effect, next cost, and maxed state advance correctly after each purchase.
+4. Preserve existing ore collection and sell behavior with the higher capacity values.
+Acceptance:
+- Buying Cargo Pods at the surface raises inventory capacity immediately in the same session.
+- A later Cargo Pods tier remains available after the first purchase until the line reaches max tier.
+- `node --check corebound/game.js` exits `0`.
+Verification commands:
+- `rg -n "cargo|capacity|inventory\\.capacity" corebound/game.js` — Expected: matches for tier data and immediate capacity application.
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+
+
+## 2026-03-06 — 2026-03-06 — Fuel Tank Endurance Tiers
+
+## 2026-03-06 — Fuel Tank Endurance Tiers
+Goal: Add a second upgrade line that increases trip endurance by raising the player’s fuel capacity while preserving surface auto-refuel behavior.
+Prompt: agents/work/prompts/024-corebound-fuel-tank-endurance-tiers.md
+Scope:
+- In: Replace the fixed max-fuel assumption with a derived fuel cap, define tiered fuel upgrades, and keep HUD/refill logic aligned with the upgraded cap.
+- Out: New warning systems or changes to ore generation.
+Files to touch:
+- corebound/game.js
+Steps:
+1. Introduce a derived max-fuel helper so fuel capacity can change by upgrade tier instead of remaining a fixed constant.
+2. Define the Fuel Tank line’s tier effects and costs in the shared upgrade data structure.
+3. Apply the purchased fuel-capacity effect immediately and ensure surface auto-refuel fills to the upgraded maximum.
+4. Update HUD fuel text and low-fuel checks to use the derived cap consistently.
+Acceptance:
+- Buying Fuel Tank at the surface increases the current max fuel immediately.
+- Returning to the surface refills fuel to the upgraded maximum in the same session.
+- `node --check corebound/game.js` exits `0`.
+Verification commands:
+- `rg -n "getMaxFuel|Fuel Tank|clampFuel|hudFuel" corebound/game.js` — Expected: matches for derived fuel-capacity handling and UI updates.
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+
+
+## 2026-03-06 — 2026-03-06 — Depth-Gated Thruster Upgrade Line
+
+## 2026-03-06 — Depth-Gated Thruster Upgrade Line
+Prompt: `agents/work/prompts/025-depth-gated-thruster-upgrade-line.md`
+Goal: Add a locked third upgrade line that unlocks after reaching Mid Depths and immediately improves mining throughput by increasing movement speed.
+Scope:
+- In: Define the locked line, gate it on session deepest depth, surface the lock text in the shop, and apply movement-speed boosts on purchase.
+- Out: Persistent unlocks across sessions or new strata definitions.
+Assumptions: Use the existing `mid-depths` strata boundary as the unlock milestone instead of introducing a separate hard-coded depth number.
+Files to touch:
+- corebound/game.js
+Steps:
+1. Add a movement-speed upgrade line with at least two tiers and an unlock rule tied to the Mid Depths entry row.
+2. Keep the line locked and non-purchasable until the player reaches the milestone, while showing the unlock condition in the shop.
+3. Update deepest-depth tracking during play so returning to the surface in the same session unlocks the line immediately.
+4. Apply the purchased movement-speed bonus immediately and advance the row to its next tier or maxed state.
+Acceptance:
+- Before reaching Mid Depths, the thruster line is locked and shows its unlock condition.
+- After reaching Mid Depths and returning to the surface in the same session, the line becomes purchasable if affordable.
+- `node --check corebound/game.js` exits `0`.
+Verification commands:
+- `rg -n "mid-depths|deepestDepth|speed|unlock" corebound/game.js` — Expected: matches for milestone tracking, lock checks, and speed upgrades.
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+
+
+## 2026-03-06 — 2026-03-06 — Shop State Hardening + Loop Regression
+
+## 2026-03-06 — Shop State Hardening + Loop Regression
+Prompt: `agents/work/prompts/026-shop-state-hardening-loop-regression.md`
+Goal: Harden invalid purchase paths and confirm the expanded shop does not break selling, digging, movement, fuel drain, or surface auto-refuel.
+Scope:
+- In: Final purchase guards, disabled-state/button-label polish, and manual regression checks across the existing mine-sell-refuel loop.
+- Out: Save/load, combat, fail states, or large UI redesigns.
+Files to touch:
+- corebound/game.js
+- corebound/style.css
+Steps:
+1. Ensure purchase handlers no-op when the player is below the surface, lacks cash, has not met an unlock condition, or has maxed the selected line.
+2. Finalize button labels and row styling for locked, affordable, unaffordable, and maxed states so the UI matches the actual purchase rules.
+3. Re-run the mining loop manually to verify digging, ore collection, selling, movement fuel drain, low-fuel warning, and surface auto-refuel still behave correctly with the new upgrade ladder.
+4. Fix any shop-state edge cases uncovered during regression without widening scope beyond the upgrade ladder.
+Acceptance:
+- Invalid purchase attempts are no-ops and the corresponding UI stays disabled or locked.
+- The mining/selling/fuel loop still works after the shop expansion with no normal-play console errors.
+- `node --check corebound/game.js` exits `0`.
+Verification commands:
+- `node --check corebound/game.js` — Expected: exit `0` with no syntax output.
+- `python3 -m http.server 8000` — Expected: `Serving HTTP on ...`; manual play at `http://localhost:8000/corebound/` confirms the upgraded shop does not break the existing loop.
+
+
+## 2026-03-06 — 2026-03-06 — Orchestrate Loop Isolated Work Root
+
+## 2026-03-06 — Orchestrate Loop Isolated Work Root
+Goal: Let `agents/scripts/orchestrate_loop.sh` mutate queue, status, prompt, log, and temp files inside an isolated repo-local workspace when `TURNLOOP_WORK_ROOT` is set, while preserving current repo-root behavior when it is unset.
+Prompt: agents/work/prompts/027-orchestrate-loop-isolated-work-root.md
+Scope:
+- In: Derive execution-loop work files and directories from `TURNLOOP_WORK_ROOT`, keep default paths unchanged when the variable is unset, and preserve the existing file-based queue contract.
+- Out: Timing overrides, harness scripts, README updates, or any changes to Builder/QA/Troubleshooter/Updater entrypoints.
+Assumptions: `TURNLOOP_WORK_ROOT` points at a directory under the repo root that mirrors the needed `agents/` workspace layout for queue files and prompt artifacts.
+Files to touch:
+- agents/scripts/orchestrate_loop.sh
+Steps:
+1. Refactor the execution-loop path setup so workspace files and directories derive from `TURNLOOP_WORK_ROOT` when it is set and from the current repo root when it is unset.
+2. Keep entrypoint instructions and runner invocation anchored to the real repo checkout so the live control flow still runs the real Turnloop prompts.
+3. Update helper functions that read or write task, backlog, archive, backburner, status, prompt, finished, log, and temp paths so they use the isolated workspace consistently.
+4. Verify the script still parses and that the new override name is discoverable by grep.
+Acceptance:
+- `agents/scripts/orchestrate_loop.sh` contains a `TURNLOOP_WORK_ROOT` override and routes workspace mutations through it.
+- With the override unset, the script still targets the current repo-root workspace paths.
+- `bash -n agents/scripts/orchestrate_loop.sh` exits 0.
+Verification commands:
+- `rg -n 'TURNLOOP_WORK_ROOT|WORK_ROOT|TASK=|BACKLOG=|STATUS=|PROMPTS_DIR=|FINISHED_DIR=' agents/scripts/orchestrate_loop.sh` — Expected: the work-root override appears and the workspace paths derive from it.
+- `bash -n agents/scripts/orchestrate_loop.sh` — Expected: exit 0.
+
+
+
+## 2026-03-06 — 2026-03-06 — Orchestrate Loop Single-Cycle Timing Overrides
+
+## 2026-03-06 — Orchestrate Loop Single-Cycle Timing Overrides
+Goal: Make `agents/scripts/orchestrate_loop.sh` configurable for fast local one-cycle runs by reading daemon and sleep values from environment variables without changing the current defaults.
+Prompt: agents/work/prompts/028-orchestrate-loop-single-cycle-timing-overrides.md
+Scope:
+- In: Add environment-backed overrides for daemon mode, promote delay, and idle poll delay using the current hard-coded values as defaults.
+- Out: Work-root path routing, harness scripts, README edits, or changes to runner/model fallback behavior.
+Assumptions: `TURNLOOP_DAEMON_MODE=false` should allow a local harness to run one execution-loop cycle without sleeping indefinitely, and zero-second overrides are valid for test runs.
+Files to touch:
+- agents/scripts/orchestrate_loop.sh
+Steps:
+1. Replace the hard-coded `DAEMON_MODE`, `PROMOTE_DELAY_SECS`, and `IDLE_POLL_SECS` assignments with environment-backed defaults using the required variable names.
+2. Preserve the current execution-loop flow and default values when the new variables are unset.
+3. Verify the override names are present and the script parses in both default and explicit single-cycle forms.
+Acceptance:
+- `agents/scripts/orchestrate_loop.sh` contains `TURNLOOP_DAEMON_MODE`, `TURNLOOP_PROMOTE_DELAY_SECS`, and `TURNLOOP_IDLE_POLL_SECS`.
+- The default values remain the current production values when those variables are unset.
+- `bash -n agents/scripts/orchestrate_loop.sh` exits 0.
+Verification commands:
+- `rg -n 'TURNLOOP_DAEMON_MODE|TURNLOOP_PROMOTE_DELAY_SECS|TURNLOOP_IDLE_POLL_SECS' agents/scripts/orchestrate_loop.sh` — Expected: all three override names appear.
+- `bash -n agents/scripts/orchestrate_loop.sh` — Expected: exit 0.
+- `TURNLOOP_DAEMON_MODE=false TURNLOOP_PROMOTE_DELAY_SECS=0 TURNLOOP_IDLE_POLL_SECS=0 bash -n agents/scripts/orchestrate_loop.sh` — Expected: exit 0.
+
+
+
+## 2026-03-06 — 2026-03-06 — Orchestrate Happy-Path Regression Harness
+
+## 2026-03-06 — Orchestrate Happy-Path Regression Harness
+Goal: Add a repo-local harness that seeds two backlog cards in isolated temp state, runs one real non-daemon execution-loop cycle, and proves only the oldest card is promoted and completed.
+Prompt: agents/work/prompts/029-orchestrate-happy-path-regression-harness.md
+Scope:
+- In: Add a local shell harness that seeds isolated queue files and prompt artifacts, uses local runner stubs, executes the real `agents/scripts/orchestrate_loop.sh` control flow once, and asserts happy-path queue/archive/prompt movement outcomes.
+- Out: Quickfix auto-demotion coverage, README updates, or any external runner/network usage.
+Assumptions: Local runner stubs can drive `_start.md`, `_check.md`, and `_update.md` by writing the expected status markers and prompt side effects inside the isolated workspace.
+Files to touch:
+- agents/scripts/test_orchestrate_happy_path.sh
+- agents/scripts/orchestrate_loop.sh
+Steps:
+1. Create `agents/scripts/test_orchestrate_happy_path.sh` to build an isolated workspace under the repo root with two deterministically ordered backlog cards and matching prompt artifacts.
+2. Add only the minimum local stub wiring needed so one `TURNLOOP_DAEMON_MODE=false` run exercises the real orchestration path without invoking external runners.
+3. Assert that the oldest card is promoted, appended to `agents/work/tasksarchive.md`, has its prompt moved to `agents/work/finished/`, and leaves the newer backlog card queued.
+4. Assert that the real repo-root queue files remain unchanged after the harness exits.
+Acceptance:
+- `bash agents/scripts/test_orchestrate_happy_path.sh` exits 0 using only local stubs and repo-local temp state.
+- The harness fails if the newer backlog card is promoted or if both cards are consumed in one cycle.
+- The harness output confirms archive, prompt-move, and remaining-backlog checks passed.
+Verification commands:
+- `bash -n agents/scripts/test_orchestrate_happy_path.sh` — Expected: exit 0.
+- `bash agents/scripts/test_orchestrate_happy_path.sh` — Expected: exit 0 and output confirming oldest-only promotion, archive append, prompt move, and preserved newer backlog state.
+
+
+
+## 2026-03-06 — 2026-03-06 — Orchestrate Quickfix Auto-Demotion Harness
+
+## 2026-03-06 — Orchestrate Quickfix Auto-Demotion Harness
+Goal: Add a repo-local harness that drives two isolated `### QUICKFIX_NEEDED` cycles and proves the execution loop auto-demotes the task to `agents/work/tasksbackburner.md`, clears `agents/work/task.md`, and returns `agents/orchestrate_status.md` to `### IDLE`.
+Prompt: agents/work/prompts/030-orchestrate-quickfix-auto-demotion-harness.md
+Scope:
+- In: Add a local shell harness for the quickfix retry path using isolated queue state and local runner stubs, then assert backburner demotion, task clearing, and idle-status restoration after the second failed quickfix loop.
+- Out: Happy-path archival checks, README updates, troubleshooter auto-demotion coverage, or external runner/network usage.
+Assumptions: The quickfix path can be driven entirely by isolated `_check.md` stub behavior that returns `### QUICKFIX_NEEDED` twice while the real orchestration loop handles retry counting and demotion.
+Files to touch:
+- agents/scripts/test_orchestrate_quickfix_demotion.sh
+- agents/scripts/orchestrate_loop.sh
+Steps:
+1. Create `agents/scripts/test_orchestrate_quickfix_demotion.sh` to seed isolated backlog, active-task, status, and prompt state under a repo-local temp workspace.
+2. Reuse the real `agents/scripts/orchestrate_loop.sh` control flow with local stubs so one non-daemon run reaches `### QUICKFIX_NEEDED` twice and triggers auto-demotion.
+3. Assert that the task is appended to `agents/work/tasksbackburner.md`, `agents/work/task.md` is cleared, `agents/orchestrate_status.md` returns to `### IDLE`, and the harness exits non-zero on any contract break.
+4. Confirm the real repo-root workspace files are untouched after the harness completes.
+Acceptance:
+- `bash agents/scripts/test_orchestrate_quickfix_demotion.sh` exits 0 using only repo-local shell utilities and local stubs.
+- The harness proves the second quickfix failure auto-demotes the task to `agents/work/tasksbackburner.md`.
+- The harness proves the isolated active task file is cleared and the isolated orchestrate status returns to `### IDLE`.
+Verification commands:
+- `bash -n agents/scripts/test_orchestrate_quickfix_demotion.sh` — Expected: exit 0.
+- `bash agents/scripts/test_orchestrate_quickfix_demotion.sh` — Expected: exit 0 and output confirming quickfix auto-demotion, cleared task file, and restored idle status.
+
+
+

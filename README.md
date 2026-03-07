@@ -72,6 +72,13 @@ A watchdog script can be used to restart loops if they stop:
 bash agents/scripts/loops_watchdog.sh
 ```
 
+## Execution Loop Regression Harnesses
+Use the local harnesses below to regression-test the execution loop without mutating the real queue state:
+- `bash agents/scripts/test_orchestrate_happy_path.sh`
+- `bash agents/scripts/test_orchestrate_quickfix_demotion.sh`
+
+Both harnesses run against isolated temp state under the repo root and leave the real queue files untouched when they pass.
+
 ## Task Cards
 Each task card should be a small, testable unit of work and must start with a double‑hash heading:
 

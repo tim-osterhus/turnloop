@@ -1,30 +1,26 @@
 ## Goal
-Validate that `corebound/game.js` replaces the one-off surface upgrade state with a structured upgrade-ladder scaffold and session depth milestone tracking, without changing the current starting gameplay defaults.
+Confirm that `README.md` documents the local execution-loop regression harness commands and explicitly states that they run against isolated temp state under the repo root without mutating the real queue state when they pass.
 
 ## Expected behavior
-- `corebound/game.js` defines structured upgrade-line data rather than a single upgrade constant.
-- The structured data includes at least three upgrade lines.
-- Each upgrade line includes at least two tiers for this first ladder pass.
-- Session state records the deepest tile row reached during the current session.
-- Unlock checks can read the deepest session depth.
-- Generic helpers exist for reading the next tier, checking unlock status, checking affordability, and rejecting invalid or maxed upgrade purchases.
-- The current starting balance, inventory, fuel, and movement defaults remain unchanged unless explicitly derived from purchased tiers during play.
+- `README.md` contains a concise subsection near existing loop-running or testing guidance for local execution-loop regression coverage.
+- The subsection mentions `bash agents/scripts/test_orchestrate_happy_path.sh`.
+- The subsection mentions `bash agents/scripts/test_orchestrate_quickfix_demotion.sh`.
+- The subsection states that both harnesses run against isolated temp state under the repo root.
+- The wording makes clear that successful runs do not mutate the real queue state.
+- Existing loop documentation remains intact aside from the targeted documentation addition.
 
 ## Expected file changes
-- `corebound/game.js` contains new structured upgrade definitions with per-line ids, names, tier data, and unlock requirements.
-- `corebound/game.js` contains per-line purchased-tier state and deepest-depth session tracking helpers.
-- No other file changes are required for this task.
+- `README.md` is the only file that should change for this task.
 
 ## Verification commands
-- `rg -n "deepestDepth|tiers|canPurchaseUpgrade|purchaseUpgrade|unlock" corebound/game.js`
-- `node --check corebound/game.js`
-- `rg -n "startingCash|inventory|fuel|maxFuel|player\\.speed|moveSpeed" corebound/game.js`
+- `rg -n 'test_orchestrate_happy_path.sh|test_orchestrate_quickfix_demotion.sh|isolated temp state' README.md`
+- `git diff -- README.md`
 
 ## Non-functional requirements
-- The implementation must stay within `corebound/game.js`.
-- `corebound/game.js` must remain syntactically valid JavaScript.
-- The scaffold should be data-driven and generic enough to support multiple upgrade lines and tiers without one-off purchase logic.
+- Documentation should be concise and scoped to usage guidance.
+- Script names and behavior notes must be accurate to the task definition.
+- No loop behavior or harness implementation changes are introduced.
 
 ## Notes / assumptions
-- Unlock progress is based on the deepest tile row reached in the current session.
-- This task is a scaffold only; multi-row shop UI, visual styling, and gameplay tuning beyond the scaffold are out of scope.
+- The harness scripts remain standalone shell entrypoints under `agents/scripts/`.
+- The task does not require executing the harnesses unless needed to resolve ambiguity during QA.
