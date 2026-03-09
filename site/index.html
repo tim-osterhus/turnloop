@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Turnloop Journal</title>
+  <link rel="icon" type="image/png" href="MillraceIconTransparent.png">
+  <link rel="shortcut icon" type="image/png" href="MillraceIconTransparent.png">
+  <link rel="apple-touch-icon" href="MillraceIconTransparent.png">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="#top">
+        <span class="brand-kicker">MR</span>
+        <span class="brand-copy">
+          <span class="brand-name">Turnloop Journal</span>
+          <span class="brand-tag">lite.millrace.ai</span>
+        </span>
+      </a>
+      <div class="nav-links" aria-label="Project links">
+        <a class="nav-link" href="https://github.com/tim-osterhus/turnloop" target="_blank" rel="noreferrer">Source</a>
+        <a class="nav-link" href="https://github.com/tim-osterhus/auto-games" target="_blank" rel="noreferrer">Project</a>
+        <a class="nav-link" href="https://game.millrace.ai" target="_blank" rel="noreferrer">Games</a>
+        <a class="nav-link" href="https://millrace.ai/#waitlist" target="_blank" rel="noreferrer">Updates</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div class="hero-panel">
+        <p class="hero-eyebrow">Millrace / Turnloop</p>
+        <h1 class="hero-title">Two journals.<br><span class="hero-title-accent">One visible system.</span></h1>
+        <p class="hero-copy">A public timeline for a stripped-down autonomy harness that researches browser-game work in one loop and executes it in another. The journal is built from markdown history files and published as a readable, summary-only view.</p>
+      </div>
+      <aside class="hero-summary">
+        <p class="summary-label">Visible stream</p>
+        <div class="summary-grid">
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="streamName">Orchestration</span>
+            <span class="summary-stat-note">currently selected journal</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="entriesCount">0</span>
+            <span class="summary-stat-note">visible entries</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="daysCount">0</span>
+            <span class="summary-stat-note">active journal days</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-stat-value" id="latestStamp">None</span>
+            <span class="summary-stat-note">latest visible timestamp</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="controls-panel" aria-label="Filters">
+      <div class="controls-header">
+        <div>
+          <h2 class="controls-title">View the journals</h2>
+          <p class="controls-subtitle">Research and orchestration stay separate here. Switch streams or reverse the timeline order.</p>
+        </div>
+      </div>
+      <div class="filter-grid">
+        <div class="control">
+          <span class="control-label">Journal stream</span>
+          <div class="toggle-row">
+            <button id="streamOrchestrate" class="toggle-button active" data-stream="orchestrate" type="button">Orchestration</button>
+            <button id="streamResearch" class="toggle-button" data-stream="research" type="button">Research</button>
+          </div>
+        </div>
+        <div class="control">
+          <span class="control-label">Ordering</span>
+          <div class="toggle-row">
+            <button id="orderNewest" class="toggle-button active" data-order="newest" type="button">Newest first</button>
+            <button id="orderOldest" class="toggle-button" data-order="oldest" type="button">Oldest first</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-shell" id="entries" aria-live="polite"></section>
+
+    <div class="footer" id="footer"></div>
+  </main>
+
+  <script>
+  const state = {
+    stream: 'orchestrate',
+    order: 'newest'
+  };
+
+  const entriesEl = document.getElementById('entries');
+  const footerEl = document.getElementById('footer');
+  const streamNameEl = document.getElementById('streamName');
+  const daysCountEl = document.getElementById('daysCount');
+  const entriesCountEl = document.getElementById('entriesCount');
+  const latestStampEl = document.getElementById('latestStamp');
+
+  const btnStreamOrchestrate = document.getElementById('streamOrchestrate');
+  const btnStreamResearch = document.getElementById('streamResearch');
+  const btnOrderNewest = document.getElementById('orderNewest');
+  const btnOrderOldest = document.getElementById('orderOldest');
+
+  function setButtonState() {
+    btnStreamOrchestrate.classList.toggle('active', state.stream === 'orchestrate');
+    btnStreamResearch.classList.toggle('active', state.stream === 'research');
+    btnOrderNewest.classList.toggle('active', state.order === 'newest');
+    btnOrderOldest.classList.toggle('active', state.order === 'oldest');
+  }
+
+  function groupEntries(entries) {
+    const groups = [];
+    entries.forEach((entry) => {
+      let group = groups.find((candidate) => candidate.dayKey === entry.day_key);
+      if (!group) {
+        group = {
+          dayKey: entry.day_key,
+          date: entry.date,
+          entries: []
+        };
+        groups.push(group);
+      }
+      group.entries.push(entry);
+    });
+    return groups;
+  }
+
+  function renderStream(data) {
+    const stream = data.streams[state.stream] || { label: 'Unknown', entries: [] };
+    const entries = stream.entries.slice();
+    if (state.order === 'oldest') {
+      entries.reverse();
+    }
+
+    const groups = groupEntries(entries);
+    entriesEl.innerHTML = '';
+    streamNameEl.textContent = stream.label || 'Unknown';
+    entriesCountEl.textContent = String(entries.length);
+    daysCountEl.textContent = String(groups.length);
+    latestStampEl.textContent = entries.length ? entries[0].timestamp : 'None';
+
+    if (!entries.length) {
+      entriesEl.innerHTML = '<div class="empty-state">No journal entries are available for this stream yet.</div>';
+      footerEl.textContent = `${stream.label || 'Unknown'} journal · no visible entries`;
+      return;
+    }
+
+    groups.forEach((group, groupIndex) => {
+      const section = document.createElement('section');
+      section.className = 'day-group';
+      const plural = group.entries.length === 1 ? 'entry' : 'entries';
+
+      const entryMarkup = group.entries.map((entry, index) => `
+        <article class="entry-card">
+          <div class="entry-timeblock">
+            <span class="entry-time">${entry.has_time ? entry.time : 'No time'}</span>
+            <span class="entry-index">${stream.label}</span>
+          </div>
+          <div class="entry-main">
+            <div class="entry-head">
+              <span class="entry-role">${entry.role}</span>
+              <h3 class="entry-title">${entry.title}</h3>
+            </div>
+            <p class="entry-summary">${entry.summary || 'No summary provided.'}</p>
+            <div class="entry-meta">
+              <span class="meta-pill">${entry.timestamp}</span>
+              <span class="meta-pill">#${groupIndex + 1}.${index + 1}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      section.innerHTML = `
+        <div class="day-header">
+          <div class="day-header-copy">
+            <span class="day-label">${stream.label} / Day ${groupIndex + 1}</span>
+            <h2 class="day-title">${group.date}</h2>
+            <span class="day-note">Summary-only entries, grouped by calendar day.</span>
+          </div>
+          <span class="day-entry-count">${group.entries.length} ${plural}</span>
+        </div>
+        <div class="day-entries">${entryMarkup}</div>
+      `;
+      entriesEl.appendChild(section);
+    });
+
+    footerEl.textContent = `${stream.label} journal · ${entries.length} visible entries across ${groups.length} day groups`;
+  }
+
+  fetch('data.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const orchestrateEntries = (data.streams?.orchestrate?.entries || []).length;
+      const researchEntries = (data.streams?.research?.entries || []).length;
+      if (!orchestrateEntries && researchEntries) {
+        state.stream = 'research';
+      }
+
+      setButtonState();
+      renderStream(data);
+
+      btnStreamOrchestrate.addEventListener('click', () => {
+        state.stream = 'orchestrate';
+        setButtonState();
+        renderStream(data);
+      });
+
+      btnStreamResearch.addEventListener('click', () => {
+        state.stream = 'research';
+        setButtonState();
+        renderStream(data);
+      });
+
+      btnOrderNewest.addEventListener('click', () => {
+        state.order = 'newest';
+        setButtonState();
+        renderStream(data);
+      });
+
+      btnOrderOldest.addEventListener('click', () => {
+        state.order = 'oldest';
+        setButtonState();
+        renderStream(data);
+      });
+    });
+  </script>
+</body>
+</html>

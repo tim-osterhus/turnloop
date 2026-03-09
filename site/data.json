@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-03-09T17:06:37Z",
+  "source_mode": "split",
+  "streams": {
+    "orchestrate": {
+      "label": "Orchestration",
+      "entry_count": 0,
+      "day_count": 0,
+      "latest_timestamp": "",
+      "entries": []
+    },
+    "research": {
+      "label": "Research",
+      "entry_count": 0,
+      "day_count": 0,
+      "latest_timestamp": "",
+      "entries": []
+    }
+  }
+}
