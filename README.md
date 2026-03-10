@@ -39,8 +39,6 @@ The public source view is intentionally small:
 - `site/`
 - `README.md`
 
-That is the point. The visible experiment is meant to feel simpler than it should.
-
 ## License
 
 See `LICENSE`.
