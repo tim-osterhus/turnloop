@@ -1,13 +1,123 @@
 {
-  "generated_at": "2026-03-12T10:49:57Z",
+  "generated_at": "2026-03-12T11:39:54Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 44,
+      "entry_count": 49,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 00:47",
+      "latest_timestamp": "2026-03-12 01:36",
       "entries": [
+        {
+          "timestamp": "2026-03-12 01:36",
+          "date": "2026-03-12",
+          "time": "01:36",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T01:36:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor feedback + responsive shell (validated)",
+          "summary": "Verified `/ricochet-reactor/` (v0.0.5) shows in-game objective/controls, distinct combat feedback (firing, dash, damage, hit, kill), reactor warning emphasis, and narrow-width layout behavior; confirmed the prior quickfix items are resolved (canvas receives pointer input after intro and manifest version targets the correct game).",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 49,
+          "day_ordinal": 2,
+          "entry_ordinal": 10,
+          "entry_label": "O-2.10",
+          "anchor_id": "orchestrate-2026-03-12-01-36-qa-ricochet-reactor-feedback-responsive-shell-validated",
+          "anchor_aliases": [
+            "O-2.10"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 01:24",
+          "date": "2026-03-12",
+          "time": "01:24",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T01:24:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor quickfix completion",
+          "summary": "Resolved the open Ricochet Reactor quickfix items by restoring canvas pointer access after the intro overlay and correcting the public manifest version mismatch. Synced the pointer-events fix into the served `auto-games/ricochet-reactor/` copy after verification showed the public route reads that directory.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 48,
+          "day_ordinal": 2,
+          "entry_ordinal": 9,
+          "entry_label": "O-2.9",
+          "anchor_id": "orchestrate-2026-03-12-01-24-builder-ricochet-reactor-quickfix-completion",
+          "anchor_aliases": [
+            "O-2.9"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 01:19",
+          "date": "2026-03-12",
+          "time": "01:19",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T01:19:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor feedback + responsive shell (quickfix needed)",
+          "summary": "Verified the in-game briefing overlay, arena event feed, reactor danger states, and narrow-width shell layout for Ricochet Reactor. Found two blocking gaps: the arena canvas cannot receive pointer events because `.arena-overlay` intercepts clicks (prevents firing), and the manifest version bump in `auto-games/data/games.json` was applied to `corebound` instead of `ricochet-reactor`, creating a public version mismatch.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 47,
+          "day_ordinal": 2,
+          "entry_ordinal": 8,
+          "entry_label": "O-2.8",
+          "anchor_id": "orchestrate-2026-03-12-01-19-qa-ricochet-reactor-feedback-responsive-shell-quickfix-needed",
+          "anchor_aliases": [
+            "O-2.8"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 01:05",
+          "date": "2026-03-12",
+          "time": "01:05",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T01:05:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor feedback and responsive shell",
+          "summary": "Created the missing prompt artifact, then updated Ricochet Reactor with a first-run briefing overlay, an in-arena event feed, combat impact effects, and reactor danger states so firing, hits, kills, dash use, and damage read clearly during play. Synced the served `/ricochet-reactor/` route with the source copy, bumped the public version to `0.0.5`, and verified the live page plus narrow-width shell layout.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 46,
+          "day_ordinal": 2,
+          "entry_ordinal": 7,
+          "entry_label": "O-2.7",
+          "anchor_id": "orchestrate-2026-03-12-01-05-builder-ricochet-reactor-feedback-and-responsive-shell",
+          "anchor_aliases": [
+            "O-2.7"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 00:50",
+          "date": "2026-03-12",
+          "time": "00:50",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T00:50:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Ricochet Reactor scoring prompt and publish build",
+          "summary": "Cleared stale task expectations, archived the Ricochet Reactor scoring prompt, rebuilt the journal site data, and committed/pushed the updated Ricochet Reactor score-attack build in auto-games. Published the public Turnloop export after committing the update artifacts in the main repo.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 45,
+          "day_ordinal": 2,
+          "entry_ordinal": 6,
+          "entry_label": "O-2.6",
+          "anchor_id": "orchestrate-2026-03-12-00-50-update-archive-ricochet-reactor-scoring-prompt-and-publish-build",
+          "anchor_aliases": [
+            "O-2.6"
+          ]
+        },
         {
           "timestamp": "2026-03-12 00:47",
           "date": "2026-03-12",
