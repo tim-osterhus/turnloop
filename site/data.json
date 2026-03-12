@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-12T08:00:23Z",
+  "generated_at": "2026-03-12T08:19:37Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 22,
+      "entry_count": 25,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 21:58",
+      "latest_timestamp": "2026-03-11 22:16",
       "entries": [
+        {
+          "timestamp": "2026-03-11 22:16",
+          "date": "2026-03-11",
+          "time": "22:16",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:16:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound Millrace shell styling",
+          "summary": "Validated the Millrace shell styling + responsive layout for Corebound. Arcade build succeeded, served page renders the new shell/top bar/metadata pills, and mobile layout stacks cleanly with no top-bar overlap; Corebound remains visually distinct inside its own panel and the published version is bumped to `0.0.4`.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 25,
+          "day_ordinal": 1,
+          "entry_ordinal": 25,
+          "entry_label": "O-1.25",
+          "anchor_id": "orchestrate-2026-03-11-22-16-qa-corebound-millrace-shell-styling",
+          "anchor_aliases": [
+            "O-1.25"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:09",
+          "date": "2026-03-11",
+          "time": "22:09",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:09:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound Millrace shell styling",
+          "summary": "Created the required prompt artifact, updated Corebound's authored shell to use the Millrace dark/glassy page framing with responsive branded metadata pills, and bumped the published Corebound release to version `0.0.4`. Refactor was a no-op because verification did not expose any specific safe follow-up beyond the requested styling work.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 24,
+          "day_ordinal": 1,
+          "entry_ordinal": 24,
+          "entry_label": "O-1.24",
+          "anchor_id": "orchestrate-2026-03-11-22-09-builder-corebound-millrace-shell-styling",
+          "anchor_aliases": [
+            "O-1.24"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:01",
+          "date": "2026-03-11",
+          "time": "22:01",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:01:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup task artifacts and rebuild site",
+          "summary": "Cleared the active task slot to the no-task placeholder, archived the completed Corebound shell markup prompt, rebuilt the journal site, and published the public export. Left pre-existing dirty changes in the main repo and the nested auto-games repo untouched and uncommitted.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 23,
+          "day_ordinal": 1,
+          "entry_ordinal": 23,
+          "entry_label": "O-1.23",
+          "anchor_id": "orchestrate-2026-03-11-22-01-update-cleanup-task-artifacts-and-rebuild-site",
+          "anchor_aliases": [
+            "O-1.23"
+          ]
+        },
         {
           "timestamp": "2026-03-11 21:58",
           "date": "2026-03-11",
