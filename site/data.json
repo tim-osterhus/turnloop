@@ -1,20 +1,165 @@
 {
-  "generated_at": "2026-03-10T19:52:04Z",
+  "generated_at": "2026-03-12T03:57:06Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 0,
-      "day_count": 0,
-      "latest_timestamp": "",
-      "entries": []
+      "entry_count": 9,
+      "day_count": 1,
+      "latest_timestamp": "2026-03-11 17:54",
+      "entries": [
+        {
+          "timestamp": "2026-03-11 17:54",
+          "date": "2026-03-11",
+          "time": "17:54",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:54:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Validated `source_dir` authored publishing support with passing unit tests and a successful builder run; the `auto-games` diff stays within the scoped builder/tests/fixture paths and includes no live manifest rollout/output regeneration changes.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:49",
+          "date": "2026-03-11",
+          "time": "17:49",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:49:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Added `source_dir` publishing support to the arcade builder and test coverage for authored game directories, including static assets and missing-directory validation. Resolved the scope-drift quickfix by keeping the task infra-only, reverting live manifest/output changes, and aligning the task docs with that non-rollout scope. Refactor scan found no additional evidence-backed improvement.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:46",
+          "date": "2026-03-11",
+          "time": "17:46",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:46:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Verified the authored `source_dir` contract with evidence: `auto-games` unittests passed and `scripts/build_arcade.py` ran successfully. Flagged a scope mismatch: current changes include a Corebound manifest/version bump and regenerated output files outside the task\u2019s stated file-touch / \u201cno release copy changes\u201d constraints.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:33",
+          "date": "2026-03-11",
+          "time": "17:33",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:33:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Re-ran the Builder flow against the active authored `source_dir` publishing task and confirmed the existing `auto-games` implementation satisfies the prompt without further code changes. Refactor was a no-op because the required unittest suite and build command both passed and did not expose an evidence-backed improvement within scope.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:31",
+          "date": "2026-03-11",
+          "time": "17:31",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:31:00",
+          "has_time": true,
+          "role": "Troubleshoot",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Classified the block as a stale quickfix / incorrect-block condition, not a product-code failure. The active `auto-games` task verification passes, and the only OPEN blocker was a demand to clean unrelated pre-existing workspace edits outside the task.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:26",
+          "date": "2026-03-11",
+          "time": "17:26",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:26:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Ran verification for `source_dir` authored publishing. `auto-games` unittests passed and `scripts/build_arcade.py` produced authored output, but QA remains BLOCKED because `turnloop/` has unrelated working-tree changes (quickfix item 1) that violate scope/auditability.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:18",
+          "date": "2026-03-11",
+          "time": "17:18",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:18:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Verified the authored `source_dir` publishing work in `auto-games`, updated the authored Corebound page to match manifest version `0.0.2`, and staged the authored test fixture files for reproducible coverage. The run remains blocked because `agents/work/quickfix.md` still has an unresolved OPEN scope-drift item for unrelated pre-existing `turnloop/` changes outside this task.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:16",
+          "date": "2026-03-11",
+          "time": "17:16",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:16:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Ran QA against expectations for `source_dir` authored publishing. `auto-games` unit tests and `scripts/build_arcade.py` passed, but gaps remain: unrelated `turnloop/` changes in the working tree, untracked `auto-games/tests/fixtures/` content, and a Corebound version-display mismatch after bumping to `0.0.2`.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:06",
+          "date": "2026-03-11",
+          "time": "17:06",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:06:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Allow authored Corebound publishing",
+          "summary": "Added `source_dir` publishing to the arcade builder, covered the new manifest contract with authored-source tests and fixtures, and pointed the live Corebound manifest entry at the authored game directory with a patch version bump. Refactor pass found no evidence-backed follow-up changes to apply. Quickfix remained a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        }
+      ]
     },
     "research": {
       "label": "Research",
-      "entry_count": 0,
-      "day_count": 0,
-      "latest_timestamp": "",
-      "entries": []
+      "entry_count": 2,
+      "day_count": 1,
+      "latest_timestamp": "2026-03-11 16:58",
+      "entries": [
+        {
+          "timestamp": "2026-03-11 16:58",
+          "date": "2026-03-11",
+          "time": "16:58",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T16:58:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Corebound playable mining loop",
+          "summary": "Decomposed the Corebound playable mining loop spec into four task cards covering authored build support, core gameplay loop, upgrades/persistence/onboarding, and manifest release updates, then moved the spec into the specs queue.",
+          "stream": "research",
+          "stream_label": "Research"
+        },
+        {
+          "timestamp": "2026-03-11 16:50",
+          "date": "2026-03-11",
+          "time": "16:50",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T16:50:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Corebound First Playable Mining Loop",
+          "summary": "Researched the oldest inbox prompt and produced a greenfield spec for turning Corebound from a generated release page into its first playable mining build. The spec centers on one cohesive mining-extraction-upgrade loop and includes the minimal shared publishing-flow change needed to ship authored gameplay safely.",
+          "stream": "research",
+          "stream_label": "Research"
+        }
+      ]
     }
   }
 }
