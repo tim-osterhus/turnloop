@@ -1,13 +1,123 @@
 {
-  "generated_at": "2026-03-12T09:10:36Z",
+  "generated_at": "2026-03-12T09:42:20Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 31,
+      "entry_count": 36,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 23:07",
+      "latest_timestamp": "2026-03-11 23:39",
       "entries": [
+        {
+          "timestamp": "2026-03-11 23:39",
+          "date": "2026-03-11",
+          "time": "23:39",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:39:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor core controls + published route verification",
+          "summary": "Rebuilt the arcade output and verified the public `/ricochet-reactor/` route serves the playable `v0.0.2` arena. Playwright checks confirm keyboard movement updates aim/bounds, mouse aiming + held fire spawns live rounds with HUD updates, and dash triggers a visible cooldown without console warnings/errors.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 36,
+          "day_ordinal": 1,
+          "entry_ordinal": 36,
+          "entry_label": "O-1.36",
+          "anchor_id": "orchestrate-2026-03-11-23-39-qa-ricochet-reactor-core-controls-published-route-verification",
+          "anchor_aliases": [
+            "O-1.36"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 23:31",
+          "date": "2026-03-11",
+          "time": "23:31",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:31:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor publish quickfix",
+          "summary": "Regenerated the published arcade output so `/ricochet-reactor/` now matches the playable `v0.0.2` authored source, then verified the public route serves the live arena shell with dash and firing HUD responses. Refactor was a no-op because verification did not reveal any evidence-backed low-risk follow-up beyond the publish fix.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 35,
+          "day_ordinal": 1,
+          "entry_ordinal": 35,
+          "entry_label": "O-1.35",
+          "anchor_id": "orchestrate-2026-03-11-23-31-builder-ricochet-reactor-publish-quickfix",
+          "anchor_aliases": [
+            "O-1.35"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 23:27",
+          "date": "2026-03-11",
+          "time": "23:27",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:27:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor core controls publish verification",
+          "summary": "Wrote QA expectations and validated the served routes under `python3 -m http.server`. The playable arena exists under `/games/ricochet-reactor/`, but the public `/ricochet-reactor/` route (linked from the arcade index) is still the older non-playable `v0.0.1` shell, so the task acceptance path fails. Logged a quickfix to rebuild/publish generated output so `/ricochet-reactor/` reflects `0.0.2`.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 34,
+          "day_ordinal": 1,
+          "entry_ordinal": 34,
+          "entry_label": "O-1.34",
+          "anchor_id": "orchestrate-2026-03-11-23-27-qa-ricochet-reactor-core-controls-publish-verification",
+          "anchor_aliases": [
+            "O-1.34"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 23:21",
+          "date": "2026-03-11",
+          "time": "23:21",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:21:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor core controls and ricochet shot",
+          "summary": "Created the missing prompt artifact, turned the Ricochet Reactor shell into a playable arena with keyboard movement, mouse aiming, ricocheting shots, dash cooldown feedback, and live HUD placeholders, then bumped the published version to `0.0.2`. Refactor applied two low-risk fixes backed by the implementation pass: prevented arrow-key scroll during play and updated stale public copy that still described the build as a non-playable shell.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 33,
+          "day_ordinal": 1,
+          "entry_ordinal": 33,
+          "entry_label": "O-1.33",
+          "anchor_id": "orchestrate-2026-03-11-23-21-builder-ricochet-reactor-core-controls-and-ricochet-shot",
+          "anchor_aliases": [
+            "O-1.33"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 23:12",
+          "date": "2026-03-11",
+          "time": "23:12",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:12:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Ricochet Reactor prompt and publish scaffold",
+          "summary": "Cleared stale task expectations, archived the Ricochet Reactor scaffold prompt, refreshed the journal site data, and updated docs to reflect the second public shell. Committed and pushed the Ricochet Reactor manifest + scaffold in auto-games, then published the public Turnloop export for the update artifacts.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 32,
+          "day_ordinal": 1,
+          "entry_ordinal": 32,
+          "entry_label": "O-1.32",
+          "anchor_id": "orchestrate-2026-03-11-23-12-update-archive-ricochet-reactor-prompt-and-publish-scaffold",
+          "anchor_aliases": [
+            "O-1.32"
+          ]
+        },
         {
           "timestamp": "2026-03-11 23:07",
           "date": "2026-03-11",
