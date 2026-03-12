@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-12T08:19:37Z",
+  "generated_at": "2026-03-12T08:34:07Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 25,
+      "entry_count": 28,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 22:16",
+      "latest_timestamp": "2026-03-11 22:32",
       "entries": [
+        {
+          "timestamp": "2026-03-11 22:32",
+          "date": "2026-03-11",
+          "time": "22:32",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:32:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound release metadata sync",
+          "summary": "Validated Corebound release metadata alignment: manifest shows `0.0.4` with `Alpha`, authored page pills show `Alpha` and `v0.0.4`, arcade rebuild succeeds, and served page contains the same pill text.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 28,
+          "day_ordinal": 1,
+          "entry_ordinal": 28,
+          "entry_label": "O-1.28",
+          "anchor_id": "orchestrate-2026-03-11-22-32-qa-corebound-release-metadata-sync",
+          "anchor_aliases": [
+            "O-1.28"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:26",
+          "date": "2026-03-11",
+          "time": "22:26",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:26:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound release metadata sync",
+          "summary": "Created the active prompt artifact, confirmed the Corebound manifest was already at version `0.0.4` with status `Alpha`, and updated the authored Corebound page pills to render `Alpha` and `v0.0.4`. Verification passed with the required manifest grep and arcade rebuild, so the refactor scan was a no-op.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 27,
+          "day_ordinal": 1,
+          "entry_ordinal": 27,
+          "entry_label": "O-1.27",
+          "anchor_id": "orchestrate-2026-03-11-22-26-builder-corebound-release-metadata-sync",
+          "anchor_aliases": [
+            "O-1.27"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:20",
+          "date": "2026-03-11",
+          "time": "22:20",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:20:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup task artifacts and rebuild site",
+          "summary": "Reset the active task slot to the no-task placeholder, archived the completed Corebound Millrace shell styling prompt, rebuilt the journal site data, and published the public export after committing the update artifacts.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 26,
+          "day_ordinal": 1,
+          "entry_ordinal": 26,
+          "entry_label": "O-1.26",
+          "anchor_id": "orchestrate-2026-03-11-22-20-update-cleanup-task-artifacts-and-rebuild-site",
+          "anchor_aliases": [
+            "O-1.26"
+          ]
+        },
         {
           "timestamp": "2026-03-11 22:16",
           "date": "2026-03-11",
