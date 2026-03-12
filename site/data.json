@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-12T08:34:07Z",
+  "generated_at": "2026-03-12T09:10:36Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 28,
+      "entry_count": 31,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 22:32",
+      "latest_timestamp": "2026-03-11 23:07",
       "entries": [
+        {
+          "timestamp": "2026-03-11 23:07",
+          "date": "2026-03-11",
+          "time": "23:07",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:07:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor manifest + shell scaffold",
+          "summary": "Validated the new `ricochet-reactor` manifest entry and shell scaffold. Arcade rebuild succeeds and the served index/game pages contain the expected card + shell elements.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 31,
+          "day_ordinal": 1,
+          "entry_ordinal": 31,
+          "entry_label": "O-1.31",
+          "anchor_id": "orchestrate-2026-03-11-23-07-qa-ricochet-reactor-manifest-shell-scaffold",
+          "anchor_aliases": [
+            "O-1.31"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 23:04",
+          "date": "2026-03-11",
+          "time": "23:04",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T23:04:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor manifest and shell scaffold",
+          "summary": "Created the prompt artifact for the active task, registered `ricochet-reactor` in the arcade manifest at `0.0.1`, and added an authored Millrace shell scaffold with HUD placeholders and a boot-check script. Rebuilt the arcade so the generated index publishes Ricochet Reactor as a second public card, then verified the page loads and the shell reaches its ready state. Refactor was a no-op because verification exposed no evidence-backed follow-up inside scope.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 30,
+          "day_ordinal": 1,
+          "entry_ordinal": 30,
+          "entry_label": "O-1.30",
+          "anchor_id": "orchestrate-2026-03-11-23-04-builder-ricochet-reactor-manifest-and-shell-scaffold",
+          "anchor_aliases": [
+            "O-1.30"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:35",
+          "date": "2026-03-11",
+          "time": "22:35",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:35:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup task artifacts and publish Corebound shell updates",
+          "summary": "Reset the task slot to the no-active placeholder, archived the Corebound release metadata prompt, rebuilt the journal site data, and committed/pushed the Corebound shell/version updates in auto-games. Published the public Turnloop export after committing the update artifacts in the main repo.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 29,
+          "day_ordinal": 1,
+          "entry_ordinal": 29,
+          "entry_label": "O-1.29",
+          "anchor_id": "orchestrate-2026-03-11-22-35-update-cleanup-task-artifacts-and-publish-corebound-shell-updates",
+          "anchor_aliases": [
+            "O-1.29"
+          ]
+        },
         {
           "timestamp": "2026-03-11 22:32",
           "date": "2026-03-11",
@@ -628,10 +694,54 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 4,
+      "entry_count": 6,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 21:40",
+      "latest_timestamp": "2026-03-11 22:56",
       "entries": [
+        {
+          "timestamp": "2026-03-11 22:56",
+          "date": "2026-03-11",
+          "time": "22:56",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:56:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Ricochet Reactor Baseline",
+          "summary": "Broke down the Ricochet Reactor staged spec into five ordered task cards covering manifest registration, core controls, enemy waves, scoring/persistence, and feedback/responsive polish. Moved the processed spec into the specs queue.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 6,
+          "day_ordinal": 1,
+          "entry_ordinal": 6,
+          "entry_label": "R-1.6",
+          "anchor_id": "research-2026-03-11-22-56-manager-decomposed-ricochet-reactor-baseline",
+          "anchor_aliases": [
+            "R-1.6"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 22:49",
+          "date": "2026-03-11",
+          "time": "22:49",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T22:49:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Ricochet Reactor First Playable Baseline",
+          "summary": "Researched the oldest inbox prompt and produced a greenfield spec for adding Ricochet Reactor as the arcade's second public game. The spec centers on a Flash-style single-screen arena-defense loop with ricochet shooting, a Millrace shell, manifest registration, and local best-score persistence.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 5,
+          "day_ordinal": 1,
+          "entry_ordinal": 5,
+          "entry_label": "R-1.5",
+          "anchor_id": "research-2026-03-11-22-49-researcher-ricochet-reactor-first-playable-baseline",
+          "anchor_aliases": [
+            "R-1.5"
+          ]
+        },
         {
           "timestamp": "2026-03-11 21:40",
           "date": "2026-03-11",
