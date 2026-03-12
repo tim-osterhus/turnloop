@@ -121,6 +121,7 @@
         group = {
           dayKey: entry.day_key,
           date: entry.date,
+          dayOrdinal: entry.day_ordinal,
           entries: []
         };
         groups.push(group);
@@ -128,6 +129,55 @@
       group.entries.push(entry);
     });
     return groups;
+  }
+
+  function normalizeHash(value) {
+    return decodeURIComponent(String(value || '')).replace(/^#/, '').trim().toLowerCase();
+  }
+
+  function resolveHashTarget(data) {
+    const normalized = normalizeHash(window.location.hash);
+    if (!normalized) {
+      return null;
+    }
+
+    const streams = data.streams || {};
+    for (const [streamKey, stream] of Object.entries(streams)) {
+      for (const entry of stream.entries || []) {
+        const aliases = [entry.anchor_id, ...(entry.anchor_aliases || [])];
+        if (aliases.some((alias) => normalizeHash(alias) === normalized)) {
+          return { streamKey, entry };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function scrollToHashTarget(data, forceStream, behavior = 'auto') {
+    const target = resolveHashTarget(data);
+    if (!target) {
+      return;
+    }
+
+    if (forceStream && state.stream !== target.streamKey) {
+      state.stream = target.streamKey;
+      setButtonState();
+      renderStream(data);
+    }
+
+    if (state.stream !== target.streamKey) {
+      return;
+    }
+
+    const targetEl = document.getElementById(target.entry.anchor_id);
+    if (!targetEl) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      targetEl.scrollIntoView({ behavior, block: 'start' });
+    });
   }
 
   function renderStream(data) {
@@ -155,8 +205,8 @@
       section.className = 'day-group';
       const plural = group.entries.length === 1 ? 'entry' : 'entries';
 
-      const entryMarkup = group.entries.map((entry, index) => `
-        <article class="entry-card">
+      const entryMarkup = group.entries.map((entry) => `
+        <article class="entry-card" id="${entry.anchor_id}" data-entry-label="${entry.entry_label}">
           <div class="entry-timeblock">
             <span class="entry-time">${entry.has_time ? entry.time : 'No time'}</span>
             <span class="entry-index">${stream.label}</span>
@@ -169,7 +219,7 @@
             <p class="entry-summary">${entry.summary || 'No summary provided.'}</p>
             <div class="entry-meta">
               <span class="meta-pill">${entry.timestamp}</span>
-              <span class="meta-pill">#${groupIndex + 1}.${index + 1}</span>
+              <a class="meta-pill" href="#${entry.entry_label}">#${entry.entry_label}</a>
             </div>
           </div>
         </article>
@@ -178,7 +228,7 @@
       section.innerHTML = `
         <div class="day-header">
           <div class="day-header-copy">
-            <span class="day-label">${stream.label} / Day ${groupIndex + 1}</span>
+            <span class="day-label">${stream.label} / Day ${group.dayOrdinal}</span>
             <h2 class="day-title">${group.date}</h2>
             <span class="day-note">Summary-only entries, grouped by calendar day.</span>
           </div>
@@ -203,29 +253,38 @@
 
       setButtonState();
       renderStream(data);
+      scrollToHashTarget(data, true);
 
       btnStreamOrchestrate.addEventListener('click', () => {
         state.stream = 'orchestrate';
         setButtonState();
         renderStream(data);
+        scrollToHashTarget(data, false);
       });
 
       btnStreamResearch.addEventListener('click', () => {
         state.stream = 'research';
         setButtonState();
         renderStream(data);
+        scrollToHashTarget(data, false);
       });
 
       btnOrderNewest.addEventListener('click', () => {
         state.order = 'newest';
         setButtonState();
         renderStream(data);
+        scrollToHashTarget(data, false);
       });
 
       btnOrderOldest.addEventListener('click', () => {
         state.order = 'oldest';
         setButtonState();
         renderStream(data);
+        scrollToHashTarget(data, false);
+      });
+
+      window.addEventListener('hashchange', () => {
+        scrollToHashTarget(data, true, 'smooth');
       });
     });
   </script>

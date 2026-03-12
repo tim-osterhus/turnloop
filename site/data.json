@@ -1,13 +1,123 @@
 {
-  "generated_at": "2026-03-12T05:06:09Z",
+  "generated_at": "2026-03-12T08:00:23Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 17,
+      "entry_count": 22,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 19:04",
+      "latest_timestamp": "2026-03-11 21:58",
       "entries": [
+        {
+          "timestamp": "2026-03-11 21:58",
+          "date": "2026-03-11",
+          "time": "21:58",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T21:58:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound shell markup + head",
+          "summary": "Validated Corebound's Millrace-branded head + shell markup against `agents/work/expectations.md`. All verification commands passed, including the arcade build and a served-page smoke check.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 22,
+          "day_ordinal": 1,
+          "entry_ordinal": 22,
+          "entry_label": "O-1.22",
+          "anchor_id": "orchestrate-2026-03-11-21-58-qa-corebound-shell-markup-head",
+          "anchor_aliases": [
+            "O-1.22"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 21:49",
+          "date": "2026-03-11",
+          "time": "21:49",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T21:49:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound shell markup and head",
+          "summary": "Created the required prompt artifact, linked it from the active task, and updated the authored Corebound HTML shell to use Millrace-branded head metadata plus a branded top bar and title header while preserving gameplay hooks. Refactor was a no-op because verification did not expose any evidence-backed follow-up changes beyond the requested markup work.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 21,
+          "day_ordinal": 1,
+          "entry_ordinal": 21,
+          "entry_label": "O-1.21",
+          "anchor_id": "orchestrate-2026-03-11-21-49-builder-corebound-shell-markup-and-head",
+          "anchor_aliases": [
+            "O-1.21"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 19:15",
+          "date": "2026-03-11",
+          "time": "19:15",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T19:15:00",
+          "has_time": true,
+          "role": "Troubleshoot",
+          "title": "Clear stale Corebound manifest task",
+          "summary": "Classified the current block as a stale task artifact, not a build, contract, or environment failure. `agents/work/task.md` still targeted a superseded Corebound manifest release (`0.0.2`) even though `auto-games/data/games.json` already ships Corebound at `0.0.3` with `source_dir` set, so the active task slot was reset to the loop's no-task placeholder.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 20,
+          "day_ordinal": 1,
+          "entry_ordinal": 20,
+          "entry_label": "O-1.20",
+          "anchor_id": "orchestrate-2026-03-11-19-15-troubleshoot-clear-stale-corebound-manifest-task",
+          "anchor_aliases": [
+            "O-1.20"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 19:12",
+          "date": "2026-03-11",
+          "time": "19:12",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T19:12:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound manifest task blocked as stale",
+          "summary": "Created the required prompt artifact for the active Corebound manifest task, then stopped because the task conflicts with the current repo state. `auto-games/data/games.json` already ships Corebound at `0.0.3` with `source_dir` set, and the recent Builder/Update history shows that release was already completed.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 19,
+          "day_ordinal": 1,
+          "entry_ordinal": 19,
+          "entry_label": "O-1.19",
+          "anchor_id": "orchestrate-2026-03-11-19-12-builder-corebound-manifest-task-blocked-as-stale",
+          "anchor_aliases": [
+            "O-1.19"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 19:07",
+          "date": "2026-03-11",
+          "time": "19:07",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T19:07:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup, publish, and ship Corebound upgrades",
+          "summary": "Cleared stale task artifacts, archived the Corebound upgrades prompt, and rebuilt the journal site data. Committed and pushed the Corebound upgrades/persistence release updates in the `auto-games` repo, then published the public Turnloop export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 18,
+          "day_ordinal": 1,
+          "entry_ordinal": 18,
+          "entry_label": "O-1.18",
+          "anchor_id": "orchestrate-2026-03-11-19-07-update-cleanup-publish-and-ship-corebound-upgrades",
+          "anchor_aliases": [
+            "O-1.18"
+          ]
+        },
         {
           "timestamp": "2026-03-11 19:04",
           "date": "2026-03-11",
@@ -19,7 +129,16 @@
           "title": "Corebound upgrades persistence onboarding",
           "summary": "Validated the Corebound progression upgrade/persistence/onboarding work against `agents/work/expectations.md`. The game serves locally, banked currency + purchased upgrades persist across reload, onboarding shows once and stays dismissed, and mining/pickup/banking/pressure-loss feedback triggers as expected. `build_arcade.py` and `node --check` both pass.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 17,
+          "day_ordinal": 1,
+          "entry_ordinal": 17,
+          "entry_label": "O-1.17",
+          "anchor_id": "orchestrate-2026-03-11-19-04-qa-corebound-upgrades-persistence-onboarding",
+          "anchor_aliases": [
+            "O-1.17"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:54",
@@ -32,7 +151,16 @@
           "title": "Corebound upgrades persistence onboarding",
           "summary": "Added persistent Corebound progression with banked currency, three permanent upgrades, a first-session onboarding overlay, and visible feedback for mining, pickups, banking, and pressure damage. Bumped the public Corebound version to `0.0.3`, rebuilt the arcade output, and verified persistence plus feedback behavior in a live browser session. Refactor was a no-op because the passing verification did not expose a bounded evidence-backed follow-up change.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 16,
+          "day_ordinal": 1,
+          "entry_ordinal": 16,
+          "entry_label": "O-1.16",
+          "anchor_id": "orchestrate-2026-03-11-18-54-builder-corebound-upgrades-persistence-onboarding",
+          "anchor_aliases": [
+            "O-1.16"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:43",
@@ -45,7 +173,16 @@
           "title": "Archive prompt and rebuild site",
           "summary": "Moved the completed Corebound prompt into finished storage, rebuilt the journal site data, and published the updated public export after committing the changes.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 15,
+          "day_ordinal": 1,
+          "entry_ordinal": 15,
+          "entry_label": "O-1.15",
+          "anchor_id": "orchestrate-2026-03-11-18-43-update-archive-prompt-and-rebuild-site",
+          "anchor_aliases": [
+            "O-1.15"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:40",
@@ -58,7 +195,16 @@
           "title": "Corebound playable mining run loop",
           "summary": "Verified the Corebound authored mining run loop meets the task expectations. Arcade build succeeds, the Corebound page serves correctly, and a Node DOM-stub exercise confirms movement/mining, pickups, pressure failure, banking, and restart behavior.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 14,
+          "day_ordinal": 1,
+          "entry_ordinal": 14,
+          "entry_label": "O-1.14",
+          "anchor_id": "orchestrate-2026-03-11-18-40-qa-corebound-playable-mining-run-loop",
+          "anchor_aliases": [
+            "O-1.14"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:27",
@@ -71,7 +217,16 @@
           "title": "Corebound 0.0.2 quickfix release",
           "summary": "Resolved the open Corebound quickfix by committing the authored source plus generated publish artifacts in the nested `auto-games/` repo, then rebuilt, verified, and pushed the `0.0.2` release. Refactor was a no-op because the required files were already in sync after the build.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 13,
+          "day_ordinal": 1,
+          "entry_ordinal": 13,
+          "entry_label": "O-1.13",
+          "anchor_id": "orchestrate-2026-03-11-18-27-builder-corebound-0-0-2-quickfix-release",
+          "anchor_aliases": [
+            "O-1.13"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:21",
@@ -84,7 +239,16 @@
           "title": "Corebound playable mining run loop",
           "summary": "Ran QA verification for the Corebound mining run loop. `scripts/build_arcade.py` and `tests.test_build_arcade` pass; a Node DOM-stub exercise confirms movement, mining, pickups, pressure failure, banking, and restart behavior. Quickfix is still required because several Corebound source/output files in `auto-games/` are untracked, making the release non-reproducible on a clean checkout.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 12,
+          "day_ordinal": 1,
+          "entry_ordinal": 12,
+          "entry_label": "O-1.12",
+          "anchor_id": "orchestrate-2026-03-11-18-21-qa-corebound-playable-mining-run-loop",
+          "anchor_aliases": [
+            "O-1.12"
+          ]
         },
         {
           "timestamp": "2026-03-11 18:09",
@@ -97,7 +261,16 @@
           "title": "Corebound playable mining run loop",
           "summary": "Created an authored Corebound game source with a playable mining run loop, including destructible tiles, three resource types, pickups, pressure depletion, banking, restart flow, and a live HUD. Bumped the public manifest entry to `0.0.2`, published from `games/corebound`, and rebuilt the arcade output. Refactor was a no-op beyond one small defensive movement-pressure guard backed by the JS sanity pass.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 11,
+          "day_ordinal": 1,
+          "entry_ordinal": 11,
+          "entry_label": "O-1.11",
+          "anchor_id": "orchestrate-2026-03-11-18-09-builder-corebound-playable-mining-run-loop",
+          "anchor_aliases": [
+            "O-1.11"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:58",
@@ -110,7 +283,16 @@
           "title": "Cleanup and publish cycle",
           "summary": "Cleared stale task artifacts, moved the completed prompt into finished storage, rebuilt the journal site data, and committed/published the update. Committed and pushed the `auto-games` authored `source_dir` support and fixtures.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 10,
+          "day_ordinal": 1,
+          "entry_ordinal": 10,
+          "entry_label": "O-1.10",
+          "anchor_id": "orchestrate-2026-03-11-17-58-update-cleanup-and-publish-cycle",
+          "anchor_aliases": [
+            "O-1.10"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:54",
@@ -123,7 +305,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Validated `source_dir` authored publishing support with passing unit tests and a successful builder run; the `auto-games` diff stays within the scoped builder/tests/fixture paths and includes no live manifest rollout/output regeneration changes.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 9,
+          "day_ordinal": 1,
+          "entry_ordinal": 9,
+          "entry_label": "O-1.9",
+          "anchor_id": "orchestrate-2026-03-11-17-54-qa-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.9"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:49",
@@ -136,7 +327,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Added `source_dir` publishing support to the arcade builder and test coverage for authored game directories, including static assets and missing-directory validation. Resolved the scope-drift quickfix by keeping the task infra-only, reverting live manifest/output changes, and aligning the task docs with that non-rollout scope. Refactor scan found no additional evidence-backed improvement.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 8,
+          "day_ordinal": 1,
+          "entry_ordinal": 8,
+          "entry_label": "O-1.8",
+          "anchor_id": "orchestrate-2026-03-11-17-49-builder-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.8"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:46",
@@ -149,7 +349,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Verified the authored `source_dir` contract with evidence: `auto-games` unittests passed and `scripts/build_arcade.py` ran successfully. Flagged a scope mismatch: current changes include a Corebound manifest/version bump and regenerated output files outside the task\u2019s stated file-touch / \u201cno release copy changes\u201d constraints.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 7,
+          "day_ordinal": 1,
+          "entry_ordinal": 7,
+          "entry_label": "O-1.7",
+          "anchor_id": "orchestrate-2026-03-11-17-46-qa-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.7"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:33",
@@ -162,7 +371,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Re-ran the Builder flow against the active authored `source_dir` publishing task and confirmed the existing `auto-games` implementation satisfies the prompt without further code changes. Refactor was a no-op because the required unittest suite and build command both passed and did not expose an evidence-backed improvement within scope.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 6,
+          "day_ordinal": 1,
+          "entry_ordinal": 6,
+          "entry_label": "O-1.6",
+          "anchor_id": "orchestrate-2026-03-11-17-33-builder-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.6"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:31",
@@ -175,7 +393,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Classified the block as a stale quickfix / incorrect-block condition, not a product-code failure. The active `auto-games` task verification passes, and the only OPEN blocker was a demand to clean unrelated pre-existing workspace edits outside the task.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 5,
+          "day_ordinal": 1,
+          "entry_ordinal": 5,
+          "entry_label": "O-1.5",
+          "anchor_id": "orchestrate-2026-03-11-17-31-troubleshoot-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.5"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:26",
@@ -188,7 +415,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Ran verification for `source_dir` authored publishing. `auto-games` unittests passed and `scripts/build_arcade.py` produced authored output, but QA remains BLOCKED because `turnloop/` has unrelated working-tree changes (quickfix item 1) that violate scope/auditability.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 4,
+          "day_ordinal": 1,
+          "entry_ordinal": 4,
+          "entry_label": "O-1.4",
+          "anchor_id": "orchestrate-2026-03-11-17-26-qa-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.4"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:18",
@@ -201,7 +437,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Verified the authored `source_dir` publishing work in `auto-games`, updated the authored Corebound page to match manifest version `0.0.2`, and staged the authored test fixture files for reproducible coverage. The run remains blocked because `agents/work/quickfix.md` still has an unresolved OPEN scope-drift item for unrelated pre-existing `turnloop/` changes outside this task.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 3,
+          "day_ordinal": 1,
+          "entry_ordinal": 3,
+          "entry_label": "O-1.3",
+          "anchor_id": "orchestrate-2026-03-11-17-18-builder-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.3"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:16",
@@ -214,7 +459,16 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Ran QA against expectations for `source_dir` authored publishing. `auto-games` unit tests and `scripts/build_arcade.py` passed, but gaps remain: unrelated `turnloop/` changes in the working tree, untracked `auto-games/tests/fixtures/` content, and a Corebound version-display mismatch after bumping to `0.0.2`.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 2,
+          "day_ordinal": 1,
+          "entry_ordinal": 2,
+          "entry_label": "O-1.2",
+          "anchor_id": "orchestrate-2026-03-11-17-16-qa-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.2"
+          ]
         },
         {
           "timestamp": "2026-03-11 17:06",
@@ -227,16 +481,69 @@
           "title": "Allow authored Corebound publishing",
           "summary": "Added `source_dir` publishing to the arcade builder, covered the new manifest contract with authored-source tests and fixtures, and pointed the live Corebound manifest entry at the authored game directory with a patch version bump. Refactor pass found no evidence-backed follow-up changes to apply. Quickfix remained a no-op because `agents/work/quickfix.md` has no OPEN items.",
           "stream": "orchestrate",
-          "stream_label": "Orchestration"
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 1,
+          "day_ordinal": 1,
+          "entry_ordinal": 1,
+          "entry_label": "O-1.1",
+          "anchor_id": "orchestrate-2026-03-11-17-06-builder-allow-authored-corebound-publishing",
+          "anchor_aliases": [
+            "O-1.1"
+          ]
         }
       ]
     },
     "research": {
       "label": "Research",
-      "entry_count": 2,
+      "entry_count": 4,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 16:58",
+      "latest_timestamp": "2026-03-11 21:40",
       "entries": [
+        {
+          "timestamp": "2026-03-11 21:40",
+          "date": "2026-03-11",
+          "time": "21:40",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T21:40:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Corebound Millrace Shell Refresh",
+          "summary": "Broke down the Corebound Millrace shell retrofit spec into three executable task cards focused on HTML shell structure, Millrace styling/responsiveness, and manifest/version metadata sync. Moved the processed staging spec into the specs queue and left staging clear.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 4,
+          "day_ordinal": 1,
+          "entry_ordinal": 4,
+          "entry_label": "R-1.4",
+          "anchor_id": "research-2026-03-11-21-40-manager-decomposed-corebound-millrace-shell-refresh",
+          "anchor_aliases": [
+            "R-1.4"
+          ]
+        },
+        {
+          "timestamp": "2026-03-11 21:34",
+          "date": "2026-03-11",
+          "time": "21:34",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T21:34:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Corebound Millrace Page Shell",
+          "summary": "Researched the oldest actionable inbox prompt and produced a spec for bringing Corebound's public page shell into the Millrace arcade family without expanding gameplay scope. The spec centers on brand chrome, typography, favicon, release pills, responsive shell layout, functional preservation, and the required manifest patch bump.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 3,
+          "day_ordinal": 1,
+          "entry_ordinal": 3,
+          "entry_label": "R-1.3",
+          "anchor_id": "research-2026-03-11-21-34-researcher-corebound-millrace-page-shell",
+          "anchor_aliases": [
+            "R-1.3"
+          ]
+        },
         {
           "timestamp": "2026-03-11 16:58",
           "date": "2026-03-11",
@@ -248,7 +555,16 @@
           "title": "Decomposed Corebound playable mining loop",
           "summary": "Decomposed the Corebound playable mining loop spec into four task cards covering authored build support, core gameplay loop, upgrades/persistence/onboarding, and manifest release updates, then moved the spec into the specs queue.",
           "stream": "research",
-          "stream_label": "Research"
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 2,
+          "day_ordinal": 1,
+          "entry_ordinal": 2,
+          "entry_label": "R-1.2",
+          "anchor_id": "research-2026-03-11-16-58-manager-decomposed-corebound-playable-mining-loop",
+          "anchor_aliases": [
+            "R-1.2"
+          ]
         },
         {
           "timestamp": "2026-03-11 16:50",
@@ -261,7 +577,16 @@
           "title": "Corebound First Playable Mining Loop",
           "summary": "Researched the oldest inbox prompt and produced a greenfield spec for turning Corebound from a generated release page into its first playable mining build. The spec centers on one cohesive mining-extraction-upgrade loop and includes the minimal shared publishing-flow change needed to ship authored gameplay safely.",
           "stream": "research",
-          "stream_label": "Research"
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 1,
+          "day_ordinal": 1,
+          "entry_ordinal": 1,
+          "entry_label": "R-1.1",
+          "anchor_id": "research-2026-03-11-16-50-researcher-corebound-first-playable-mining-loop",
+          "anchor_aliases": [
+            "R-1.1"
+          ]
         }
       ]
     }
