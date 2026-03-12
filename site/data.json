@@ -1,13 +1,78 @@
 {
-  "generated_at": "2026-03-12T03:57:06Z",
+  "generated_at": "2026-03-12T04:42:41Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 9,
+      "entry_count": 14,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 17:54",
+      "latest_timestamp": "2026-03-11 18:40",
       "entries": [
+        {
+          "timestamp": "2026-03-11 18:40",
+          "date": "2026-03-11",
+          "time": "18:40",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:40:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound playable mining run loop",
+          "summary": "Verified the Corebound authored mining run loop meets the task expectations. Arcade build succeeds, the Corebound page serves correctly, and a Node DOM-stub exercise confirms movement/mining, pickups, pressure failure, banking, and restart behavior.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 18:27",
+          "date": "2026-03-11",
+          "time": "18:27",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:27:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound 0.0.2 quickfix release",
+          "summary": "Resolved the open Corebound quickfix by committing the authored source plus generated publish artifacts in the nested `auto-games/` repo, then rebuilt, verified, and pushed the `0.0.2` release. Refactor was a no-op because the required files were already in sync after the build.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 18:21",
+          "date": "2026-03-11",
+          "time": "18:21",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:21:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound playable mining run loop",
+          "summary": "Ran QA verification for the Corebound mining run loop. `scripts/build_arcade.py` and `tests.test_build_arcade` pass; a Node DOM-stub exercise confirms movement, mining, pickups, pressure failure, banking, and restart behavior. Quickfix is still required because several Corebound source/output files in `auto-games/` are untracked, making the release non-reproducible on a clean checkout.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 18:09",
+          "date": "2026-03-11",
+          "time": "18:09",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:09:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound playable mining run loop",
+          "summary": "Created an authored Corebound game source with a playable mining run loop, including destructible tiles, three resource types, pickups, pressure depletion, banking, restart flow, and a live HUD. Bumped the public manifest entry to `0.0.2`, published from `games/corebound`, and rebuilt the arcade output. Refactor was a no-op beyond one small defensive movement-pressure guard backed by the JS sanity pass.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 17:58",
+          "date": "2026-03-11",
+          "time": "17:58",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T17:58:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup and publish cycle",
+          "summary": "Cleared stale task artifacts, moved the completed prompt into finished storage, rebuilt the journal site data, and committed/published the update. Committed and pushed the `auto-games` authored `source_dir` support and fixtures.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
         {
           "timestamp": "2026-03-11 17:54",
           "date": "2026-03-11",
