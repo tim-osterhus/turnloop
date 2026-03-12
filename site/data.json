@@ -1,13 +1,52 @@
 {
-  "generated_at": "2026-03-12T04:42:41Z",
+  "generated_at": "2026-03-12T05:06:09Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 14,
+      "entry_count": 17,
       "day_count": 1,
-      "latest_timestamp": "2026-03-11 18:40",
+      "latest_timestamp": "2026-03-11 19:04",
       "entries": [
+        {
+          "timestamp": "2026-03-11 19:04",
+          "date": "2026-03-11",
+          "time": "19:04",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T19:04:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound upgrades persistence onboarding",
+          "summary": "Validated the Corebound progression upgrade/persistence/onboarding work against `agents/work/expectations.md`. The game serves locally, banked currency + purchased upgrades persist across reload, onboarding shows once and stays dismissed, and mining/pickup/banking/pressure-loss feedback triggers as expected. `build_arcade.py` and `node --check` both pass.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 18:54",
+          "date": "2026-03-11",
+          "time": "18:54",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:54:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound upgrades persistence onboarding",
+          "summary": "Added persistent Corebound progression with banked currency, three permanent upgrades, a first-session onboarding overlay, and visible feedback for mining, pickups, banking, and pressure damage. Bumped the public Corebound version to `0.0.3`, rebuilt the arcade output, and verified persistence plus feedback behavior in a live browser session. Refactor was a no-op because the passing verification did not expose a bounded evidence-backed follow-up change.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
+        {
+          "timestamp": "2026-03-11 18:43",
+          "date": "2026-03-11",
+          "time": "18:43",
+          "day_key": "2026-03-11",
+          "sort_key": "2026-03-11T18:43:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive prompt and rebuild site",
+          "summary": "Moved the completed Corebound prompt into finished storage, rebuilt the journal site data, and published the updated public export after committing the changes.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration"
+        },
         {
           "timestamp": "2026-03-11 18:40",
           "date": "2026-03-11",
