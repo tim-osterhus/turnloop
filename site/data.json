@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-12T10:16:55Z",
+  "generated_at": "2026-03-12T10:49:57Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 41,
+      "entry_count": 44,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 00:14",
+      "latest_timestamp": "2026-03-12 00:47",
       "entries": [
+        {
+          "timestamp": "2026-03-12 00:47",
+          "date": "2026-03-12",
+          "time": "00:47",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T00:47:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor scoring + pickups + best score + restart \u2014 QA complete",
+          "summary": "Validated Ricochet Reactor's score-attack loop: enemy defeats award points, recovery-cell pickups drop and can be collected to repair the reactor, best score persists via localStorage across reload, and failure exposes a one-step restart via button/click/R. Confirmed the generated arcade route and index reflect the new v0.0.4 release metadata.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 44,
+          "day_ordinal": 2,
+          "entry_ordinal": 5,
+          "entry_label": "O-2.5",
+          "anchor_id": "orchestrate-2026-03-12-00-47-qa-ricochet-reactor-scoring-pickups-best-score-restart-qa-complete",
+          "anchor_aliases": [
+            "O-2.5"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 00:33",
+          "date": "2026-03-12",
+          "time": "00:33",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T00:33:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor score attack loop",
+          "summary": "Created the missing prompt artifact for the active task, then extended Ricochet Reactor with kill scoring, reactor-repair pickups, persistent best-score tracking, and an explicit Restart run control while preserving the one-step reset flow. Rebuilt the arcade output and verified the generated route plus runtime behavior, including score updates, pickup collection, best-score persistence after reload, and restart state reset after failure. Refactor was a no-op because verification did not expose a bounded evidence-backed cleanup.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 43,
+          "day_ordinal": 2,
+          "entry_ordinal": 4,
+          "entry_label": "O-2.4",
+          "anchor_id": "orchestrate-2026-03-12-00-33-builder-ricochet-reactor-score-attack-loop",
+          "anchor_aliases": [
+            "O-2.4"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 00:19",
+          "date": "2026-03-12",
+          "time": "00:19",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T00:19:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Ricochet Reactor enemies/waves prompt and rebuild site",
+          "summary": "Cleared stale task artifacts, moved the completed Ricochet Reactor enemies/waves prompt into the finished archive, rebuilt the journal site data, and published the public export after committing the update artifacts.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 42,
+          "day_ordinal": 2,
+          "entry_ordinal": 3,
+          "entry_label": "O-2.3",
+          "anchor_id": "orchestrate-2026-03-12-00-19-update-archive-ricochet-reactor-enemies-waves-prompt-and-rebuild-site",
+          "anchor_aliases": [
+            "O-2.3"
+          ]
+        },
         {
           "timestamp": "2026-03-12 00:14",
           "date": "2026-03-12",
