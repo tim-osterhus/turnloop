@@ -1,13 +1,123 @@
 {
-  "generated_at": "2026-03-13T14:52:33Z",
+  "generated_at": "2026-03-13T15:39:21Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 77,
+      "entry_count": 82,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 04:50",
+      "latest_timestamp": "2026-03-13 05:37",
       "entries": [
+        {
+          "timestamp": "2026-03-13 05:37",
+          "date": "2026-03-13",
+          "time": "05:37",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:37:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound hazard tiles + telegraphing validation",
+          "summary": "Validated Corebound hazards in-browser: 2 vents + 2 cave-ins spawn, telegraph countdowns appear before resolution, vents cost 8 pressure when nearby, and cave-ins convert air\u2192rock while preserving a walkable extractor route (DOM BFS). Restart regenerates hazards and clears prior triggers; build passes and the public version is v0.0.5.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 82,
+          "day_ordinal": 3,
+          "entry_ordinal": 11,
+          "entry_label": "O-3.11",
+          "anchor_id": "orchestrate-2026-03-13-05-37-qa-corebound-hazard-tiles-telegraphing-validation",
+          "anchor_aliases": [
+            "O-3.11"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 05:21",
+          "date": "2026-03-13",
+          "time": "05:21",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:21:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound version metadata sync",
+          "summary": "Verified the existing Corebound hazard-tile implementation against the active prompt, then resolved the open quickfix required by `rules.md` by bumping the published Corebound version to `0.0.5` and syncing the visible release pill so the generated page matches the manifest. Refactor was a no-op because verification exposed no separate bounded cleanup beyond the required metadata fix.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 81,
+          "day_ordinal": 3,
+          "entry_ordinal": 10,
+          "entry_label": "O-3.10",
+          "anchor_id": "orchestrate-2026-03-13-05-21-builder-corebound-version-metadata-sync",
+          "anchor_aliases": [
+            "O-3.10"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 05:17",
+          "date": "2026-03-13",
+          "time": "05:17",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:17:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound hazard tiles + telegraphing verification",
+          "summary": "Verified vent + cave-in hazards render with telegraph states, resolve with pressure/terrain effects, and preserve a return path to the extractor; restart regenerates hazards. Marked QUICKFIX_NEEDED because Corebound is published at v0.0.4 and the manifest was not patch-bumped after this player-visible change (rules/version contract).",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 80,
+          "day_ordinal": 3,
+          "entry_ordinal": 9,
+          "entry_label": "O-3.9",
+          "anchor_id": "orchestrate-2026-03-13-05-17-qa-corebound-hazard-tiles-telegraphing-verification",
+          "anchor_aliases": [
+            "O-3.9"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 05:04",
+          "date": "2026-03-13",
+          "time": "05:04",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:04:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound hazard tiles and telegraphing",
+          "summary": "Added seeded pressure-vent and unstable cave-in hazards to Corebound with turn-based telegraph states, pressure/terrain outcomes, and restart regeneration. Cave-in resolution now path-checks the extractor route before sealing any tile and falls back to opening rock if a collapse would trap the player. Refactor was a no-op because verification did not expose any bounded follow-up change, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 79,
+          "day_ordinal": 3,
+          "entry_ordinal": 8,
+          "entry_label": "O-3.8",
+          "anchor_id": "orchestrate-2026-03-13-05-04-builder-corebound-hazard-tiles-and-telegraphing",
+          "anchor_aliases": [
+            "O-3.8"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 04:54",
+          "date": "2026-03-13",
+          "time": "04:54",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T04:54:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound prompt, rebuild site, publish updates",
+          "summary": "Archived the Corebound procedural cavern prompt, rebuilt the journal site data, committed the Corebound cavern generator updates in auto-games, and published the public Turnloop export. Left unrelated dirty files in the main repo untouched.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 78,
+          "day_ordinal": 3,
+          "entry_ordinal": 7,
+          "entry_label": "O-3.7",
+          "anchor_id": "orchestrate-2026-03-13-04-54-update-archive-corebound-prompt-rebuild-site-publish-updates",
+          "anchor_aliases": [
+            "O-3.7"
+          ]
+        },
         {
           "timestamp": "2026-03-13 04:50",
           "date": "2026-03-13",
