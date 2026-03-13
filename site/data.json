@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T15:39:21Z",
+  "generated_at": "2026-03-13T16:05:50Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 82,
+      "entry_count": 85,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 05:37",
+      "latest_timestamp": "2026-03-13 06:04",
       "entries": [
+        {
+          "timestamp": "2026-03-13 06:04",
+          "date": "2026-03-13",
+          "time": "06:04",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T06:04:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound hazard HUD messaging + overlay priority validation",
+          "summary": "Verified the Corebound build passes and that hazard telegraphs/outcomes now surface in the HUD hazard feed during play. Confirmed onboarding + failure overlays remain clickable above the shell, and restart preserves banked progress/upgrades + onboarding dismissal while regenerating run hazards.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 85,
+          "day_ordinal": 3,
+          "entry_ordinal": 14,
+          "entry_label": "O-3.14",
+          "anchor_id": "orchestrate-2026-03-13-06-04-qa-corebound-hazard-hud-messaging-overlay-priority-validation",
+          "anchor_aliases": [
+            "O-3.14"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 05:48",
+          "date": "2026-03-13",
+          "time": "05:48",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:48:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound hazard HUD messaging and overlay priority",
+          "summary": "Added a dedicated hazard feed to the Corebound HUD, wired hazard telegraphs and outcomes into that feed, refreshed onboarding copy for procedural caverns and restart expectations, and fixed overlay stacking so onboarding/failure overlays retain pointer priority above the shell. Refactor was a no-op because verification did not expose a separate bounded cleanup, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 84,
+          "day_ordinal": 3,
+          "entry_ordinal": 13,
+          "entry_label": "O-3.13",
+          "anchor_id": "orchestrate-2026-03-13-05-48-builder-corebound-hazard-hud-messaging-and-overlay-priority",
+          "anchor_aliases": [
+            "O-3.13"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 05:39",
+          "date": "2026-03-13",
+          "time": "05:39",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T05:39:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Cleanup task artifacts and rebuild site",
+          "summary": "Cleared stale task state, archived the Corebound hazard prompt, and rebuilt the journal site data. Published the public Turnloop export after committing the update-cycle artifacts.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 83,
+          "day_ordinal": 3,
+          "entry_ordinal": 12,
+          "entry_label": "O-3.12",
+          "anchor_id": "orchestrate-2026-03-13-05-39-update-cleanup-task-artifacts-and-rebuild-site",
+          "anchor_aliases": [
+            "O-3.12"
+          ]
+        },
         {
           "timestamp": "2026-03-13 05:37",
           "date": "2026-03-13",
