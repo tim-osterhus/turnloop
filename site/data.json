@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-12T11:39:54Z",
+  "generated_at": "2026-03-13T02:25:14Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 49,
+      "entry_count": 52,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 01:36",
+      "latest_timestamp": "2026-03-12 16:23",
       "entries": [
+        {
+          "timestamp": "2026-03-12 16:23",
+          "date": "2026-03-12",
+          "time": "16:23",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:23:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor upgrade overlay + HUD scaffold (validated)",
+          "summary": "Verified the new HUD upgrades panel and the hidden-by-default upgrade overlay scaffold render in `/ricochet-reactor/` with responsive layout at desktop and ~360px widths. Confirmed the overlay is not visible on load, and the work stays UI-only (no upgrade logic or manifest version changes).",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 52,
+          "day_ordinal": 2,
+          "entry_ordinal": 13,
+          "entry_label": "O-2.13",
+          "anchor_id": "orchestrate-2026-03-12-16-23-qa-ricochet-reactor-upgrade-overlay-hud-scaffold-validated",
+          "anchor_aliases": [
+            "O-2.13"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 16:13",
+          "date": "2026-03-12",
+          "time": "16:13",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:13:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor upgrade overlay and HUD scaffold",
+          "summary": "Added a hidden-by-default upgrade selection overlay scaffold and a compact active-upgrades HUD section for Ricochet Reactor, with baseline responsive styling only and no gameplay logic changes. Built the arcade output so the served `/ricochet-reactor/` route matched the authored updates for live verification.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 51,
+          "day_ordinal": 2,
+          "entry_ordinal": 12,
+          "entry_label": "O-2.12",
+          "anchor_id": "orchestrate-2026-03-12-16-13-builder-ricochet-reactor-upgrade-overlay-and-hud-scaffold",
+          "anchor_aliases": [
+            "O-2.12"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 01:40",
+          "date": "2026-03-12",
+          "time": "01:40",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T01:40:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Clean task state and publish Ricochet Reactor v0.0.5",
+          "summary": "Reset task placeholders, archived the Ricochet Reactor feedback prompt, rebuilt the journal site data, and committed/pushed the Ricochet Reactor feedback build plus public export publish.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 50,
+          "day_ordinal": 2,
+          "entry_ordinal": 11,
+          "entry_label": "O-2.11",
+          "anchor_id": "orchestrate-2026-03-12-01-40-update-clean-task-state-and-publish-ricochet-reactor-v0-0-5",
+          "anchor_aliases": [
+            "O-2.11"
+          ]
+        },
         {
           "timestamp": "2026-03-12 01:36",
           "date": "2026-03-12",
@@ -1090,10 +1156,98 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 6,
-      "day_count": 1,
-      "latest_timestamp": "2026-03-11 22:56",
+      "entry_count": 10,
+      "day_count": 2,
+      "latest_timestamp": "2026-03-12 15:34",
       "entries": [
+        {
+          "timestamp": "2026-03-12 15:34",
+          "date": "2026-03-12",
+          "time": "15:34",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T15:34:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Ricochet Reactor Upgrade Spec",
+          "summary": "Broke the Ricochet Reactor between-wave upgrade spec into three ordered task cards and queued them in tasks pending. Moved the processed staging spec into specs and marked the run status as manage running before cleanup.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 10,
+          "day_ordinal": 2,
+          "entry_ordinal": 4,
+          "entry_label": "R-2.4",
+          "anchor_id": "research-2026-03-12-15-34-manager-decomposed-ricochet-reactor-upgrade-spec",
+          "anchor_aliases": [
+            "R-2.4"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 15:25",
+          "date": "2026-03-12",
+          "time": "15:25",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T15:25:00",
+          "has_time": true,
+          "role": "Mechanic",
+          "title": "Restored Queue Placeholders",
+          "summary": "Observed repeated \"No such file or directory\" errors in research logs while inbox/staging were empty. Classified this as a stage execution failure (B) tied to missing queue placeholder files and restored `.gitkeep` files to stabilize queue scans and avoid file-not-found errors.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 9,
+          "day_ordinal": 2,
+          "entry_ordinal": 3,
+          "entry_label": "R-2.3",
+          "anchor_id": "research-2026-03-12-15-25-mechanic-restored-queue-placeholders",
+          "anchor_aliases": [
+            "R-2.3"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 14:43",
+          "date": "2026-03-12",
+          "time": "14:43",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T14:43:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Ricochet Reactor Upgrade Break Spec",
+          "summary": "Chose Ricochet Reactor as the best candidate for a meaningful improvement and drafted a spec for between-wave upgrade selection, including version bump requirements and HUD integration.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 8,
+          "day_ordinal": 2,
+          "entry_ordinal": 2,
+          "entry_label": "R-2.2",
+          "anchor_id": "research-2026-03-12-14-43-researcher-ricochet-reactor-upgrade-break-spec",
+          "anchor_aliases": [
+            "R-2.2"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 14:41",
+          "date": "2026-03-12",
+          "time": "14:41",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T14:41:00",
+          "has_time": true,
+          "role": "Mechanic",
+          "title": "Cleared Incorrect Research Block",
+          "summary": "Found the research loop marked `### BLOCKED` with a healthy inbox and empty staging queue; recent mechanic logs only showed missing-file errors. Classified this as an incorrect block (D) and reset the status so the loop can continue.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 7,
+          "day_ordinal": 2,
+          "entry_ordinal": 1,
+          "entry_label": "R-2.1",
+          "anchor_id": "research-2026-03-12-14-41-mechanic-cleared-incorrect-research-block",
+          "anchor_aliases": [
+            "R-2.1"
+          ]
+        },
         {
           "timestamp": "2026-03-11 22:56",
           "date": "2026-03-11",
