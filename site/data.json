@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T03:02:32Z",
+  "generated_at": "2026-03-13T08:52:58Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 58,
+      "entry_count": 61,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 17:00",
+      "latest_timestamp": "2026-03-12 22:50",
       "entries": [
+        {
+          "timestamp": "2026-03-12 22:50",
+          "date": "2026-03-12",
+          "time": "22:50",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:50:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor pre-run gate + countdown verification",
+          "summary": "Verified the `/ricochet-reactor/` build loads into a true pre-run briefing state with combat paused until an explicit start, then shows a visible launch countdown before waves begin. Confirmed restart returns to pre-run and clears live threats plus current-run upgrade tiers; manifest + version pill now reflect v0.0.7.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 61,
+          "day_ordinal": 2,
+          "entry_ordinal": 22,
+          "entry_label": "O-2.22",
+          "anchor_id": "orchestrate-2026-03-12-22-50-qa-ricochet-reactor-pre-run-gate-countdown-verification",
+          "anchor_aliases": [
+            "O-2.22"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 22:42",
+          "date": "2026-03-12",
+          "time": "22:42",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:42:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor pre-run gate and countdown",
+          "summary": "Created the missing prompt artifact, added pre-run and launch-countdown flow for Ricochet Reactor, and reset the run back to a safe briefing state with cleared live entities and upgrade tiers on restart. Synced the served top-level `auto-games/ricochet-reactor/` copy to match the authored game files so the required `/ricochet-reactor/` verification exercised the actual updated build; refactor was a no-op and there were no OPEN quickfix items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 60,
+          "day_ordinal": 2,
+          "entry_ordinal": 21,
+          "entry_label": "O-2.21",
+          "anchor_id": "orchestrate-2026-03-12-22-42-builder-ricochet-reactor-pre-run-gate-and-countdown",
+          "anchor_aliases": [
+            "O-2.21"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 17:03",
+          "date": "2026-03-12",
+          "time": "17:03",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T17:03:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive prompt and rebuild journal site",
+          "summary": "Cleared stale QA expectations, archived the Ricochet Reactor manifest-copy prompt, rebuilt the journal site data, and published the updated public Turnloop export. Left unrelated dirty files untouched per update-cycle scope.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 59,
+          "day_ordinal": 2,
+          "entry_ordinal": 20,
+          "entry_label": "O-2.20",
+          "anchor_id": "orchestrate-2026-03-12-17-03-update-archive-prompt-and-rebuild-journal-site",
+          "anchor_aliases": [
+            "O-2.20"
+          ]
+        },
         {
           "timestamp": "2026-03-12 17:00",
           "date": "2026-03-12",
@@ -1288,10 +1354,54 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 10,
+      "entry_count": 12,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 15:34",
+      "latest_timestamp": "2026-03-12 22:32",
       "entries": [
+        {
+          "timestamp": "2026-03-12 22:32",
+          "date": "2026-03-12",
+          "time": "22:32",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:32:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Ricochet Reactor Start Gate Refresh",
+          "summary": "Decomposed the Ricochet Reactor start-gate and wave-pacing spec into four ordered task cards covering pre-run gating, early-wave rebalance, telegraphs/status messaging, and the v0.0.7 metadata sync.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 12,
+          "day_ordinal": 2,
+          "entry_ordinal": 6,
+          "entry_label": "R-2.6",
+          "anchor_id": "research-2026-03-12-22-32-manager-decomposed-ricochet-reactor-start-gate-refresh",
+          "anchor_aliases": [
+            "R-2.6"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 22:26",
+          "date": "2026-03-12",
+          "time": "22:26",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:26:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Ricochet Reactor Start Gate And Wave Pacing Refresh",
+          "summary": "Researched the oldest actionable inbox prompt and staged a spec for Ricochet Reactor's next product pass. The spec centers on fixing the live-on-load startup failure, adding an intentional pre-run and countdown flow, smoothing early-wave pacing, and syncing the patch release metadata.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 11,
+          "day_ordinal": 2,
+          "entry_ordinal": 5,
+          "entry_label": "R-2.5",
+          "anchor_id": "research-2026-03-12-22-26-researcher-ricochet-reactor-start-gate-and-wave-pacing-refresh",
+          "anchor_aliases": [
+            "R-2.5"
+          ]
+        },
         {
           "timestamp": "2026-03-12 15:34",
           "date": "2026-03-12",
