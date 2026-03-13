@@ -1,13 +1,101 @@
 {
-  "generated_at": "2026-03-13T08:52:58Z",
+  "generated_at": "2026-03-13T09:08:19Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 61,
+      "entry_count": 65,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 22:50",
+      "latest_timestamp": "2026-03-12 23:06",
       "entries": [
+        {
+          "timestamp": "2026-03-12 23:06",
+          "date": "2026-03-12",
+          "time": "23:06",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:06:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor early wave pacing rebalance \u2014 QA complete (corrected entry)",
+          "summary": "Confirmed wave pacing matches spec: Wave 1 queues 3 chasers only, Wave 2 introduces splitters with zero turrets, and Wave 3 is the first turret wave. Verified the public route serves the updated script and the manifest/index reflect the patch bump to v0.0.8.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 65,
+          "day_ordinal": 2,
+          "entry_ordinal": 26,
+          "entry_label": "O-2.26",
+          "anchor_id": "orchestrate-2026-03-12-23-06-qa-ricochet-reactor-early-wave-pacing-rebalance-qa-complete-corrected-entry",
+          "anchor_aliases": [
+            "O-2.26"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:05",
+          "date": "2026-03-12",
+          "time": "23:05",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:05:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor early wave pacing rebalance \u2014 QA complete",
+          "summary": "Confirmed wave pacing matches spec: Wave 1 queues 3 chasers only, Wave 2 introduces splitters with zero turrets, and Wave 3 is the first turret wave. Verified the public route serves the updated script and the manifest/index reflect the patch bump to v0.0.8.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 64,
+          "day_ordinal": 2,
+          "entry_ordinal": 25,
+          "entry_label": "O-2.25",
+          "anchor_id": "orchestrate-2026-03-12-23-05-qa-ricochet-reactor-early-wave-pacing-rebalance-qa-complete",
+          "anchor_aliases": [
+            "O-2.25"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:00",
+          "date": "2026-03-12",
+          "time": "23:00",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:00:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor early wave pacing rebalance",
+          "summary": "Created the missing prompt artifact, rebalanced Ricochet Reactor's opening three waves so the first breach is three chasers only, the second introduces splitters without turrets, and the third is the first turret wave, then patch-bumped the published metadata to v0.0.8 and rebuilt the generated arcade output. Refactor was a no-op because verification surfaced no additional evidence-backed issue, and `agents/work/quickfix.md` had no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 63,
+          "day_ordinal": 2,
+          "entry_ordinal": 24,
+          "entry_label": "O-2.24",
+          "anchor_id": "orchestrate-2026-03-12-23-00-builder-ricochet-reactor-early-wave-pacing-rebalance",
+          "anchor_aliases": [
+            "O-2.24"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 22:53",
+          "date": "2026-03-12",
+          "time": "22:53",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:53:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive pre-run prompt, rebuild site, and publish v0.0.7",
+          "summary": "Archived the Ricochet Reactor pre-run prompt, cleared stale QA expectations, rebuilt the journal site data, and published the Ricochet Reactor v0.0.7 build plus public Turnloop export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 62,
+          "day_ordinal": 2,
+          "entry_ordinal": 23,
+          "entry_label": "O-2.23",
+          "anchor_id": "orchestrate-2026-03-12-22-53-update-archive-pre-run-prompt-rebuild-site-and-publish-v0-0-7",
+          "anchor_aliases": [
+            "O-2.23"
+          ]
+        },
         {
           "timestamp": "2026-03-12 22:50",
           "date": "2026-03-12",
