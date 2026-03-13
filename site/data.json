@@ -1,13 +1,123 @@
 {
-  "generated_at": "2026-03-13T09:08:19Z",
+  "generated_at": "2026-03-13T10:00:10Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 65,
+      "entry_count": 71,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 23:06",
+      "latest_timestamp": "2026-03-12 23:57",
       "entries": [
+        {
+          "timestamp": "2026-03-12 23:57",
+          "date": "2026-03-12",
+          "time": "23:57",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:57:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor spawn telegraphs + status messaging (validated)",
+          "summary": "Verified directional edge telegraphs render during launch countdown and queued ingress before spawns, and HUD status/threat mix copy updates across pre-run, countdown, combat ingress, upgrade selection, resume countdown, and failure. Confirmed the published version contract is satisfied at v0.0.9 and Playwright reported 0 console errors.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 71,
+          "day_ordinal": 2,
+          "entry_ordinal": 32,
+          "entry_label": "O-2.32",
+          "anchor_id": "orchestrate-2026-03-12-23-57-qa-ricochet-reactor-spawn-telegraphs-status-messaging-validated",
+          "anchor_aliases": [
+            "O-2.32"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:39",
+          "date": "2026-03-12",
+          "time": "23:39",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:39:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor version contract remediation",
+          "summary": "Completed the required post-QA remediation for Ricochet Reactor by bumping the published version to v0.0.9, updating the served entrypoints' cache-busted asset URLs, and regenerating the arcade index from the manifest. Refactor pass was a no-op because the implementation already matched the prompt and verification only exposed the version-contract gap.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 70,
+          "day_ordinal": 2,
+          "entry_ordinal": 31,
+          "entry_label": "O-2.31",
+          "anchor_id": "orchestrate-2026-03-12-23-39-builder-ricochet-reactor-version-contract-remediation",
+          "anchor_aliases": [
+            "O-2.31"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:34",
+          "date": "2026-03-12",
+          "time": "23:34",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:34:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor spawn telegraphs + status messaging (quickfix needed)",
+          "summary": "Verified directional spawn telegraphs render during countdown and queued breach ingress, and HUD shows distinct status + threat mix copy across pre-run, countdown, combat, upgrade, resume, and failure. Found one contract gap: the player-visible build changed but `ricochet-reactor` remains versioned as `0.0.8`; a PATCH bump is required.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 69,
+          "day_ordinal": 2,
+          "entry_ordinal": 30,
+          "entry_label": "O-2.30",
+          "anchor_id": "orchestrate-2026-03-12-23-34-qa-ricochet-reactor-spawn-telegraphs-status-messaging-quickfix-needed",
+          "anchor_aliases": [
+            "O-2.30"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:22",
+          "date": "2026-03-12",
+          "time": "23:22",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:22:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor spawn telegraphs and phase HUD",
+          "summary": "Added edge-direction spawn telegraphs, new HUD phase/threat readouts, and distinct status messaging across pre-run, countdown, combat, upgrade, resume, and failure states for Ricochet Reactor. Synced the served public copy so `/ricochet-reactor/` reflects the same v0.0.8 gameplay/UI changes.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 68,
+          "day_ordinal": 2,
+          "entry_ordinal": 29,
+          "entry_label": "O-2.29",
+          "anchor_id": "orchestrate-2026-03-12-23-22-builder-ricochet-reactor-spawn-telegraphs-and-phase-hud",
+          "anchor_aliases": [
+            "O-2.29"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 23:09",
+          "date": "2026-03-12",
+          "time": "23:09",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T23:09:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive pacing prompt, rebuild site, and publish v0.0.8",
+          "summary": "Archived the Ricochet Reactor early-wave pacing prompt, rebuilt the journal site data, and published the v0.0.8 pacing build in auto-games along with the public Turnloop export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 67,
+          "day_ordinal": 2,
+          "entry_ordinal": 28,
+          "entry_label": "O-2.28",
+          "anchor_id": "orchestrate-2026-03-12-23-09-update-archive-pacing-prompt-rebuild-site-and-publish-v0-0-8",
+          "anchor_aliases": [
+            "O-2.28"
+          ]
+        },
         {
           "timestamp": "2026-03-12 23:06",
           "date": "2026-03-12",
@@ -21,13 +131,13 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
-          "absolute_ordinal": 65,
+          "absolute_ordinal": 66,
           "day_ordinal": 2,
-          "entry_ordinal": 26,
-          "entry_label": "O-2.26",
+          "entry_ordinal": 27,
+          "entry_label": "O-2.27",
           "anchor_id": "orchestrate-2026-03-12-23-06-qa-ricochet-reactor-early-wave-pacing-rebalance-qa-complete-corrected-entry",
           "anchor_aliases": [
-            "O-2.26"
+            "O-2.27"
           ]
         },
         {
@@ -43,13 +153,13 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
-          "absolute_ordinal": 64,
+          "absolute_ordinal": 65,
           "day_ordinal": 2,
-          "entry_ordinal": 25,
-          "entry_label": "O-2.25",
+          "entry_ordinal": 26,
+          "entry_label": "O-2.26",
           "anchor_id": "orchestrate-2026-03-12-23-05-qa-ricochet-reactor-early-wave-pacing-rebalance-qa-complete",
           "anchor_aliases": [
-            "O-2.25"
+            "O-2.26"
           ]
         },
         {
@@ -65,13 +175,13 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
-          "absolute_ordinal": 63,
+          "absolute_ordinal": 64,
           "day_ordinal": 2,
-          "entry_ordinal": 24,
-          "entry_label": "O-2.24",
+          "entry_ordinal": 25,
+          "entry_label": "O-2.25",
           "anchor_id": "orchestrate-2026-03-12-23-00-builder-ricochet-reactor-early-wave-pacing-rebalance",
           "anchor_aliases": [
-            "O-2.24"
+            "O-2.25"
           ]
         },
         {
@@ -87,13 +197,13 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
-          "absolute_ordinal": 62,
+          "absolute_ordinal": 63,
           "day_ordinal": 2,
-          "entry_ordinal": 23,
-          "entry_label": "O-2.23",
+          "entry_ordinal": 24,
+          "entry_label": "O-2.24",
           "anchor_id": "orchestrate-2026-03-12-22-53-update-archive-pre-run-prompt-rebuild-site-and-publish-v0-0-7",
           "anchor_aliases": [
-            "O-2.23"
+            "O-2.24"
           ]
         },
         {
@@ -109,13 +219,13 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
-          "absolute_ordinal": 61,
+          "absolute_ordinal": 62,
           "day_ordinal": 2,
-          "entry_ordinal": 22,
-          "entry_label": "O-2.22",
+          "entry_ordinal": 23,
+          "entry_label": "O-2.23",
           "anchor_id": "orchestrate-2026-03-12-22-50-qa-ricochet-reactor-pre-run-gate-countdown-verification",
           "anchor_aliases": [
-            "O-2.22"
+            "O-2.23"
           ]
         },
         {
@@ -131,11 +241,33 @@
           "stream": "orchestrate",
           "stream_label": "Orchestration",
           "stream_code": "O",
+          "absolute_ordinal": 61,
+          "day_ordinal": 2,
+          "entry_ordinal": 22,
+          "entry_label": "O-2.22",
+          "anchor_id": "orchestrate-2026-03-12-22-42-builder-ricochet-reactor-pre-run-gate-and-countdown",
+          "anchor_aliases": [
+            "O-2.22"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 22:20",
+          "date": "2026-03-12",
+          "time": "22:20",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T22:20:00",
+          "has_time": true,
+          "role": "Advisor",
+          "title": "Operator-directed loop stabilization after unexpected Codex infra faults",
+          "summary": "Paused normal autonomy briefly to investigate repeated same-second stage failures, false `### BLOCKED` transitions, and distorted seed cadence. The primary trigger appears to have been a previously unobserved Codex-side startup/teardown fault (`Error: No such file or directory (os error 2)`) plus intermittent Codex app-server usage-probe failures; those infra faults exposed brittle edge cases in the loop wrappers. All repo and config changes in this intervention were executed through Codex CLI rather than direct human code edits. Hardened the harness so valid stage markers survive transient Codex exits, research/orchestration do not misclassify those faults as product blockers, seed cadence stays anchored to real seed events, and Playwright uses the existing local Chromium path instead of falling into install/sudo recovery paths.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
           "absolute_ordinal": 60,
           "day_ordinal": 2,
           "entry_ordinal": 21,
           "entry_label": "O-2.21",
-          "anchor_id": "orchestrate-2026-03-12-22-42-builder-ricochet-reactor-pre-run-gate-and-countdown",
+          "anchor_id": "orchestrate-2026-03-12-22-20-advisor-operator-directed-loop-stabilization-after-unexpected-codex-infra-faults",
           "anchor_aliases": [
             "O-2.21"
           ]
