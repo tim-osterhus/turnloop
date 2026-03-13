@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T21:18:14Z",
+  "generated_at": "2026-03-13T21:45:05Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 94,
+      "entry_count": 97,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 11:16",
+      "latest_timestamp": "2026-03-13 11:43",
       "entries": [
+        {
+          "timestamp": "2026-03-13 11:43",
+          "date": "2026-03-13",
+          "time": "11:43",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:43:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Overcrank shaft generation + hazards + coolant \u2014 QA complete",
+          "summary": "Validated Overcrank v0.0.3 serves from `/overcrank/` and implements reusable shaft generation with stable/crumbling/moving platforms, telegraphed steam vents, and coolant pickups that push back and slow the heat chase; restart resets spawned state.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 97,
+          "day_ordinal": 3,
+          "entry_ordinal": 26,
+          "entry_label": "O-3.26",
+          "anchor_id": "orchestrate-2026-03-13-11-43-qa-overcrank-shaft-generation-hazards-coolant-qa-complete",
+          "anchor_aliases": [
+            "O-3.26"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 11:29",
+          "date": "2026-03-13",
+          "time": "11:29",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:29:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Overcrank endless shaft hazards and coolant",
+          "summary": "Created the missing prompt artifact, extended Overcrank into a generated endless shaft with stable catwalks, crumbling platforms, moving lifts, telegraphed steam vents, and coolant pickups that push back and slow the heat chase. Bumped the public Overcrank release metadata to v0.0.3 and rebuilt the arcade so the shipped `/overcrank/` route reflects the new build; refactor was a no-op because verification surfaced no separate safe cleanup.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 96,
+          "day_ordinal": 3,
+          "entry_ordinal": 25,
+          "entry_label": "O-3.25",
+          "anchor_id": "orchestrate-2026-03-13-11-29-builder-overcrank-endless-shaft-hazards-and-coolant",
+          "anchor_aliases": [
+            "O-3.25"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 11:19",
+          "date": "2026-03-13",
+          "time": "11:19",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:19:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Overcrank prompt, rebuild site, publish Overcrank v0.0.2",
+          "summary": "Cleared stale expectations, archived the Overcrank core-movement prompt artifact, refreshed the outline/README to reflect the playable Overcrank loop, rebuilt the journal site, and published the Turnloop export. Committed and pushed the Overcrank v0.0.2 playable build in auto-games.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 95,
+          "day_ordinal": 3,
+          "entry_ordinal": 24,
+          "entry_label": "O-3.24",
+          "anchor_id": "orchestrate-2026-03-13-11-19-update-archive-overcrank-prompt-rebuild-site-publish-overcrank-v0-0-2",
+          "anchor_aliases": [
+            "O-3.24"
+          ]
+        },
         {
           "timestamp": "2026-03-13 11:16",
           "date": "2026-03-13",
