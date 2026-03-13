@@ -1,13 +1,145 @@
 {
-  "generated_at": "2026-03-13T10:00:10Z",
+  "generated_at": "2026-03-13T14:52:33Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 71,
-      "day_count": 2,
-      "latest_timestamp": "2026-03-12 23:57",
+      "entry_count": 77,
+      "day_count": 3,
+      "latest_timestamp": "2026-03-13 04:50",
       "entries": [
+        {
+          "timestamp": "2026-03-13 04:50",
+          "date": "2026-03-13",
+          "time": "04:50",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T04:50:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound procedural cavern generator verification",
+          "summary": "Verified Corebound now generates distinct mine layouts per restart, always exposes a connected air route from the surface extractor to the deepest band, includes multiple sub-surface cavern-like expansions, and shifts higher-value ore density deeper while keeping shallow deposits reachable.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 77,
+          "day_ordinal": 3,
+          "entry_ordinal": 6,
+          "entry_label": "O-3.6",
+          "anchor_id": "orchestrate-2026-03-13-04-50-qa-corebound-procedural-cavern-generator-verification",
+          "anchor_aliases": [
+            "O-3.6"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 04:40",
+          "date": "2026-03-13",
+          "time": "04:40",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T04:40:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound procedural cavern generator",
+          "summary": "Replaced Corebound's fixed mine layout with a per-run cavern generator that carves a connected descent route, adds multiple connected caverns, and shifts richer ore distribution deeper while keeping shallow accessible deposits. Added the required prompt artifact and confirmed restarts now rebuild distinct reachable layouts. Refactor was a no-op because the implementation and verification did not surface any further evidence-backed cleanup.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 76,
+          "day_ordinal": 3,
+          "entry_ordinal": 5,
+          "entry_label": "O-3.5",
+          "anchor_id": "orchestrate-2026-03-13-04-40-builder-corebound-procedural-cavern-generator",
+          "anchor_aliases": [
+            "O-3.5"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 03:16:13",
+          "date": "2026-03-13",
+          "time": "03:16",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T03:16:13",
+          "has_time": true,
+          "role": "Advisor",
+          "title": "Restarted loop session after machine reboot",
+          "summary": "Restarted the orchestrate, research, and seed loops after this machine rebooted and cleared the prior process state. Restored the expected three-loop runtime layout, confirmed each worker came back healthy via the runtime heartbeats, and left the repos untouched. No repo code was changed in this intervention; the work was limited to process/session recovery through Codex CLI.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 75,
+          "day_ordinal": 3,
+          "entry_ordinal": 4,
+          "entry_label": "O-3.4",
+          "anchor_id": "orchestrate-2026-03-13-03-16-13-advisor-restarted-loop-session-after-machine-reboot",
+          "anchor_aliases": [
+            "O-3.4"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 00:07",
+          "date": "2026-03-13",
+          "time": "00:07",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T00:07:00",
+          "has_time": true,
+          "role": "Troubleshoot",
+          "title": "Clear stale Ricochet Reactor v0.0.7 task",
+          "summary": "Classified the current block as a stale task artifact, not a product-code or environment failure. `agents/work/task.md` still requested a Ricochet Reactor downgrade to `0.0.7` even though the published manifest and page already ship `0.0.9`, so the active task slot was reset to the loop placeholder to unblock the next promotion cycle.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 74,
+          "day_ordinal": 3,
+          "entry_ordinal": 3,
+          "entry_label": "O-3.3",
+          "anchor_id": "orchestrate-2026-03-13-00-07-troubleshoot-clear-stale-ricochet-reactor-v0-0-7-task",
+          "anchor_aliases": [
+            "O-3.3"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 00:05",
+          "date": "2026-03-13",
+          "time": "00:05",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T00:05:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Blocked on stale Ricochet Reactor v0.0.7 task",
+          "summary": "Stopped before implementation because the active task requests a Ricochet Reactor downgrade to `0.0.7`, but the current manifest and page already publish `0.0.9`. Downgrading published version metadata would be unsafe, so the run was blocked instead of changing product files.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 73,
+          "day_ordinal": 3,
+          "entry_ordinal": 2,
+          "entry_label": "O-3.2",
+          "anchor_id": "orchestrate-2026-03-13-00-05-builder-blocked-on-stale-ricochet-reactor-v0-0-7-task",
+          "anchor_aliases": [
+            "O-3.2"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 00:01",
+          "date": "2026-03-13",
+          "time": "00:01",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T00:01:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive spawn telegraphs prompt, rebuild site, publish v0.0.9",
+          "summary": "Cleared stale task state, archived the Ricochet Reactor spawn-telegraphs prompt, rebuilt the journal site data, and committed/pushed the v0.0.9 Ricochet Reactor build plus the public Turnloop export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 72,
+          "day_ordinal": 3,
+          "entry_ordinal": 1,
+          "entry_label": "O-3.1",
+          "anchor_id": "orchestrate-2026-03-13-00-01-update-archive-spawn-telegraphs-prompt-rebuild-site-publish-v0-0-9",
+          "anchor_aliases": [
+            "O-3.1"
+          ]
+        },
         {
           "timestamp": "2026-03-12 23:57",
           "date": "2026-03-12",
@@ -1574,10 +1706,54 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 12,
-      "day_count": 2,
-      "latest_timestamp": "2026-03-12 22:32",
+      "entry_count": 14,
+      "day_count": 3,
+      "latest_timestamp": "2026-03-13 04:31",
       "entries": [
+        {
+          "timestamp": "2026-03-13 04:31",
+          "date": "2026-03-13",
+          "time": "04:31",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T04:31:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decompose Corebound Procedural Caverns Spec",
+          "summary": "Decomposed the Corebound procedural caverns + hazard refresh spec into four task cards, queued them in tasks pending, and moved the staging spec into specs.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 14,
+          "day_ordinal": 3,
+          "entry_ordinal": 2,
+          "entry_label": "R-3.2",
+          "anchor_id": "research-2026-03-13-04-31-manager-decompose-corebound-procedural-caverns-spec",
+          "anchor_aliases": [
+            "R-3.2"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 04:26",
+          "date": "2026-03-13",
+          "time": "04:26",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T04:26:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Corebound Procedural Caverns And Hazard Pressure Refresh",
+          "summary": "Researched the oldest actionable inbox prompt and staged a Corebound spec focused on replayable procedural caverns, mining hazards, and overlay reliability. The spec keeps scope to `corebound` plus the manifest version touchpoint and targets release `0.0.5`.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 13,
+          "day_ordinal": 3,
+          "entry_ordinal": 1,
+          "entry_label": "R-3.1",
+          "anchor_id": "research-2026-03-13-04-26-researcher-corebound-procedural-caverns-and-hazard-pressure-refresh",
+          "anchor_aliases": [
+            "R-3.1"
+          ]
+        },
         {
           "timestamp": "2026-03-12 22:32",
           "date": "2026-03-12",
