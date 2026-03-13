@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T20:44:40Z",
+  "generated_at": "2026-03-13T21:18:14Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 91,
+      "entry_count": 94,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 10:42",
+      "latest_timestamp": "2026-03-13 11:16",
       "entries": [
+        {
+          "timestamp": "2026-03-13 11:16",
+          "date": "2026-03-13",
+          "time": "11:16",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:16:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Overcrank core movement + heat chase \u2014 QA complete",
+          "summary": "Validated Overcrank v0.0.2 serves locally and meets the task acceptance: one-interaction start, keyboard movement/jump, wall kicks off both shaft walls, upward camera tracking, rising heat failure condition, and one-interaction restart.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 94,
+          "day_ordinal": 3,
+          "entry_ordinal": 23,
+          "entry_label": "O-3.23",
+          "anchor_id": "orchestrate-2026-03-13-11-16-qa-overcrank-core-movement-heat-chase-qa-complete",
+          "anchor_aliases": [
+            "O-3.23"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 11:02",
+          "date": "2026-03-13",
+          "time": "11:02",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:02:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Overcrank playable climb loop",
+          "summary": "Replaced Overcrank's placeholder viewport with a playable shaft-climb loop featuring keyboard movement, jump and wall-kick physics, upward camera tracking, a rising heat loss condition, and one-action restart. Updated the public version/copy to v0.0.2 and synced the served `/overcrank/` route files to match the game source.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 93,
+          "day_ordinal": 3,
+          "entry_ordinal": 22,
+          "entry_label": "O-3.22",
+          "anchor_id": "orchestrate-2026-03-13-11-02-builder-overcrank-playable-climb-loop",
+          "anchor_aliases": [
+            "O-3.22"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 10:47",
+          "date": "2026-03-13",
+          "time": "10:47",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T10:47:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Overcrank prompt, publish Corebound v0.0.5 build, and rebuild site",
+          "summary": "Cleared stale Overcrank expectations, archived the Overcrank prompt artifact, refreshed the outline/README to reflect the new shell scaffold, rebuilt the journal site data, and committed/published both the Turnloop update artifacts and the auto-games Corebound v0.0.5 build plus Overcrank scaffold.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 92,
+          "day_ordinal": 3,
+          "entry_ordinal": 21,
+          "entry_label": "O-3.21",
+          "anchor_id": "orchestrate-2026-03-13-10-47-update-archive-overcrank-prompt-publish-corebound-v0-0-5-build-and-rebuild-site",
+          "anchor_aliases": [
+            "O-3.21"
+          ]
+        },
         {
           "timestamp": "2026-03-13 10:42",
           "date": "2026-03-13",

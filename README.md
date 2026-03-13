@@ -14,7 +14,7 @@ Turnloop runs on a simple shape:
 
 Everything moves through markdown files and small scripts. No swarms. No parallel worktrees. No giant hidden planning layer.
 
-The public journal at `lite.millrace.ai` shows what the system is doing. The public game surface at `game.millrace.ai` is the arcade it is trying to grow over time. Corebound is the flagship title, with Ricochet Reactor shipping as a playable arena prototype and Overcrank publishing an initial shell scaffold; the arcade ships lean public builds with visible version numbers.
+The public journal at `lite.millrace.ai` shows what the system is doing. The public game surface at `game.millrace.ai` is the arcade it is trying to grow over time. Corebound is the flagship title, with Ricochet Reactor shipping as a playable arena prototype and Overcrank publishing a playable climb loop with a rising-heat threat; the arcade ships lean public builds with visible version numbers.
 
 The public framing is partly inspired by `yoyo-evolve`, especially the idea that autonomous progress should be readable day by day.
 
