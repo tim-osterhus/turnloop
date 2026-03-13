@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T16:20:37Z",
+  "generated_at": "2026-03-13T20:44:40Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 88,
+      "entry_count": 91,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 06:19",
+      "latest_timestamp": "2026-03-13 10:42",
       "entries": [
+        {
+          "timestamp": "2026-03-13 10:42",
+          "date": "2026-03-13",
+          "time": "10:42",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T10:42:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Overcrank manifest + shell scaffold \u2014 QA complete",
+          "summary": "Validated the new `overcrank` manifest entry (v0.0.1, `source_dir: games/overcrank`) and confirmed the authored Millrace shell scaffold builds and serves successfully at `/overcrank/` with briefing, HUD placeholders, and a gameplay viewport container.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 91,
+          "day_ordinal": 3,
+          "entry_ordinal": 20,
+          "entry_label": "O-3.20",
+          "anchor_id": "orchestrate-2026-03-13-10-42-qa-overcrank-manifest-shell-scaffold-qa-complete",
+          "anchor_aliases": [
+            "O-3.20"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 10:39",
+          "date": "2026-03-13",
+          "time": "10:39",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T10:39:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Overcrank Manifest And Shell Scaffold",
+          "summary": "Registered Overcrank in the arcade manifest at version 0.0.1 and added the initial authored Millrace shell with briefing, HUD placeholders, and a gameplay viewport scaffold. Refactor pass was a no-op because verification surfaced no evidence-backed follow-up change.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 90,
+          "day_ordinal": 3,
+          "entry_ordinal": 19,
+          "entry_label": "O-3.19",
+          "anchor_id": "orchestrate-2026-03-13-10-39-builder-overcrank-manifest-and-shell-scaffold",
+          "anchor_aliases": [
+            "O-3.19"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 06:21",
+          "date": "2026-03-13",
+          "time": "06:21",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T06:21:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound v0.0.5 prompt and rebuild site",
+          "summary": "Archived the Corebound v0.0.5 release-metadata prompt artifact, rebuilt the journal site data, and published the public Turnloop export after committing the update-cycle changes.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 89,
+          "day_ordinal": 3,
+          "entry_ordinal": 18,
+          "entry_label": "O-3.18",
+          "anchor_id": "orchestrate-2026-03-13-06-21-update-archive-corebound-v0-0-5-prompt-and-rebuild-site",
+          "anchor_aliases": [
+            "O-3.18"
+          ]
+        },
         {
           "timestamp": "2026-03-13 06:19",
           "date": "2026-03-13",
@@ -1948,10 +2014,54 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 14,
+      "entry_count": 16,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 04:31",
+      "latest_timestamp": "2026-03-13 10:31",
       "entries": [
+        {
+          "timestamp": "2026-03-13 10:31",
+          "date": "2026-03-13",
+          "time": "10:31",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T10:31:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decompose Overcrank First Playable Baseline",
+          "summary": "Decomposed the Overcrank baseline spec into five ordered task cards, queued them in tasks pending, and moved the staged spec into specs.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 16,
+          "day_ordinal": 3,
+          "entry_ordinal": 4,
+          "entry_label": "R-3.4",
+          "anchor_id": "research-2026-03-13-10-31-manager-decompose-overcrank-first-playable-baseline",
+          "anchor_aliases": [
+            "R-3.4"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 10:25",
+          "date": "2026-03-13",
+          "time": "10:25",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T10:25:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Overcrank First Playable Baseline",
+          "summary": "Researched the oldest actionable inbox prompt and staged a greenfield new-game spec for `overcrank`, a Flash-like vertical escape climber built to expand the arcade with a third public title. The spec keeps scope to one fresh game slug plus the manifest touchpoint and centers on wall kicks, rising heat pressure, reusable shaft segments, and local best-score persistence.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 15,
+          "day_ordinal": 3,
+          "entry_ordinal": 3,
+          "entry_label": "R-3.3",
+          "anchor_id": "research-2026-03-13-10-25-researcher-overcrank-first-playable-baseline",
+          "anchor_aliases": [
+            "R-3.3"
+          ]
+        },
         {
           "timestamp": "2026-03-13 04:31",
           "date": "2026-03-13",
