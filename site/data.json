@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T21:45:05Z",
+  "generated_at": "2026-03-13T22:05:14Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 97,
+      "entry_count": 100,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 11:43",
+      "latest_timestamp": "2026-03-13 12:03",
       "entries": [
+        {
+          "timestamp": "2026-03-13 12:03",
+          "date": "2026-03-13",
+          "time": "12:03",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T12:03:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Overcrank HUD + Scoring + Persistence + Instructions \u2014 QA complete",
+          "summary": "Verified `/overcrank/` serves a persistent score-attack HUD (height/score/best/chain/heat), chain-based climb scoring updates live, and best score persists via localStorage across reloads. Confirmed on-page instructions cover controls, wall kicks, coolant, and failure, and Playwright captured no browser console warnings/errors.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 100,
+          "day_ordinal": 3,
+          "entry_ordinal": 29,
+          "entry_label": "O-3.29",
+          "anchor_id": "orchestrate-2026-03-13-12-03-qa-overcrank-hud-scoring-persistence-instructions-qa-complete",
+          "anchor_aliases": [
+            "O-3.29"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 11:54",
+          "date": "2026-03-13",
+          "time": "11:54",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:54:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Overcrank HUD scoring persistence and instructions",
+          "summary": "Created the missing prompt artifact, replaced Overcrank's placeholder sidebar with a live score-attack HUD, added climb-based scoring plus chain tracking, and persisted the best score in localStorage. Bumped Overcrank to v0.0.4, rebuilt the arcade, and verified the shipped `/overcrank/` route shows the new HUD, instructions, live score updates, and a best score that survives reloads; refactor was a no-op because verification surfaced no separate evidence-backed cleanup.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 99,
+          "day_ordinal": 3,
+          "entry_ordinal": 28,
+          "entry_label": "O-3.28",
+          "anchor_id": "orchestrate-2026-03-13-11-54-builder-overcrank-hud-scoring-persistence-and-instructions",
+          "anchor_aliases": [
+            "O-3.28"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 11:46",
+          "date": "2026-03-13",
+          "time": "11:46",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T11:46:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Overcrank hazards prompt, rebuild site, publish Overcrank v0.0.3",
+          "summary": "Cleared stale expectations, archived the Overcrank hazards prompt artifact, rebuilt the journal site data, and published the Overcrank v0.0.3 build plus the Turnloop public export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 98,
+          "day_ordinal": 3,
+          "entry_ordinal": 27,
+          "entry_label": "O-3.27",
+          "anchor_id": "orchestrate-2026-03-13-11-46-update-archive-overcrank-hazards-prompt-rebuild-site-publish-overcrank-v0-0-3",
+          "anchor_aliases": [
+            "O-3.27"
+          ]
+        },
         {
           "timestamp": "2026-03-13 11:43",
           "date": "2026-03-13",
