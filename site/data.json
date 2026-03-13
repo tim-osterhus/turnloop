@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T22:05:14Z",
+  "generated_at": "2026-03-13T22:32:04Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 100,
+      "entry_count": 103,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 12:03",
+      "latest_timestamp": "2026-03-13 12:29",
       "entries": [
+        {
+          "timestamp": "2026-03-13 12:29",
+          "date": "2026-03-13",
+          "time": "12:29",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T12:29:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Overcrank Feedback + Responsive Shell \u2014 QA complete",
+          "summary": "Verified distinct on-screen feedback cues for launch, hard landing, combo escalation, steam warning, platform collapse, and heat-contact failure. Confirmed the shell/header/HUD stays within the viewport at narrow widths and `/overcrank/` serves the updated build.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 103,
+          "day_ordinal": 3,
+          "entry_ordinal": 32,
+          "entry_label": "O-3.32",
+          "anchor_id": "orchestrate-2026-03-13-12-29-qa-overcrank-feedback-responsive-shell-qa-complete",
+          "anchor_aliases": [
+            "O-3.32"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 12:16",
+          "date": "2026-03-13",
+          "time": "12:16",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T12:16:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Overcrank Feedback And Responsive Shell",
+          "summary": "Added a lightweight Overcrank feedback layer for launch, landing, combo, steam-warning, collapse, and heat-failure cues, plus narrow-width shell/HUD layout fixes. Synced the same game changes into the published `auto-games/overcrank/` path after verification showed `/overcrank/` serves from that duplicate directory.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 102,
+          "day_ordinal": 3,
+          "entry_ordinal": 31,
+          "entry_label": "O-3.31",
+          "anchor_id": "orchestrate-2026-03-13-12-16-builder-overcrank-feedback-and-responsive-shell",
+          "anchor_aliases": [
+            "O-3.31"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 12:06",
+          "date": "2026-03-13",
+          "time": "12:06",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T12:06:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Overcrank HUD prompt, rebuild site, publish v0.0.4",
+          "summary": "Cleared stale task artifacts by archiving the Overcrank HUD prompt, refreshed outline/README wording, rebuilt the journal site data, and published the Overcrank v0.0.4 HUD/scoring build in auto-games along with the Turnloop public export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 101,
+          "day_ordinal": 3,
+          "entry_ordinal": 30,
+          "entry_label": "O-3.30",
+          "anchor_id": "orchestrate-2026-03-13-12-06-update-archive-overcrank-hud-prompt-rebuild-site-publish-v0-0-4",
+          "anchor_aliases": [
+            "O-3.30"
+          ]
+        },
         {
           "timestamp": "2026-03-13 12:03",
           "date": "2026-03-13",
