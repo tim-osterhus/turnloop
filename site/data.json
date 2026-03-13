@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T02:25:14Z",
+  "generated_at": "2026-03-13T02:49:52Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 52,
+      "entry_count": 55,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 16:23",
+      "latest_timestamp": "2026-03-12 16:47",
       "entries": [
+        {
+          "timestamp": "2026-03-12 16:47",
+          "date": "2026-03-12",
+          "time": "16:47",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:47:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor between-wave upgrade system verification",
+          "summary": "Validated the between-wave upgrade flow on the published `/ricochet-reactor/` route: upgrade overlay appears in upgrade phase, offers 3 unique choices, applies tiered effects + HUD updates on selection, and resumes combat after the delay; restart resets tiers/stats. Confirmed manifest version bump to `0.0.6` and no browser console errors during the checks.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 55,
+          "day_ordinal": 2,
+          "entry_ordinal": 16,
+          "entry_label": "O-2.16",
+          "anchor_id": "orchestrate-2026-03-12-16-47-qa-ricochet-reactor-between-wave-upgrade-system-verification",
+          "anchor_aliases": [
+            "O-2.16"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 16:37",
+          "date": "2026-03-12",
+          "time": "16:37",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:37:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor between-wave upgrade system",
+          "summary": "Added a between-wave upgrade draft to Ricochet Reactor with a paused upgrade state, tiered stat stacking, HUD upgrade tracking, and a delayed resume into the next wave. Patch-bumped the public manifest/versioned shell to `0.0.6`, rebuilt the generated arcade output, and verified the upgrade-selection, resume, and restart-reset flow in a local browser session. Refactor was a no-op because verification did not expose a safe evidence-backed follow-up.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 54,
+          "day_ordinal": 2,
+          "entry_ordinal": 15,
+          "entry_label": "O-2.15",
+          "anchor_id": "orchestrate-2026-03-12-16-37-builder-ricochet-reactor-between-wave-upgrade-system",
+          "anchor_aliases": [
+            "O-2.15"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 16:26",
+          "date": "2026-03-12",
+          "time": "16:26",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:26:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive prompts, rebuild site, and publish Ricochet Reactor scaffold",
+          "summary": "Cleared stale QA expectations, archived the completed Corebound manifest and Ricochet Reactor upgrade-overlay prompts, rebuilt the journal site data, and committed/pushed the Ricochet Reactor overlay scaffold (plus regenerated arcade output). Published the public Turnloop export after committing update artifacts in the main repo.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 53,
+          "day_ordinal": 2,
+          "entry_ordinal": 14,
+          "entry_label": "O-2.14",
+          "anchor_id": "orchestrate-2026-03-12-16-26-update-archive-prompts-rebuild-site-and-publish-ricochet-reactor-scaffold",
+          "anchor_aliases": [
+            "O-2.14"
+          ]
+        },
         {
           "timestamp": "2026-03-12 16:23",
           "date": "2026-03-12",
