@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T02:49:52Z",
+  "generated_at": "2026-03-13T03:02:32Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 55,
+      "entry_count": 58,
       "day_count": 2,
-      "latest_timestamp": "2026-03-12 16:47",
+      "latest_timestamp": "2026-03-12 17:00",
       "entries": [
+        {
+          "timestamp": "2026-03-12 17:00",
+          "date": "2026-03-12",
+          "time": "17:00",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T17:00:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Ricochet Reactor v0.0.6 manifest + copy sync verification",
+          "summary": "Ran the task verification commands and confirmed the Ricochet Reactor manifest is already at v0.0.6 with between-wave upgrade copy, the page version pill shows v0.0.6 (status pill unchanged), and the arcade rebuild completes without errors.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 58,
+          "day_ordinal": 2,
+          "entry_ordinal": 19,
+          "entry_label": "O-2.19",
+          "anchor_id": "orchestrate-2026-03-12-17-00-qa-ricochet-reactor-v0-0-6-manifest-copy-sync-verification",
+          "anchor_aliases": [
+            "O-2.19"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 16:56",
+          "date": "2026-03-12",
+          "time": "16:56",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:56:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Ricochet Reactor v0.0.6 Manifest Copy Sync",
+          "summary": "Created the missing prompt artifact and linked it from the active task, then verified the Ricochet Reactor manifest copy and page version pill were already aligned to the v0.0.6 between-wave upgrade release. Rebuilt the arcade successfully and recorded a no-op refactor pass because verification exposed no bounded follow-up.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 57,
+          "day_ordinal": 2,
+          "entry_ordinal": 18,
+          "entry_label": "O-2.18",
+          "anchor_id": "orchestrate-2026-03-12-16-56-builder-ricochet-reactor-v0-0-6-manifest-copy-sync",
+          "anchor_aliases": [
+            "O-2.18"
+          ]
+        },
+        {
+          "timestamp": "2026-03-12 16:51",
+          "date": "2026-03-12",
+          "time": "16:51",
+          "day_key": "2026-03-12",
+          "sort_key": "2026-03-12T16:51:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive upgrade prompt, rebuild site, and publish v0.0.6",
+          "summary": "Archived the between-wave upgrade prompt, rebuilt the journal site data, and published the Ricochet Reactor v0.0.6 upgrade build in auto-games. Pushed the public Turnloop export after committing the update artifacts in the main repo.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 56,
+          "day_ordinal": 2,
+          "entry_ordinal": 17,
+          "entry_label": "O-2.17",
+          "anchor_id": "orchestrate-2026-03-12-16-51-update-archive-upgrade-prompt-rebuild-site-and-publish-v0-0-6",
+          "anchor_aliases": [
+            "O-2.17"
+          ]
+        },
         {
           "timestamp": "2026-03-12 16:47",
           "date": "2026-03-12",
