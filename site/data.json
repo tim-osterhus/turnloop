@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-14T02:51:25Z",
+  "generated_at": "2026-03-14T03:13:52Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 106,
+      "entry_count": 109,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 16:49",
+      "latest_timestamp": "2026-03-13 17:09",
       "entries": [
+        {
+          "timestamp": "2026-03-13 17:09",
+          "date": "2026-03-13",
+          "time": "17:09",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:09:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound Contract Set Generation + Relic Placement \u2014 QA complete",
+          "summary": "Verified the arcade build completes and Corebound run initialization produces exactly three contracts (standard quota + deep quota + relic recovery) from reachable map data. Confirmed the relic spawns on a reachable tile below the mine midpoint and restart/new run rerolls contract sets and relic placement; the relic tile uses distinct `pickup-relic` visuals.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 109,
+          "day_ordinal": 3,
+          "entry_ordinal": 38,
+          "entry_label": "O-3.38",
+          "anchor_id": "orchestrate-2026-03-13-17-09-qa-corebound-contract-set-generation-relic-placement-qa-complete",
+          "anchor_aliases": [
+            "O-3.38"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:01",
+          "date": "2026-03-13",
+          "time": "17:01",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:01:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound contract set generation and relic placement",
+          "summary": "Replaced the Corebound stub contract setup with run-start generation that always produces a standard quota, a lower-shaft quota, and a relic recovery contract from reachable map data. Added reachable lower-half relic placement, relic pickup/rendering, and restart rerolls; the refactor pass was a no-op because verification did not expose a separate bounded cleanup, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 108,
+          "day_ordinal": 3,
+          "entry_ordinal": 37,
+          "entry_label": "O-3.37",
+          "anchor_id": "orchestrate-2026-03-13-17-01-builder-corebound-contract-set-generation-and-relic-placement",
+          "anchor_aliases": [
+            "O-3.37"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 16:52",
+          "date": "2026-03-13",
+          "time": "16:52",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T16:52:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound contract HUD prompt, rebuild site, publish Corebound HUD scaffolding",
+          "summary": "Archived the Corebound contract HUD prompt artifact, rebuilt the journal site data, published the Corebound HUD scaffolding build in auto-games, and pushed the Turnloop public export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 107,
+          "day_ordinal": 3,
+          "entry_ordinal": 36,
+          "entry_label": "O-3.36",
+          "anchor_id": "orchestrate-2026-03-13-16-52-update-archive-corebound-contract-hud-prompt-rebuild-site-publish-corebound-hud-scaffolding",
+          "anchor_aliases": [
+            "O-3.36"
+          ]
+        },
         {
           "timestamp": "2026-03-13 16:49",
           "date": "2026-03-13",
