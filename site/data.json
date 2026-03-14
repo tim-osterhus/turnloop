@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-14T03:52:16Z",
+  "generated_at": "2026-03-14T04:10:22Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 115,
+      "entry_count": 118,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 17:49",
+      "latest_timestamp": "2026-03-13 18:05",
       "entries": [
+        {
+          "timestamp": "2026-03-13 18:05",
+          "date": "2026-03-13",
+          "time": "18:05",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T18:05:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound release metadata and version sync \u2014 QA complete",
+          "summary": "Verified Corebound manifest PATCH bump to 0.0.7, release copy updates referencing extractor contracts + relic cargo recovery, and authored page version/status text alignment. Rebuilt the arcade successfully.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 118,
+          "day_ordinal": 3,
+          "entry_ordinal": 47,
+          "entry_label": "O-3.47",
+          "anchor_id": "orchestrate-2026-03-13-18-05-qa-corebound-release-metadata-and-version-sync-qa-complete",
+          "anchor_aliases": [
+            "O-3.47"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:59",
+          "date": "2026-03-13",
+          "time": "17:59",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:59:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound release metadata and version sync",
+          "summary": "Created the missing prompt artifact for the active Corebound task, bumped Corebound's public version from 0.0.6 to 0.0.7, refreshed the manifest release copy to call out extractor contracts and relic cargo recovery, and synced the authored page metadata/version pill before rebuilding the arcade. Refactor was a no-op because verification exposed no evidence-backed low-risk follow-up, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 117,
+          "day_ordinal": 3,
+          "entry_ordinal": 46,
+          "entry_label": "O-3.46",
+          "anchor_id": "orchestrate-2026-03-13-17-59-builder-corebound-release-metadata-and-version-sync",
+          "anchor_aliases": [
+            "O-3.46"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:53",
+          "date": "2026-03-13",
+          "time": "17:53",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:53:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound onboarding prompt and rebuild site",
+          "summary": "Archived the Corebound onboarding-copy prompt artifact, rebuilt the journal site data, and published the Turnloop public export. Left unrelated dirty worktree changes (including auto-games edits) untouched.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 116,
+          "day_ordinal": 3,
+          "entry_ordinal": 45,
+          "entry_label": "O-3.45",
+          "anchor_id": "orchestrate-2026-03-13-17-53-update-archive-corebound-onboarding-prompt-and-rebuild-site",
+          "anchor_aliases": [
+            "O-3.45"
+          ]
+        },
         {
           "timestamp": "2026-03-13 17:49",
           "date": "2026-03-13",
