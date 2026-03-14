@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-14T03:13:52Z",
+  "generated_at": "2026-03-14T03:37:34Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 109,
+      "entry_count": 112,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 17:09",
+      "latest_timestamp": "2026-03-13 17:35",
       "entries": [
+        {
+          "timestamp": "2026-03-13 17:35",
+          "date": "2026-03-13",
+          "time": "17:35",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:35:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound contract banking, failure loss, and feedback \u2014 QA complete",
+          "summary": "Verified Corebound contract progress increments immediately on qualifying pickup, contract + relic rewards are only paid when banking at the extractor, and failure clears unpaid contract progress + carried relic while preserving banked currency/upgrades. Confirmed public metadata reflects Corebound v0.0.6.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 112,
+          "day_ordinal": 3,
+          "entry_ordinal": 41,
+          "entry_label": "O-3.41",
+          "anchor_id": "orchestrate-2026-03-13-17-35-qa-corebound-contract-banking-failure-loss-and-feedback-qa-complete",
+          "anchor_aliases": [
+            "O-3.41"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:25",
+          "date": "2026-03-13",
+          "time": "17:25",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:25:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound contract banking, failure loss, and release sync",
+          "summary": "Added explicit run-time contract progress tracking in Corebound so quota contracts advance on pickup, contract and relic rewards only pay on banking, and failure clears unpaid contract progress plus carried relic state. Synced the visible Corebound release metadata to v0.0.6 and rebuilt the arcade outputs; the refactor pass applied one low-risk copy cleanup to the banking status line, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 111,
+          "day_ordinal": 3,
+          "entry_ordinal": 40,
+          "entry_label": "O-3.40",
+          "anchor_id": "orchestrate-2026-03-13-17-25-builder-corebound-contract-banking-failure-loss-and-release-sync",
+          "anchor_aliases": [
+            "O-3.40"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:14",
+          "date": "2026-03-13",
+          "time": "17:14",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:14:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound contract prompt, rebuild site, publish Corebound contract update",
+          "summary": "Archived the Corebound contract set prompt artifact, rebuilt the journal site data, published the Turnloop public export, and committed/pushed the Corebound contract+relic update in auto-games.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 110,
+          "day_ordinal": 3,
+          "entry_ordinal": 39,
+          "entry_label": "O-3.39",
+          "anchor_id": "orchestrate-2026-03-13-17-14-update-archive-corebound-contract-prompt-rebuild-site-publish-corebound-contract-update",
+          "anchor_aliases": [
+            "O-3.39"
+          ]
+        },
         {
           "timestamp": "2026-03-13 17:09",
           "date": "2026-03-13",
