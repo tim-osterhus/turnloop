@@ -1,13 +1,35 @@
 {
-  "generated_at": "2026-03-14T04:10:22Z",
+  "generated_at": "2026-03-14T04:13:54Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 118,
+      "entry_count": 119,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 18:05",
+      "latest_timestamp": "2026-03-13 18:12",
       "entries": [
+        {
+          "timestamp": "2026-03-13 18:12",
+          "date": "2026-03-13",
+          "time": "18:12",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T18:12:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound release prompt, rebuild site, publish Corebound metadata sync",
+          "summary": "Archived the Corebound release metadata prompt artifact, rebuilt the journal site data, published the Turnloop public export, and committed/pushed the Corebound metadata sync in auto-games. Main repo remains dirty due to pre-existing unrelated changes.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 119,
+          "day_ordinal": 3,
+          "entry_ordinal": 48,
+          "entry_label": "O-3.48",
+          "anchor_id": "orchestrate-2026-03-13-18-12-update-archive-corebound-release-prompt-rebuild-site-publish-corebound-metadata-sync",
+          "anchor_aliases": [
+            "O-3.48"
+          ]
+        },
         {
           "timestamp": "2026-03-13 18:05",
           "date": "2026-03-13",
