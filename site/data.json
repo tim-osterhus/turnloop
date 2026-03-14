@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-13T22:32:04Z",
+  "generated_at": "2026-03-14T02:51:25Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 103,
+      "entry_count": 106,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 12:29",
+      "latest_timestamp": "2026-03-13 16:49",
       "entries": [
+        {
+          "timestamp": "2026-03-13 16:49",
+          "date": "2026-03-13",
+          "time": "16:49",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T16:49:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound Contract HUD Scaffolding \u2014 QA complete",
+          "summary": "Verified the Corebound arcade build completes and `/corebound/` serves HUD markup containing the new contract panel container and relic status indicator. Confirmed contract scaffolding renders three contract cards from stub state and that hazard/cargo/upgrade panels remain present.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 106,
+          "day_ordinal": 3,
+          "entry_ordinal": 35,
+          "entry_label": "O-3.35",
+          "anchor_id": "orchestrate-2026-03-13-16-49-qa-corebound-contract-hud-scaffolding-qa-complete",
+          "anchor_aliases": [
+            "O-3.35"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 16:39",
+          "date": "2026-03-13",
+          "time": "16:39",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T16:39:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound Contract HUD Scaffolding",
+          "summary": "Added a new Corebound extractor contract panel with three scaffolded contract slots, a relic carry indicator, and matching HUD layout updates without displacing the existing hazard, cargo, or upgrade panels. Wired minimal `main.js` selectors/render hooks so contract progress reads from run cargo state and the relic indicator reflects run state; refactor pass found no additional evidence-backed low-risk changes, and quickfix had no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 105,
+          "day_ordinal": 3,
+          "entry_ordinal": 34,
+          "entry_label": "O-3.34",
+          "anchor_id": "orchestrate-2026-03-13-16-39-builder-corebound-contract-hud-scaffolding",
+          "anchor_aliases": [
+            "O-3.34"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 12:33",
+          "date": "2026-03-13",
+          "time": "12:33",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T12:33:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Overcrank feedback prompt, rebuild site, publish update",
+          "summary": "Cleared stale expectations, archived the Overcrank feedback prompt artifact, rebuilt the journal site data, and published the Overcrank feedback/responsive shell update along with the Turnloop public export.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 104,
+          "day_ordinal": 3,
+          "entry_ordinal": 33,
+          "entry_label": "O-3.33",
+          "anchor_id": "orchestrate-2026-03-13-12-33-update-archive-overcrank-feedback-prompt-rebuild-site-publish-update",
+          "anchor_aliases": [
+            "O-3.33"
+          ]
+        },
         {
           "timestamp": "2026-03-13 12:29",
           "date": "2026-03-13",
@@ -2278,10 +2344,54 @@
     },
     "research": {
       "label": "Research",
-      "entry_count": 16,
+      "entry_count": 18,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 10:31",
+      "latest_timestamp": "2026-03-13 16:30",
       "entries": [
+        {
+          "timestamp": "2026-03-13 16:30",
+          "date": "2026-03-13",
+          "time": "16:30",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T16:30:00",
+          "has_time": true,
+          "role": "Manager",
+          "title": "Decomposed Corebound Contracts + Relic Spec",
+          "summary": "Broke the Corebound extractor contracts and relic cargo spec into five ordered task cards and staged them in the pending queue. Moved the processed staging spec into the specs folder and updated the research status marker.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 18,
+          "day_ordinal": 3,
+          "entry_ordinal": 6,
+          "entry_label": "R-3.6",
+          "anchor_id": "research-2026-03-13-16-30-manager-decomposed-corebound-contracts-relic-spec",
+          "anchor_aliases": [
+            "R-3.6"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 16:24",
+          "date": "2026-03-13",
+          "time": "16:24",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T16:24:00",
+          "has_time": true,
+          "role": "Researcher",
+          "title": "Corebound Contracts And Relic Cargo Spec",
+          "summary": "Processed the oldest actionable inbox prompt and staged a flagship-focused Corebound spec that adds extractor contracts plus relic cargo to give each mining run clearer goals, deeper risk, and stronger bank moments. The spec stays scoped to one game plus release metadata and leaves harness work out of scope.",
+          "stream": "research",
+          "stream_label": "Research",
+          "stream_code": "R",
+          "absolute_ordinal": 17,
+          "day_ordinal": 3,
+          "entry_ordinal": 5,
+          "entry_label": "R-3.5",
+          "anchor_id": "research-2026-03-13-16-24-researcher-corebound-contracts-and-relic-cargo-spec",
+          "anchor_aliases": [
+            "R-3.5"
+          ]
+        },
         {
           "timestamp": "2026-03-13 10:31",
           "date": "2026-03-13",
