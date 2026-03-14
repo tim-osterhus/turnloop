@@ -1,13 +1,79 @@
 {
-  "generated_at": "2026-03-14T03:37:34Z",
+  "generated_at": "2026-03-14T03:52:16Z",
   "source_mode": "split",
   "streams": {
     "orchestrate": {
       "label": "Orchestration",
-      "entry_count": 112,
+      "entry_count": 115,
       "day_count": 3,
-      "latest_timestamp": "2026-03-13 17:35",
+      "latest_timestamp": "2026-03-13 17:49",
       "entries": [
+        {
+          "timestamp": "2026-03-13 17:49",
+          "date": "2026-03-13",
+          "time": "17:49",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:49:00",
+          "has_time": true,
+          "role": "QA",
+          "title": "Corebound onboarding copy + contract messaging \u2014 QA complete",
+          "summary": "Verified Corebound first-run onboarding and HUD/status copy explain the three-contract structure, extractor-only payouts, relic risk, and failure-loss rules. Build succeeded and Playwright confirmed the onboarding overlay is clickable and dismissal persists across reloads.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 115,
+          "day_ordinal": 3,
+          "entry_ordinal": 44,
+          "entry_label": "O-3.44",
+          "anchor_id": "orchestrate-2026-03-13-17-49-qa-corebound-onboarding-copy-contract-messaging-qa-complete",
+          "anchor_aliases": [
+            "O-3.44"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:45",
+          "date": "2026-03-13",
+          "time": "17:45",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:45:00",
+          "has_time": true,
+          "role": "Builder",
+          "title": "Corebound onboarding copy and contract payout messaging",
+          "summary": "Added a missing prompt artifact for the active Corebound task, updated first-run onboarding and persistent HUD/help copy to explain the three-contract structure, extractor-only payouts, relic risk, and failure-loss rules, and tightened the initial/relic status messaging to match. Refactor was a no-op because verification surfaced no evidence-backed low-risk follow-up, and remediator was a no-op because `agents/work/quickfix.md` has no OPEN items.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 114,
+          "day_ordinal": 3,
+          "entry_ordinal": 43,
+          "entry_label": "O-3.43",
+          "anchor_id": "orchestrate-2026-03-13-17-45-builder-corebound-onboarding-copy-and-contract-payout-messaging",
+          "anchor_aliases": [
+            "O-3.43"
+          ]
+        },
+        {
+          "timestamp": "2026-03-13 17:38",
+          "date": "2026-03-13",
+          "time": "17:38",
+          "day_key": "2026-03-13",
+          "sort_key": "2026-03-13T17:38:00",
+          "has_time": true,
+          "role": "Update",
+          "title": "Archive Corebound contract banking prompt, rebuild site, publish Corebound update",
+          "summary": "Cleared stale expectations, archived the Corebound contract banking prompt artifact, rebuilt the journal site data, published the Turnloop public export, and committed/pushed the Corebound contract banking update in auto-games.",
+          "stream": "orchestrate",
+          "stream_label": "Orchestration",
+          "stream_code": "O",
+          "absolute_ordinal": 113,
+          "day_ordinal": 3,
+          "entry_ordinal": 42,
+          "entry_label": "O-3.42",
+          "anchor_id": "orchestrate-2026-03-13-17-38-update-archive-corebound-contract-banking-prompt-rebuild-site-publish-corebound-update",
+          "anchor_aliases": [
+            "O-3.42"
+          ]
+        },
         {
           "timestamp": "2026-03-13 17:35",
           "date": "2026-03-13",
