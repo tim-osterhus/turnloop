@@ -113,18 +113,6 @@ export function advanceEncounter(state: GameState, input: EncounterInput): GameS
   if (state.phase !== 'encounter' || state.encounter.status === 'cleared') {
     return state;
   }
-  if (input === 'brace') {
-    const nextDurability = Math.max(0, state.train.durability - 5);
-    return {
-      ...state,
-      phase: nextDurability === 0 ? 'disabled' : state.phase,
-      train: {
-        ...state.train,
-        durability: nextDurability
-      },
-      message: 'Emergency brace absorbed part of the signal impact.'
-    };
-  }
   const targetIndex = state.encounter.threats.findIndex((threat) => threat.health > 0);
   if (targetIndex === -1) {
     return {
@@ -135,6 +123,18 @@ export function advanceEncounter(state: GameState, input: EncounterInput): GameS
         status: 'cleared'
       },
       message: 'No live anomalous targets remain.'
+    };
+  }
+  if (input === 'brace') {
+    const nextDurability = Math.max(0, state.train.durability - 5);
+    return {
+      ...state,
+      phase: nextDurability === 0 ? 'disabled' : state.phase,
+      train: {
+        ...state.train,
+        durability: nextDurability
+      },
+      message: 'Emergency brace absorbed part of the signal impact.'
     };
   }
   const threats = state.encounter.threats.map((threat, index) =>

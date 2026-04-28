@@ -148,6 +148,26 @@ describe('Rustline Reclaimer simulation', () => {
     expect(cleared.scrap).toBe(0);
   });
 
+  it('clears empty active encounters on brace without durability loss or scrap reward', () => {
+    const encounter = encounterState();
+    const state = {
+      ...encounter,
+      scrap: 0,
+      encounter: {
+        ...encounter.encounter,
+        status: 'active' as const,
+        threats: [{ id: 'spent', name: 'Spent Echo', health: 0, maxHealth: 30 }]
+      }
+    };
+
+    const cleared = advanceEncounter(state, 'brace');
+
+    expect(cleared.encounter.status).toBe('cleared');
+    expect(cleared.phase).toBe('travel');
+    expect(cleared.train.durability).toBe(state.train.durability);
+    expect(cleared.scrap).toBe(0);
+  });
+
   it('disables the train immediately when bracing drops durability to zero', () => {
     const encounter = encounterState();
     const fragile = {
