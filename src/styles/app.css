@@ -58,11 +58,12 @@ textarea {
 }
 
 button {
+  position: relative;
   appearance: none;
   border: 1px solid rgba(241, 184, 77, 0.46);
   border-radius: var(--radius-control);
   min-height: 2.65rem;
-  padding: 0.72rem 0.88rem;
+  padding: 0.74rem 0.94rem 0.68rem;
   background:
     linear-gradient(180deg, rgba(246, 213, 138, 0.2), rgba(199, 103, 43, 0.13)),
     linear-gradient(135deg, rgba(45, 39, 28, 0.96), rgba(20, 17, 12, 0.96));
@@ -308,6 +309,48 @@ button:focus-visible {
 
 .hud-actions button[data-action] {
   min-width: min(9.8rem, 42vw);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.65rem;
+  align-items: center;
+  text-align: left;
+}
+
+.hud-actions button[data-action]::after {
+  min-width: 2.2rem;
+  border: 1px solid rgba(246, 213, 138, 0.28);
+  border-radius: 4px;
+  padding: 0.25rem 0.34rem;
+  background: rgba(7, 6, 4, 0.52);
+  color: var(--color-amber-pale);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  content: '';
+}
+
+.hud-actions button[data-action='start-engine']::after {
+  content: 'E';
+}
+
+.hud-actions button[data-action='fire-turret']::after {
+  content: 'F/SP';
+}
+
+.hud-actions button[data-action='brace']::after {
+  content: 'B';
+}
+
+.hud-actions button[data-action='repair-gate']::after {
+  content: 'R';
+}
+
+.hud-actions button[data-action='reclaim-station']::after {
+  content: 'C';
+}
+
+.hud-actions button[data-action='recover-train']::after {
+  content: 'X';
 }
 
 .hud-actions button[data-action='fire-turret'],
@@ -515,6 +558,10 @@ button:focus-visible {
   .hud-actions button[data-action] {
     flex: 1 1 9rem;
     min-width: 0;
+  }
+
+  .hud-actions button[data-action]::after {
+    min-width: 1.9rem;
   }
 
   .hud-consist {
