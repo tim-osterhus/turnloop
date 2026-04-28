@@ -19,6 +19,7 @@ import { createThreeApp, type ThreeApp } from './render/app/createThreeApp';
 import { createRailScene, type RailSceneObjects } from './render/objects/createRailScene';
 import { renderHud, type UiAction } from './ui/hud/renderHud';
 import { renderOverlay } from './ui/overlays/renderOverlay';
+import { createUiRenderSnapshot, sameUiRenderSnapshot, type UiRenderSnapshot } from './ui/renderUiSnapshot';
 
 function requiredElement<T extends Element>(selector: string, type: { new (): T }): T {
   const element = document.querySelector(selector);
@@ -37,6 +38,7 @@ let state: GameState = loadGame() ?? createInitialGameState(INITIAL_WORLD);
 let threeApp: ThreeApp | null = null;
 let railScene: RailSceneObjects | null = null;
 let animationFrameId: number | null = null;
+let lastUiRenderSnapshot: UiRenderSnapshot | null = null;
 
 function hasMeaningfulProgress(currentState: GameState): boolean {
   return (
@@ -52,7 +54,13 @@ function persistProgress(): void {
   }
 }
 
-function renderUi(): void {
+function renderUi(force = false): void {
+  const nextSnapshot = createUiRenderSnapshot(state);
+  if (!force && sameUiRenderSnapshot(lastUiRenderSnapshot, nextSnapshot)) {
+    return;
+  }
+
+  lastUiRenderSnapshot = nextSnapshot;
   const callbacks = { onAction: handleAction };
   renderHud(hudRoot, state, callbacks);
   renderOverlay(overlayRoot, state, callbacks);
@@ -149,7 +157,7 @@ function cleanup(): void {
 }
 
 bootRenderer();
-renderUi();
+renderUi(true);
 window.addEventListener('keydown', handleKeyDown);
 canvas.addEventListener('click', handleCanvasClick);
 tick();
