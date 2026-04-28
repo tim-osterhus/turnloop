@@ -1,11 +1,12 @@
-import { AmbientLight, Clock, Fog, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { AmbientLight, Fog, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
 import { palette } from '../materials/palette';
+import { createFrameClock, type FrameClock } from './frameClock';
 
 export interface ThreeApp {
   scene: Scene;
   camera: PerspectiveCamera;
   renderer: WebGLRenderer;
-  clock: Clock;
+  clock: FrameClock;
   resize(): void;
   render(): void;
   dispose(): void;
@@ -29,7 +30,7 @@ export function createThreeApp(canvas: HTMLCanvasElement): ThreeApp {
   });
   renderer.setClearColor(palette.void, 1);
 
-  const clock = new Clock();
+  const clock = createFrameClock();
   scene.add(new AmbientLight(palette.institutional, 1.7));
 
   function resize(): void {
