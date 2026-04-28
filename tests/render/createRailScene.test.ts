@@ -33,4 +33,19 @@ describe('createRailScene', () => {
     objects.setRepairBayVisible(true);
     expect(repairBay?.visible).toBe(true);
   });
+
+  it('defaults non-finite train progress to the start position', () => {
+    const objects = createRailScene();
+
+    objects.setTrainProgress(0);
+    const startX = objects.train.position.x;
+
+    objects.setTrainProgress(Number.NaN);
+    expect(Number.isFinite(objects.train.position.x)).toBe(true);
+    expect(objects.train.position.x).toBe(startX);
+
+    objects.setTrainProgress(Number.POSITIVE_INFINITY);
+    expect(Number.isFinite(objects.train.position.x)).toBe(true);
+    expect(objects.train.position.x).toBe(startX);
+  });
 });

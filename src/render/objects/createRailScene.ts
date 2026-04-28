@@ -155,7 +155,8 @@ export function createRailScene(): RailSceneObjects {
   root.add(train, bridgeGate, station, threat, directionalLight);
 
   function setTrainProgress(progress: number): void {
-    const normalized = Math.min(100, Math.max(0, progress)) / 100;
+    const finiteProgress = Number.isFinite(progress) ? progress : 0;
+    const normalized = Math.min(100, Math.max(0, finiteProgress)) / 100;
     train.position.x = TRACK_START_X + normalized * (TRACK_END_X - TRACK_START_X);
     train.position.y = 0;
     train.position.z = 0;

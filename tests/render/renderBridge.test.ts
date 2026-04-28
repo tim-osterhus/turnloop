@@ -79,4 +79,22 @@ describe('syncRailScene', () => {
     expect(objects.setRepairBayVisible).toHaveBeenCalledWith(false);
     expect(objects.setThreatHealthRatio).toHaveBeenCalledWith(0);
   });
+
+  it('uses the first living threat when earlier threats are defeated', () => {
+    const objects = createObjects();
+    const state = {
+      ...baseState(),
+      encounter: {
+        ...baseState().encounter,
+        threats: [
+          { id: 'spent', name: 'Spent Echo', health: 0, maxHealth: 30 },
+          { id: 'live', name: 'Live Echo', health: 20, maxHealth: 40 }
+        ]
+      }
+    };
+
+    syncRailScene(objects, state);
+
+    expect(objects.setThreatHealthRatio).toHaveBeenCalledWith(0.5);
+  });
 });
