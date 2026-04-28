@@ -110,11 +110,13 @@ export function advanceEncounter(state: GameState, input: EncounterInput): GameS
     return state;
   }
   if (input === 'brace') {
+    const nextDurability = Math.max(0, state.train.durability - 5);
     return {
       ...state,
+      phase: nextDurability === 0 ? 'disabled' : state.phase,
       train: {
         ...state.train,
-        durability: Math.max(0, state.train.durability - 5)
+        durability: nextDurability
       },
       message: 'Emergency brace absorbed part of the signal impact.'
     };
@@ -183,6 +185,9 @@ export function disableTrain(state: GameState): GameState {
 }
 
 export function recoverTrain(state: GameState): GameState {
+  if (state.phase !== 'disabled') {
+    return state;
+  }
   return {
     ...state,
     phase: 'ready',

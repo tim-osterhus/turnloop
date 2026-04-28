@@ -6,6 +6,7 @@ import {
   createInitialGameState,
   disableTrain,
   reclaimStation,
+  recoverTrain,
   repairGate,
   startEngine
 } from '../../src/game/simulation/gameState';
@@ -115,6 +116,22 @@ describe('Rustline Reclaimer simulation', () => {
     expect(fired.encounter.threats[1].health).toBe(15);
   });
 
+  it('disables the train immediately when bracing drops durability to zero', () => {
+    const encounter = encounterState();
+    const fragile = {
+      ...encounter,
+      train: {
+        ...encounter.train,
+        durability: 5
+      }
+    };
+
+    const braced = advanceEncounter(fragile, 'brace');
+
+    expect(braced.phase).toBe('disabled');
+    expect(braced.train.durability).toBe(0);
+  });
+
   it('disables the train without deleting repaired gates or unlocked modules', () => {
     const reclaimed = reclaimStation(stationReadyState(), stationId);
     const disabled = disableTrain(reclaimed);
@@ -135,5 +152,16 @@ describe('Rustline Reclaimer simulation', () => {
     expect(reclaimedAgain.train.modules.filter((module) => module.id === 'repair-bay')).toHaveLength(1);
     expect(earlyAttempt.stations[stationId].status).toBe('unreclaimed');
     expect(earlyAttempt.train.modules.filter((module) => module.id === 'repair-bay')).toHaveLength(0);
+  });
+
+  it('recovers the train only from disabled phase', () => {
+    const active = startedState();
+    const ignored = recoverTrain(active);
+    const disabled = disableTrain(active);
+    const recovered = recoverTrain(disabled);
+
+    expect(ignored).toEqual(active);
+    expect(recovered.phase).toBe('ready');
+    expect(recovered.train.durability).toBe(Math.ceil(disabled.train.maxDurability * 0.55));
   });
 });
