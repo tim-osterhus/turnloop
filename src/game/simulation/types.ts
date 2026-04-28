@@ -64,6 +64,7 @@ export interface GameState {
   phase: GamePhase;
   route: RouteState;
   train: TrainState;
+  availableModules: Record<string, TrainModule>;
   gates: Record<string, GateState>;
   stations: Record<string, StationState>;
   encounter: EncounterState;

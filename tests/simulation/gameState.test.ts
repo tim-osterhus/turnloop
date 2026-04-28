@@ -68,6 +68,20 @@ describe('Rustline Reclaimer simulation', () => {
     expect(rewound.route.progress).toBe(traveled.route.progress);
   });
 
+  it('blocks safely instead of crashing when the first gate record is missing', () => {
+    const cleared = clearedEncounterState();
+    const state = {
+      ...cleared,
+      route: { ...cleared.route, progress: 70 },
+      gates: {}
+    };
+
+    const advanced = advanceTravel(state, 1);
+
+    expect(advanced.phase).toBe('blocked');
+    expect(advanced.message).toContain('Bridge 7');
+  });
+
   it('opens the bridge only when blocked and scrap covers the repair cost', () => {
     const poorAttempt = repairGate(blockedState(0), gateId);
     const repaired = repairGate(blockedState(8), gateId);
@@ -116,6 +130,24 @@ describe('Rustline Reclaimer simulation', () => {
     expect(fired.encounter.threats[1].health).toBe(15);
   });
 
+  it('clears empty active encounters without awarding scrap', () => {
+    const encounter = encounterState();
+    const state = {
+      ...encounter,
+      scrap: 0,
+      encounter: {
+        ...encounter.encounter,
+        status: 'active' as const,
+        threats: [{ id: 'spent', name: 'Spent Echo', health: 0, maxHealth: 30 }]
+      }
+    };
+
+    const cleared = advanceEncounter(state, 'direct-turret-hit');
+
+    expect(cleared.encounter.status).toBe('cleared');
+    expect(cleared.scrap).toBe(0);
+  });
+
   it('disables the train immediately when bracing drops durability to zero', () => {
     const encounter = encounterState();
     const fragile = {
@@ -152,6 +184,33 @@ describe('Rustline Reclaimer simulation', () => {
     expect(reclaimedAgain.train.modules.filter((module) => module.id === 'repair-bay')).toHaveLength(1);
     expect(earlyAttempt.stations[stationId].status).toBe('unreclaimed');
     expect(earlyAttempt.train.modules.filter((module) => module.id === 'repair-bay')).toHaveLength(0);
+  });
+
+  it('unlocks the module named by the station reward id', () => {
+    const ready = stationReadyState();
+    const custom = {
+      ...ready,
+      availableModules: {
+        'field-lab': {
+          id: 'field-lab',
+          name: 'Field Lab Car',
+          kind: 'repair' as const,
+          unlocked: false
+        }
+      },
+      stations: {
+        ...ready.stations,
+        [stationId]: {
+          ...ready.stations[stationId],
+          unlockModuleId: 'field-lab'
+        }
+      }
+    };
+
+    const reclaimed = reclaimStation(custom, stationId);
+
+    expect(reclaimed.train.modules.some((module) => module.id === 'field-lab')).toBe(true);
+    expect(reclaimed.train.modules.some((module) => module.id === 'repair-bay')).toBe(false);
   });
 
   it('recovers the train only from disabled phase', () => {

@@ -1,5 +1,7 @@
 import type { EncounterInput, GameState, TrainModule, WorldDefinition } from './types';
 
+const FIRST_GATE_ID = 'bridge-7';
+
 function cloneRecord<T extends { id: string }>(record: Record<string, T>): Record<string, T> {
   return Object.fromEntries(Object.entries(record).map(([key, value]) => [key, { ...value }]));
 }
@@ -20,6 +22,7 @@ export function createInitialGameState(world: WorldDefinition): GameState {
       maxDurability: 100,
       modules: cloneModules(world.modules, ['locomotive', 'cargo-car', 'turret-car'])
     },
+    availableModules: cloneRecord(world.modules),
     gates: cloneRecord(world.gates),
     stations: cloneRecord(world.stations),
     encounter: {
@@ -56,7 +59,8 @@ export function advanceTravel(state: GameState, seconds: number): GameState {
       message: 'Anomalous signal mass on the rail. Manual turret authorization granted.'
     };
   }
-  if (progress >= 72 && state.gates['bridge-7'].status === 'locked') {
+  const firstGate = state.gates[FIRST_GATE_ID];
+  if (progress >= 72 && (!firstGate || firstGate.status === 'locked')) {
     return {
       ...state,
       phase: 'blocked',
@@ -122,6 +126,17 @@ export function advanceEncounter(state: GameState, input: EncounterInput): GameS
     };
   }
   const targetIndex = state.encounter.threats.findIndex((threat) => threat.health > 0);
+  if (targetIndex === -1) {
+    return {
+      ...state,
+      phase: 'travel',
+      encounter: {
+        ...state.encounter,
+        status: 'cleared'
+      },
+      message: 'No live anomalous targets remain.'
+    };
+  }
   const threats = state.encounter.threats.map((threat, index) =>
     index === targetIndex ? { ...threat, health: Math.max(0, threat.health - 15) } : threat
   );
@@ -151,12 +166,10 @@ export function reclaimStation(state: GameState, stationId: string): GameState {
     return state;
   }
   const alreadyUnlocked = state.train.modules.some((module) => module.id === station.unlockModuleId);
-  const repairBay: TrainModule = {
-    id: 'repair-bay',
-    name: 'Containment Repair Bay',
-    kind: 'repair',
-    unlocked: true
-  };
+  const moduleToUnlock = state.availableModules[station.unlockModuleId];
+  if (!moduleToUnlock) {
+    return { ...state, message: `${station.name} reward module ${station.unlockModuleId} is unavailable.` };
+  }
   return {
     ...state,
     phase: 'complete',
@@ -166,9 +179,9 @@ export function reclaimStation(state: GameState, stationId: string): GameState {
     },
     train: {
       ...state.train,
-      modules: alreadyUnlocked ? state.train.modules : [...state.train.modules, repairBay]
+      modules: alreadyUnlocked ? state.train.modules : [...state.train.modules, { ...moduleToUnlock, unlocked: true }]
     },
-    message: `${station.name} reclaimed. Repair bay car attached to consist.`
+    message: `${station.name} reclaimed. ${moduleToUnlock.name} attached to consist.`
   };
 }
 
