@@ -42,7 +42,8 @@ function createObjects() {
     setTrainProgress: vi.fn(),
     setThreatHealthRatio: vi.fn(),
     setBridgeOpen: vi.fn(),
-    setRepairBayVisible: vi.fn()
+    setRepairBayVisible: vi.fn(),
+    dispose: vi.fn()
   };
   return objects;
 }

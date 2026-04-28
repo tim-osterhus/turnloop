@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { BoxGeometry, Mesh, MeshStandardMaterial } from 'three';
+import { describe, expect, it, vi } from 'vitest';
 import { createRailScene } from '../../src/render/objects/createRailScene';
 
 describe('createRailScene', () => {
@@ -47,5 +48,32 @@ describe('createRailScene', () => {
     objects.setTrainProgress(Number.POSITIVE_INFINITY);
     expect(Number.isFinite(objects.train.position.x)).toBe(true);
     expect(objects.train.position.x).toBe(startX);
+  });
+
+  it('disposes scene-owned geometry and single or array materials', () => {
+    const objects = createRailScene();
+    const sceneMesh = objects.root.getObjectByName('void-ballast-plane');
+    expect(sceneMesh).toBeInstanceOf(Mesh);
+
+    const singleMaterialMesh = sceneMesh as Mesh<BoxGeometry, MeshStandardMaterial>;
+    const geometryDispose = vi.spyOn(singleMaterialMesh.geometry, 'dispose');
+    const materialDispose = vi.spyOn(singleMaterialMesh.material, 'dispose');
+
+    const arrayMaterialGeometry = new BoxGeometry(1, 1, 1);
+    const arrayMaterials = [new MeshStandardMaterial(), new MeshStandardMaterial()];
+    const arrayMaterialMesh = new Mesh(arrayMaterialGeometry, arrayMaterials);
+    objects.root.add(arrayMaterialMesh);
+    const arrayGeometryDispose = vi.spyOn(arrayMaterialGeometry, 'dispose');
+    const firstArrayMaterialDispose = vi.spyOn(arrayMaterials[0], 'dispose');
+    const secondArrayMaterialDispose = vi.spyOn(arrayMaterials[1], 'dispose');
+
+    objects.setRepairBayVisible(false);
+    objects.dispose();
+
+    expect(geometryDispose).toHaveBeenCalledOnce();
+    expect(materialDispose).toHaveBeenCalledOnce();
+    expect(arrayGeometryDispose).toHaveBeenCalledOnce();
+    expect(firstArrayMaterialDispose).toHaveBeenCalledOnce();
+    expect(secondArrayMaterialDispose).toHaveBeenCalledOnce();
   });
 });

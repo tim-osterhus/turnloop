@@ -21,6 +21,7 @@ export interface RailSceneObjects {
   setThreatHealthRatio(ratio: number): void;
   setBridgeOpen(open: boolean): void;
   setRepairBayVisible(visible: boolean): void;
+  dispose(): void;
 }
 
 const TRACK_START_X = -8.5;
@@ -178,10 +179,37 @@ export function createRailScene(): RailSceneObjects {
     repairBay.scale.setScalar(visible ? 1 : 0.01);
   }
 
+  function dispose(): void {
+    root.traverse((object) => {
+      if (!(object instanceof Mesh)) {
+        return;
+      }
+
+      object.geometry.dispose();
+      const { material } = object;
+      if (Array.isArray(material)) {
+        material.forEach((entry) => entry.dispose());
+      } else {
+        material.dispose();
+      }
+    });
+  }
+
   setTrainProgress(0);
   setThreatHealthRatio(1);
   setBridgeOpen(false);
   setRepairBayVisible(false);
 
-  return { root, train, threat, bridgeGate, station, setTrainProgress, setThreatHealthRatio, setBridgeOpen, setRepairBayVisible };
+  return {
+    root,
+    train,
+    threat,
+    bridgeGate,
+    station,
+    setTrainProgress,
+    setThreatHealthRatio,
+    setBridgeOpen,
+    setRepairBayVisible,
+    dispose
+  };
 }
