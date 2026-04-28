@@ -32,7 +32,7 @@ export function createInitialGameState(world: WorldDefinition): GameState {
 }
 
 export function startEngine(state: GameState): GameState {
-  if (state.phase === 'disabled') {
+  if (state.phase !== 'briefing' && state.phase !== 'ready') {
     return state;
   }
   return {
@@ -46,7 +46,8 @@ export function advanceTravel(state: GameState, seconds: number): GameState {
   if (state.phase !== 'travel') {
     return state;
   }
-  const progress = Math.min(100, state.route.progress + seconds * 6);
+  const safeSeconds = Math.max(0, seconds);
+  const progress = Math.min(100, state.route.progress + safeSeconds * 6);
   if (progress >= 42 && state.encounter.status === 'active') {
     return {
       ...state,
@@ -80,6 +81,12 @@ export function advanceTravel(state: GameState, seconds: number): GameState {
 
 export function repairGate(state: GameState, gateId: string): GameState {
   const gate = state.gates[gateId];
+  if (state.phase !== 'blocked') {
+    return {
+      ...state,
+      message: gate ? `${gate.name} can only be repaired while blocked.` : 'Unknown repair procedure.'
+    };
+  }
   if (!gate || gate.status === 'open' || state.scrap < gate.repairCost) {
     return {
       ...state,
@@ -99,7 +106,7 @@ export function repairGate(state: GameState, gateId: string): GameState {
 }
 
 export function advanceEncounter(state: GameState, input: EncounterInput): GameState {
-  if (state.encounter.status === 'cleared') {
+  if (state.phase !== 'encounter' || state.encounter.status === 'cleared') {
     return state;
   }
   if (input === 'brace') {
@@ -112,8 +119,9 @@ export function advanceEncounter(state: GameState, input: EncounterInput): GameS
       message: 'Emergency brace absorbed part of the signal impact.'
     };
   }
+  const targetIndex = state.encounter.threats.findIndex((threat) => threat.health > 0);
   const threats = state.encounter.threats.map((threat, index) =>
-    index === 0 ? { ...threat, health: Math.max(0, threat.health - 15) } : threat
+    index === targetIndex ? { ...threat, health: Math.max(0, threat.health - 15) } : threat
   );
   const cleared = threats.every((threat) => threat.health === 0);
   return {
@@ -133,6 +141,9 @@ export function reclaimStation(state: GameState, stationId: string): GameState {
   const station = state.stations[stationId];
   if (!station) {
     return { ...state, message: 'Unknown station procedure.' };
+  }
+  if (state.phase !== 'station') {
+    return { ...state, message: `${station.name} can only be reclaimed from station approach.` };
   }
   if (station.status === 'reclaimed') {
     return state;
