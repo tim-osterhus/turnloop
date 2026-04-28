@@ -21,6 +21,26 @@ const HUD_ACTIONS: Array<{ action: UiAction; label: string }> = [
   { action: 'recover-train', label: 'Recover train' }
 ];
 
+const ACTIONS_BY_PHASE: Record<GameState['phase'], UiAction[]> = {
+  briefing: ['start-engine'],
+  ready: ['start-engine'],
+  travel: [],
+  blocked: ['repair-gate'],
+  encounter: ['fire-turret', 'brace'],
+  station: ['reclaim-station'],
+  disabled: ['recover-train'],
+  complete: []
+};
+
+const ACTION_KEYS: Record<UiAction, string> = {
+  'start-engine': 'E',
+  'fire-turret': 'F/SP',
+  brace: 'B',
+  'repair-gate': 'R',
+  'reclaim-station': 'C',
+  'recover-train': 'X'
+};
+
 function escapeHtml(value: string): string {
   return value
     .replaceAll('&', '&amp;')
@@ -31,25 +51,36 @@ function escapeHtml(value: string): string {
 }
 
 function renderThreat(state: GameState): string {
-  const threat = state.encounter.threats[0];
+  const threat = state.phase === 'encounter' ? state.encounter.threats.find((candidate) => candidate.health > 0) : null;
   if (!threat) {
-    return '<p class="hud-threat">Threat None</p>';
+    return '<p class="hud-threat"><span>Target</span>Threat None</p>';
   }
 
-  return `<p class="hud-threat">Threat ${escapeHtml(threat.name)} ${threat.health}/${threat.maxHealth}</p>`;
+  return `<p class="hud-threat"><span>Target</span>${escapeHtml(threat.name)} ${threat.health}/${threat.maxHealth}</p>`;
 }
 
 function renderModules(state: GameState): string {
   const modules = state.train.modules
-    .map((module) => `<li>${escapeHtml(module.name)}</li>`)
+    .map((module) => `<li><span>${escapeHtml(module.kind)}</span>${escapeHtml(module.name)}</li>`)
     .join('');
 
   return `<ul class="hud-modules">${modules}</ul>`;
 }
 
-function renderActions(): string {
-  return HUD_ACTIONS.map(
-    ({ action, label }) => `<button type="button" data-action="${action}">${label}</button>`
+function renderActions(state: GameState): string {
+  const visibleActions = new Set(ACTIONS_BY_PHASE[state.phase]);
+  const actions = HUD_ACTIONS.filter(({ action }) => visibleActions.has(action));
+  if (actions.length === 0) {
+    return '<p class="switchboard-empty">No manual procedure armed</p>';
+  }
+
+  return actions.map(
+    ({ action, label }) => `
+      <button type="button" data-action="${action}">
+        <span class="switch-label">${label}</span>
+        <span class="switch-key">KEY ${ACTION_KEYS[action]}</span>
+      </button>
+    `
   ).join('');
 }
 
@@ -58,23 +89,24 @@ export function renderHud(root: HTMLElement, state: GameState, callbacks: HudCal
 
   root.innerHTML = `
     <section class="hud-shell">
-      <header class="hud-brand">
-        <h1>Rustline Reclaimer</h1>
+      <header class="hud-objective-chip">
+        <span class="hud-title">Rustline Reclaimer</span>
+        <span class="hud-kicker">LINE DIRECTIVE</span>
         <p>${escapeHtml(state.message)}</p>
       </header>
-      <section class="hud-stats" aria-label="Train status">
-        <p>Durability ${state.train.durability}/${state.train.maxDurability}</p>
-        <p>Scrap ${state.scrap}</p>
-        <p>Route ${routeProgress}%</p>
-      </section>
-      <section class="hud-encounter" aria-label="Encounter status">
+      <section class="hud-instrument-strip" aria-label="Train status">
+        <p><span>Durability </span>${state.train.durability}/${state.train.maxDurability}</p>
+        <p><span>Scrap </span>${state.scrap}</p>
+        <p><span>Route </span>${routeProgress}%</p>
         ${renderThreat(state)}
       </section>
-      <section class="hud-actions" aria-label="Train actions">
-        ${renderActions()}
+      <div class="hud-reticle" aria-hidden="true"></div>
+      <section class="hud-switchboard" aria-label="Train actions">
+        <span class="switchboard-label">Manual rail controls</span>
+        ${renderActions(state)}
       </section>
-      <section class="hud-consist" aria-label="Train modules">
-        <h2>Train modules</h2>
+      <section class="hud-consist-ribbon" aria-label="Train modules">
+        <h2>Consist</h2>
         ${renderModules(state)}
       </section>
     </section>

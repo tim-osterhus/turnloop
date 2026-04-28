@@ -16,6 +16,7 @@ import type { GameState } from './game/simulation/types';
 import { samplePerf } from './diagnostics/perf';
 import { syncRailScene } from './render/adapters/renderBridge';
 import { createThreeApp, type ThreeApp } from './render/app/createThreeApp';
+import { syncFollowTrainCamera } from './render/camera/followTrainCamera';
 import { createRailScene, type RailSceneObjects } from './render/objects/createRailScene';
 import { renderHud, type UiAction } from './ui/hud/renderHud';
 import { renderOverlay } from './ui/overlays/renderOverlay';
@@ -125,6 +126,7 @@ function tick(): void {
   }
 
   syncRailScene(railScene, state);
+  syncFollowTrainCamera(threeApp.camera, railScene.train, delta);
   const perf = samplePerf(threeApp.renderer);
   document.documentElement.style.setProperty('--debug-fps', String(perf.fps));
   threeApp.render();

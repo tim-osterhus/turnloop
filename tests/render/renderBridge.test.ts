@@ -98,4 +98,16 @@ describe('syncRailScene', () => {
 
     expect(objects.setThreatHealthRatio).toHaveBeenCalledWith(0.5);
   });
+
+  it('hides queued threats until the encounter phase is active', () => {
+    const objects = createObjects();
+    const state = {
+      ...baseState(),
+      phase: 'travel' as const
+    };
+
+    syncRailScene(objects, state);
+
+    expect(objects.setThreatHealthRatio).toHaveBeenCalledWith(0);
+  });
 });

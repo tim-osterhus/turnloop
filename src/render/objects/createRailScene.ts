@@ -3,13 +3,15 @@ import {
   ConeGeometry,
   CylinderGeometry,
   DirectionalLight,
+  DodecahedronGeometry,
   Group,
   Mesh,
   MeshStandardMaterial,
   Object3D,
-  PlaneGeometry
+  PlaneGeometry,
+  TetrahedronGeometry
 } from 'three';
-import { palette, standardMaterial } from '../materials/palette';
+import { lampMaterial, palette, standardMaterial } from '../materials/palette';
 
 export interface RailSceneObjects {
   root: Group;
@@ -29,6 +31,34 @@ const TRACK_END_X = 8.5;
 
 function box(name: string, size: [number, number, number], material: MeshStandardMaterial, position: [number, number, number]): Mesh {
   const mesh = new Mesh(new BoxGeometry(size[0], size[1], size[2]), material);
+  mesh.name = name;
+  mesh.position.set(position[0], position[1], position[2]);
+  return mesh;
+}
+
+function cylinder(
+  name: string,
+  radius: number,
+  depth: number,
+  material: MeshStandardMaterial,
+  position: [number, number, number],
+  radialSegments = 8
+): Mesh {
+  const mesh = new Mesh(new CylinderGeometry(radius, radius, depth, radialSegments), material);
+  mesh.name = name;
+  mesh.position.set(position[0], position[1], position[2]);
+  return mesh;
+}
+
+function cone(
+  name: string,
+  radius: number,
+  height: number,
+  material: MeshStandardMaterial,
+  position: [number, number, number],
+  radialSegments = 5
+): Mesh {
+  const mesh = new Mesh(new ConeGeometry(radius, height, radialSegments), material);
   mesh.name = name;
   mesh.position.set(position[0], position[1], position[2]);
   return mesh;
@@ -63,6 +93,7 @@ function createTrain(): { train: Group; repairBay: Group } {
   const locomotive = createCar('locomotive', standardMaterial(palette.rust), -1.6);
   locomotive.add(box('locomotive-cab', [0.7, 0.78, 0.9], standardMaterial(palette.brass), [0.34, 1.28, 0]));
   locomotive.add(box('locomotive-stack', [0.24, 0.58, 0.24], standardMaterial(palette.soot), [-0.48, 1.28, 0]));
+  locomotive.add(box('locomotive-number-plate', [0.42, 0.18, 0.04], lampMaterial(palette.signal), [-0.9, 0.78, -0.56]));
 
   const cargo = createCar('cargo-car', standardMaterial(palette.institutional), 0);
   cargo.add(box('cargo-crate', [0.95, 0.5, 0.82], standardMaterial(palette.ballast), [0.06, 1.06, 0]));
@@ -73,6 +104,7 @@ function createTrain(): { train: Group; repairBay: Group } {
   turret.position.set(0, 1.12, 0);
   turret.add(box('turret-base', [0.5, 0.22, 0.5], standardMaterial(palette.brass), [0, 0, 0]));
   turret.add(box('turret-barrel', [0.9, 0.13, 0.13], standardMaterial(palette.signal), [0.52, 0.12, 0]));
+  turret.add(box('turret-sight-lamp', [0.16, 0.16, 0.08], lampMaterial(palette.anomaly), [0.92, 0.22, 0]));
   turretCar.add(turret);
 
   const repairBay = createCar('repair-bay-car', standardMaterial(palette.brass), 3.2);
@@ -93,6 +125,7 @@ function createBridgeGate(): Group {
   gate.add(box('bridge-right-post', [0.25, 2.15, 0.25], material, [0.55, 1.05, 0]));
   gate.add(box('bridge-crossbar', [1.45, 0.22, 0.22], material, [0, 1.8, 0]));
   gate.add(box('bridge-lock-plate', [1.25, 0.64, 0.1], standardMaterial(palette.soot), [0, 0.9, -0.08]));
+  gate.add(box('bridge-rule-lamp', [0.28, 0.28, 0.12], lampMaterial(palette.signal), [0, 1.78, -0.18]));
   return gate;
 }
 
@@ -103,6 +136,8 @@ function createStation(): Group {
   station.add(box('station-plinth', [1.65, 0.35, 1.35], standardMaterial(palette.institutional), [0, 0.18, 0]));
   station.add(box('station-marker', [0.64, 1.65, 0.44], standardMaterial(palette.brass), [0, 1.15, 0]));
   station.add(box('station-signal', [0.28, 0.28, 0.28], standardMaterial(palette.anomaly), [0, 2.1, 0]));
+  station.add(box('station-ticket-slit', [0.48, 0.08, 0.06], standardMaterial(palette.soot), [0, 1.25, -0.24]));
+  station.add(box('station-procedure-tag', [0.72, 0.18, 0.04], lampMaterial(palette.signal), [0, 0.72, -0.28]));
   return station;
 }
 
@@ -121,14 +156,102 @@ function createThreat(): Group {
   return threat;
 }
 
+function createRouteCutMarker(name: string, x: number, z: number, rotationY: number): Group {
+  const marker = new Group();
+  marker.name = name;
+  marker.position.set(x, 0, z);
+  marker.rotation.y = rotationY;
+  const postMaterial = standardMaterial(palette.institutionalDark);
+  const lamp = lampMaterial(palette.signal);
+
+  marker.add(box(`${name}-post-a`, [0.16, 1.65, 0.16], postMaterial, [-0.44, 0.78, 0]));
+  marker.add(box(`${name}-post-b`, [0.16, 1.25, 0.16], postMaterial, [0.44, 0.58, 0]));
+  marker.add(box(`${name}-rule-board`, [1.22, 0.28, 0.08], standardMaterial(palette.brass), [0, 1.26, 0]));
+  marker.add(box(`${name}-fault-tick`, [0.2, 0.2, 0.1], lamp, [-0.28, 1.28, -0.06]));
+  return marker;
+}
+
+function createMaintenancePylon(index: number, x: number, z: number, height: number): Group {
+  const pylon = new Group();
+  pylon.name = `maintenance-pylon-${index}`;
+  pylon.position.set(x, 0, z);
+  pylon.rotation.y = index % 2 === 0 ? -0.18 : 0.2;
+  const material = standardMaterial(palette.institutionalDark, 0.96);
+
+  const mast = box(`${pylon.name}-mast`, [0.18, height, 0.18], material, [0, height / 2, 0]);
+  const arm = box(`${pylon.name}-arm`, [0.92, 0.12, 0.12], material, [0.42, height - 0.22, 0]);
+  const insulator = cylinder(`${pylon.name}-insulator`, 0.09, 0.24, lampMaterial(palette.anomaly), [0.9, height - 0.24, 0], 6);
+  insulator.rotation.x = Math.PI / 2;
+
+  pylon.add(mast, arm, insulator);
+  return pylon;
+}
+
+function createPressureNeedle(index: number, x: number, z: number, lean: number): Group {
+  const needle = new Group();
+  needle.name = `pressure-needle-${index}`;
+  needle.position.set(x, 0, z);
+  needle.rotation.z = lean;
+
+  const spike = cone(`${needle.name}-spike`, 0.13, 1.35, standardMaterial(palette.rustDark), [0, 0.72, 0], 5);
+  const eye = box(`${needle.name}-eye`, [0.18, 0.18, 0.08], lampMaterial(palette.anomaly), [0, 1.2, -0.04]);
+  needle.add(spike, eye);
+  return needle;
+}
+
+function addLowPolyGround(root: Group): void {
+  const facets = [
+    ['ballast-facet-west', -7.2, -2.6, 1.3, 0.2],
+    ['ballast-facet-cut', -3.4, 2.5, 0.9, 0.8],
+    ['ballast-facet-ditch', 1.4, -2.8, 1.1, -0.3],
+    ['ballast-facet-east', 6.8, 2.25, 1.45, 0.5],
+    ['ballast-facet-station', 9.2, -2.85, 0.9, -0.7]
+  ] as const;
+
+  for (const [name, x, z, scale, rotation] of facets) {
+    const facet = new Mesh(new TetrahedronGeometry(scale, 0), standardMaterial(palette.ballastLight, 1));
+    facet.name = name;
+    facet.position.set(x, 0.05, z);
+    facet.rotation.set(0.18, rotation, 0.08);
+    facet.scale.y = 0.22;
+    root.add(facet);
+  }
+
+  const boulder = new Mesh(new DodecahedronGeometry(0.62, 0), standardMaterial(palette.rustDark, 1));
+  boulder.name = 'route-cut-marker-west';
+  boulder.position.set(-9.6, 0.34, -1.55);
+  boulder.scale.set(1.6, 0.55, 0.95);
+  boulder.rotation.set(0.2, -0.4, 0.1);
+  root.add(boulder);
+}
+
+function addCorridorLandmarks(root: Group): void {
+  root.add(createRouteCutMarker('route-rule-board-west', -6.8, -1.45, 0.12));
+  root.add(createRouteCutMarker('route-rule-board-east', 3.2, 1.55, Math.PI + 0.05));
+
+  [-5.7, -1.7, 2.4, 6.1].forEach((x, index) => {
+    root.add(createMaintenancePylon(index, x, index % 2 === 0 ? -2.15 : 2.05, 2.1 + index * 0.12));
+  });
+
+  [
+    [-4.4, 1.0, -0.15],
+    [0.2, -1.05, 0.12],
+    [4.8, 1.08, -0.08]
+  ].forEach(([x, z, lean], index) => {
+    root.add(createPressureNeedle(index, x, z, lean));
+  });
+}
+
 function addTrack(root: Group): void {
-  const railMaterial = standardMaterial(palette.soot, 0.98);
-  const sleeperMaterial = standardMaterial(palette.rust, 0.95);
+  const railMaterial = standardMaterial(palette.rail, 0.98);
+  const sleeperMaterial = standardMaterial(palette.rustDark, 0.95);
   root.add(box('left-rail', [19.5, 0.12, 0.12], railMaterial, [0, 0.12, -0.45]));
   root.add(box('right-rail', [19.5, 0.12, 0.12], railMaterial, [0, 0.12, 0.45]));
   for (let index = 0; index < 22; index += 1) {
     const x = TRACK_START_X + index * ((TRACK_END_X - TRACK_START_X) / 21);
-    root.add(box(`sleeper-${index}`, [0.18, 0.12, 1.32], sleeperMaterial, [x, 0.04, 0]));
+    const sleeper = box(`sleeper-${index}`, [0.18, 0.12, 1.32], sleeperMaterial, [x, 0.04, 0]);
+    sleeper.rotation.y = (index % 3 - 1) * 0.025;
+    root.add(sleeper);
   }
 }
 
@@ -142,7 +265,9 @@ export function createRailScene(): RailSceneObjects {
   terrain.position.y = -0.02;
   root.add(terrain);
 
+  addLowPolyGround(root);
   addTrack(root);
+  addCorridorLandmarks(root);
 
   const { train, repairBay } = createTrain();
   const bridgeGate = createBridgeGate();

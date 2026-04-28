@@ -15,8 +15,9 @@ export function renderOverlay(root: HTMLElement, state: GameState, callbacks: Ov
   if (state.phase === 'briefing') {
     root.innerHTML = `
       <section class="overlay briefing-overlay">
-        <h1>Rustline Reclaimer</h1>
-        <p>Bring a containment maintenance train back online and reclaim the broken rail corridor under procedure.</p>
+        <span class="overlay-titlemark">Rustline Reclaimer</span>
+        <h1>Engine cold</h1>
+        <p>Bring the containment maintenance train online. Keep the operator outside the cab and under third-person line-of-sight.</p>
         <button type="button" data-action="start-engine">Start engine</button>
       </section>
     `;

@@ -35,6 +35,16 @@ describe('createRailScene', () => {
     expect(repairBay?.visible).toBe(true);
   });
 
+  it('includes authored low-poly corridor landmarks for the visual identity slice', () => {
+    const objects = createRailScene();
+
+    expect(objects.root.getObjectByName('route-cut-marker-west')).toBeDefined();
+    expect(objects.root.getObjectByName('maintenance-pylon-0')).toBeDefined();
+    expect(objects.root.getObjectByName('pressure-needle-0')).toBeDefined();
+    expect(objects.bridgeGate.getObjectByName('bridge-rule-lamp')).toBeDefined();
+    expect(objects.station.getObjectByName('station-ticket-slit')).toBeDefined();
+  });
+
   it('defaults non-finite train progress to the start position', () => {
     const objects = createRailScene();
 

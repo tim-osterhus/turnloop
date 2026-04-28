@@ -31,6 +31,33 @@ describe('renderHud', () => {
     expect(root.textContent).toContain('Manual Turret Car');
   });
 
+  it('renders a low-chrome rail-control HUD instead of dashboard-style panels', () => {
+    const root = rootElement();
+
+    renderHud(root, initialState(), { onAction: vi.fn() });
+
+    expect(root.querySelector('.hud-objective-chip')).toBeInstanceOf(HTMLElement);
+    expect(root.querySelector('.hud-instrument-strip')).toBeInstanceOf(HTMLElement);
+    expect(root.querySelector('.hud-switchboard')).toBeInstanceOf(HTMLElement);
+    expect(root.querySelector('.hud-consist-ribbon')).toBeInstanceOf(HTMLElement);
+    expect(root.querySelector('.hud-brand')).toBeNull();
+    expect(root.querySelector('.hud-consist')).toBeNull();
+    expect(root.textContent).toContain('LINE DIRECTIVE');
+    expect(root.textContent).toContain('KEY E');
+  });
+
+  it('keeps queued encounter targets and unavailable controls hidden until they are actionable', () => {
+    const root = rootElement();
+
+    renderHud(root, initialState(), { onAction: vi.fn() });
+
+    expect(root.textContent).toContain('Threat None');
+    expect(root.textContent).not.toContain('Signal Echo Knot');
+    expect(root.querySelector('[data-action="start-engine"]')).toBeInstanceOf(HTMLButtonElement);
+    expect(root.querySelector('[data-action="fire-turret"]')).toBeNull();
+    expect(root.querySelector('[data-action="repair-gate"]')).toBeNull();
+  });
+
   it("calls onAction('start-engine') when the start engine action button is clicked", () => {
     const root = rootElement();
     const onAction = vi.fn();

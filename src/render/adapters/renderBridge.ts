@@ -8,7 +8,7 @@ export function syncRailScene(objects: RailSceneObjects, state: GameState): void
   objects.setBridgeOpen(state.gates['bridge-7']?.status === 'open');
   objects.setRepairBayVisible(state.train.modules.some((module) => module.id === 'repair-bay'));
 
-  const threat = state.encounter.threats.find((candidate) => candidate.health > 0);
+  const threat = state.phase === 'encounter' ? state.encounter.threats.find((candidate) => candidate.health > 0) : null;
   const threatRatio = threat && threat.maxHealth > 0 ? Math.max(0, threat.health) / threat.maxHealth : 0;
   objects.setThreatHealthRatio(threatRatio);
   objects.threat.rotation.y += THREAT_ROTATION_STEP;
