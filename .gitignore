@@ -1,0 +1,29 @@
+.DS_Store
+.playwright-browsers/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Product/output directories from the original experiment are not part of the
+# framework showcase branch.
+auto-games/
+corebound/
+site/
+public/
+src/
+dist/
+test-results/
+qa-*.png
+
+# Local runtime artifacts.
+agents/.tmp/
+agents/logs/
+tests/test-build-site-results/
+
+# Millrace runtime state is created intentionally and is runtime-owned.
+millrace-agents/
+
+# Operator-side generated intake artifacts.
+millrace-ops/
+millrace-ops/outbox/
+millrace-ops/state/
